@@ -2,8 +2,8 @@ import { extendTheme } from "@chakra-ui/react";
 
 const myTheme = extendTheme({
   fonts: {
-    heading: "Rajdhani, sans-serif",
-    body: "Rajdhani, sans-serif",
+    heading: "Inter, sans-serif",
+    body: "Inter, sans-serif",
   },
   colors: {
     vermelho: "#d50c20",
