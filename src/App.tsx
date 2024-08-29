@@ -1,19 +1,19 @@
 import { ChakraProvider, Flex } from '@chakra-ui/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import myTheme from './mytheme';
-import { Home } from './home';
-import { Login } from './login/login';
-import { RedefinirSenha } from './login/redefinirSenha';
-import { RedefinirSenhaEmail } from './login/redefinirSenhaEmail';
+import { AppRoutes } from './routes/AppRoutes';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 function App() {
   const queryClient = new QueryClient();
   return (
     <ChakraProvider theme={myTheme} cssVarsRoot={'theme'}>
       <QueryClientProvider client={queryClient}>
-      <Flex direction="column" w="100%" h="100vh">
-        <Home />
-      </Flex>
+        <Router>
+          <Flex direction="column" w="100%" h="100vh">
+            <AppRoutes />
+          </Flex>
+        </Router>
       </QueryClientProvider>
     </ChakraProvider>
   );
