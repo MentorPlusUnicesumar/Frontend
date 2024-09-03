@@ -1,8 +1,10 @@
 import { Routes, Route, Outlet, Link } from "react-router-dom";
-import { Home } from '../Home';
-import { Login } from "../login/Login";
-import { RedefinirSenhaEmail } from "../login/RedefinirSenhaEmail";
-import { RedefinirSenha } from "../login/RedefinirSenha";
+import { Home } from "../home";
+import { Login } from "../login";
+import { RedefinirSenha } from "../login/redefinirSenha";
+import { RedefinirSenhaEmail } from "../login/redefinirSenhaEmail";
+import { BuscarMentores } from "../buscarMentores";
+
 
 export function AppRoutes() {
   return (
@@ -11,6 +13,7 @@ export function AppRoutes() {
       <Route path="/login" element={<Login />} />
       <Route path="/Redefinir-senha" element={<RedefinirSenha />} />
       <Route path="/Redefinir-senha-email" element={<RedefinirSenhaEmail />} />
+      <Route path="/Buscar-mentores" element={<BuscarMentores />} />
     </Routes>
   );
 }

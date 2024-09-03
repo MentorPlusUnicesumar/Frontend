@@ -1,6 +1,6 @@
 import { Box, Input, Text } from "@chakra-ui/react";
 interface props{
-    name:string
+    name?:string
     placeholder:string
     mt:string
 
