@@ -1,8 +1,8 @@
 import { Routes, Route, Outlet, Link } from "react-router-dom";
-import { Home } from '../Home';
-import { Login } from "../login/Login";
-import { RedefinirSenhaEmail } from "../login/RedefinirSenhaEmail";
-import { RedefinirSenha } from "../login/RedefinirSenha";
+import { Home } from "../home";
+import { Login } from "../login";
+import { RedefinirSenha } from "../login/redefinirSenha";
+import { RedefinirSenhaEmail } from "../login/redefinirSenhaEmail";
 
 export function AppRoutes() {
   return (
