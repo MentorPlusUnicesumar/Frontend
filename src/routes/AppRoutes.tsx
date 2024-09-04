@@ -4,6 +4,7 @@ import { Login } from "../login";
 import { RedefinirSenha } from "../login/redefinirSenha";
 import { RedefinirSenhaEmail } from "../login/redefinirSenhaEmail";
 import { BuscarMentores } from "../buscarMentores";
+import { Perfil } from "../perfil";
 
 
 export function AppRoutes() {
@@ -14,6 +15,8 @@ export function AppRoutes() {
       <Route path="/Redefinir-senha" element={<RedefinirSenha />} />
       <Route path="/Redefinir-senha-email" element={<RedefinirSenhaEmail />} />
       <Route path="/Buscar-mentores" element={<BuscarMentores />} />
+      <Route path="/perfil" element={<Perfil />} />
+      
     </Routes>
   );
 }
