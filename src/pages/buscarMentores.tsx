@@ -1,7 +1,7 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
-import { Menu } from "./components/menu";
-import { CardMentoria } from "./components/card-mentoria";
-import { TextInput } from "./components/text-input";
+import { Menu } from "../components/menu";
+import { CardMentoria } from "../components/card-mentoria";
+import { TextInput } from "../components/text-input";
 
 
 
