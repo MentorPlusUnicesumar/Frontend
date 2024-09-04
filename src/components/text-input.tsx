@@ -3,15 +3,16 @@ interface props{
     name?:string
     placeholder:string
     mt:string
+    w?:string
 
 }
-export function TextInput({name, placeholder, mt}:props){
+export function TextInput({name, placeholder, mt, w}:props){
     return(
         <Box w={'400px'} mt={mt}>
                     <Text fontSize={'lg'}  fontWeight={'bold'} color={'#05234E'}>{name}</Text>
                     <Input
                         mt="10px"
-                        w={'400px'}
+                        w={w}
                         h={'35px'}
                         borderWidth={'2px'}
                         borderColor={'#ECECEC'}
