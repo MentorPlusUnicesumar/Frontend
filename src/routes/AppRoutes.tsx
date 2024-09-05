@@ -6,6 +6,7 @@ import { Home } from "../pages/home";
 import { Login } from "../pages/login/login";
 import { RedefinirSenha } from "../pages/login/redefinirSenha";
 import { RedefinirSenhaEmail } from "../pages/login/redefinirSenhaEmail";
+import { AlteraPerfil } from "../pages/alteraPerfil";
 
 
 export function AppRoutes() {
@@ -13,19 +14,20 @@ export function AppRoutes() {
 
   return (
     <Routes>
-      {isSignedIn ? (
+      {/* {isSignedIn ? ( */}
         <>
           <Route path="/" element={<Home />} />
           <Route path="/Buscar-mentores" element={<BuscarMentores />} />
         </>
-      ) : (
+      {/* ) : ( */}
         <>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/Altera-perfil" element={<AlteraPerfil />} />
           <Route path="/Redefinir-senha" element={<RedefinirSenha />} />
           <Route path="/Redefinir-senha-email" element={<RedefinirSenhaEmail />} />
-        </>
-      )}
+        </> 
+      {/* )} */}
     </Routes>
   )
 }
