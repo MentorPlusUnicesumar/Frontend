@@ -4,29 +4,29 @@ export interface AuthProviderProps {
   children: ReactNode;
 }
 
-export type LoginResponse = {
+export type LoginResponse = { 
   _id: string;
   access_token: string;
-  refresh_token: string;
-  usuario: string;
-  funcao: string;
-  urlImage: string;
-  email: string;
+  refresh_token: string; 
 };
 
 export type LoginAccess = {
-  usuario: string;
+  email: string;
   senha: string;
 };
 
-export type AuthResponse = {
+export type UserData = {
   _id: string;
-  access_token: string;
-  refresh_token: string;
-  usuario: string;
-  funcao: string;
-  urlImage: string;
+  name: string;
   email: string;
+  telefone: string;
+  typeUser: string;
+  status: string;
+  cidade: string;
+  uf: string;
+  cpf: string;
+  mentoriasAtivas: string[];
+  fotos: string;
 };
 
 export type LoggedUser = {

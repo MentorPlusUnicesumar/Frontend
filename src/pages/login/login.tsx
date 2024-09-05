@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 type LoginProps = {
-    usuario: string;
+    email: string;
     senha: string;
 };
 
@@ -18,13 +18,13 @@ export function Login() {
     const { login } = useContext(AuthContext);
 
     const inicialValues = {
-        usuario: "",
+        email: "",
         senha: "",
     };
 
-    async function handleLogin({ usuario, senha }: LoginProps) {
+    async function handleLogin({ email, senha }: LoginProps) {
         try {
-            await login({ usuario, senha });
+            await login({ email, senha });
 
             return toast({
                 title: "Login realizado com sucesso",
@@ -33,6 +33,7 @@ export function Login() {
                 isClosable: false,
             });
         } catch (error) {
+            console.log('error', error)
             return toast({
                 title: "Falha ao realizar login, tente novamente!",
                 status: "error",
@@ -67,7 +68,7 @@ export function Login() {
                                 borderRadius={'10px'}
                                 placeholder={'Informe seu e-mail'}
                                 onChange={(value) => {
-                                    handleChange("usuario")(value);
+                                    handleChange("email")(value);
                                 }}
                                 boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)" bg={'white'}
                                 sx={{
