@@ -1,7 +1,7 @@
 import { MentorCard } from "../components/card-mentor";
-import { Menu } from "../components/menu";
 
 import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Button, Flex, Input, Text } from "@chakra-ui/react";
+import { Menu } from "../components/menu";
 
 export function BuscarMentores() {
   const mentors = [

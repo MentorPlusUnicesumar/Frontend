@@ -6,6 +6,7 @@ import logo from "../../imgs/logo.png";
 import { Formik } from "formik";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from 'react-router-dom';
 
 type LoginProps = {
     email: string;
@@ -13,9 +14,10 @@ type LoginProps = {
 };
 
 export function Login() {
+    const navigate = useNavigate();
     const [isVisiblePassword, setIsVisiblePassword] = useState(false);
     const toast = useToast();
-    const { login } = useContext(AuthContext);
+    const { login, isSignedIn } = useContext(AuthContext);
 
     const inicialValues = {
         email: "",
@@ -25,6 +27,8 @@ export function Login() {
     async function handleLogin({ email, senha }: LoginProps) {
         try {
             await login({ email, senha });
+
+            navigate('/');     
 
             return toast({
                 title: "Login realizado com sucesso",

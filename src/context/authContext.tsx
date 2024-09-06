@@ -22,7 +22,6 @@ interface AuthContextData {
       const [user, setUser] = useState<UserData | null>(null);
       const [cachedUser, setCachedUser] = useState<CachedUser | null>(null);
       const isSignedIn = !!user;
-  
       api.interceptors.response.use(
       (response: any) => response,
       (error: any) => {
@@ -39,10 +38,12 @@ interface AuthContextData {
     );
   
     async function login(body: LoginAccess) {
-
-      const { data } = await api.post<LoginResponse>("auth/login", body);
       
-      const userData = await api.post<UserData>("users/id/" + data._id, null, {
+      const { data } = await api.post<LoginResponse>("auth/login", body);
+
+      console.log(data)
+      
+      const userData = await api.get<UserData>(`users/id/${data._id}`, {
         headers: {
             'Authorization': `Bearer ${data.access_token}`
         }
@@ -51,6 +52,8 @@ interface AuthContextData {
       await localStorage.setItem("access_token", data.access_token);
   
       api.defaults.headers.common["Authorization"] = `Bearer ${data.access_token}`;
+
+     console.log('user data', userData)
 
       setAuth(userData.data);
   
@@ -75,7 +78,7 @@ interface AuthContextData {
           if (expiration < new Date()) {
             manageSecrets.deleteSecret("cachedUser");
             return null;
-          } else {
+          } else { 
             return JSON.parse(cachedUser) as CachedUser;
           }
         }
