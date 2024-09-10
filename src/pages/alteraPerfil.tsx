@@ -26,12 +26,15 @@ import {
     ModalBody,
     ModalCloseButton,
     useDisclosure,
+    Textarea,
 } from "@chakra-ui/react";
 import { Formik } from "formik";
 import { Menu } from "../components/menu";
 import { useState } from "react";
-import { AddIcon } from "@chakra-ui/icons";
+import { AddIcon, PlusSquareIcon } from "@chakra-ui/icons";
 import { FaLinkedin, FaInstagram, FaEnvelope } from "react-icons/fa";
+import { CardTrab } from "../components/card-trab-mentor";
+
 
 const initialValues = {
     nome: "Gabriel",
@@ -65,12 +68,29 @@ const initialWorks = [
     },
     {
         id: 3,
-        title: "Mentorias sobre Inteligência Artificial e suas aplicações",
+        title: "trabias sobre Inteligência Artificial e suas aplicações",
         image: "/path-to-image3.png",
     },
 ];
 
+
 export function AlteraPerfil() {
+
+    const trabs = [
+        {
+            trabName: "Contribuição no desenvolvimento do frontend do aplicativo Aiqfome",
+            trabImage: "https://avatars.githubusercontent.com/u/62121362?v=4",
+        },
+        {
+            trabName: "Palestra sobre como gerenciar e organizar grandes projetos",
+            trabImage: "https://via.placeholder.com/300x200",
+        },
+        {
+            trabName: "Mentorias sobre Inteligência Artifical e suas aplicações",
+            trabImage: "https://avatars.githubusercontent.com/u/114078455?v=4",
+        },
+    ];
+    const { isOpen, onOpen, onClose } = useDisclosure()
     const predefinedAreas = [
         "Administração",
         "Engenharia de Software",
@@ -99,7 +119,31 @@ export function AlteraPerfil() {
     }
 
     return (
+
         <Flex w={"full"} h={"full"} flexDir={"column"} alignItems={"center"}>
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Novo trabalho de destaque</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+
+                        <Textarea placeholder="Escreva o título do seu trabalho" />
+                        <Button colorScheme='blue' mr={3} onClick={onClose}>
+                            Adicionar imagem
+                        </Button>
+
+
+
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button colorScheme='blue' mr={3} >
+                            Adicionar
+                        </Button>
+                        <Button onClick={onClose} variant='ghost'>Fechar</Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
             <Menu />
             <Text mt="30px" textAlign="center" fontSize={"3xl"} fontWeight={"bold"} color={"#1D428A"}>
                 Perfil
@@ -315,10 +359,10 @@ export function AlteraPerfil() {
                                                     />
                                                 </Box>
 
-                                                {/* Disponível para mentorias */}
+                                                {/* Disponível para trabias */}
                                                 <Box w={"400px"}>
                                                     <Text fontSize={"lg"} fontWeight={"bold"} color={"#05234E"}>
-                                                        Disponível para mentorias
+                                                        Disponível para trabias
                                                     </Text>
                                                     <Select
                                                         name="dispInd"
@@ -459,7 +503,22 @@ export function AlteraPerfil() {
                                                             />
                                                         </HStack>
                                                     </Box>
+
+                                                    {/* Trabalhos em destaque */}
+                                                    <Box w={"100%"} mt={"20px"}>
+                                                        <Text fontSize={"lg"} fontWeight={"bold"} color={"#05234E"}>
+                                                            Trabalhos em destaque
+                                                        </Text>
+                                                        <Box maxW="1100px" mx="0" mt="20px" overflow="hidden" p="10px">
+                                                            <Flex wrap="wrap" justifyContent="center" alignItems="center" gap="20px">
+                                                                {trabs.map((trab, index) => (
+                                                                    <CardTrab key={index} trabName={trab.trabName} trabImage={trab.trabImage} />
+                                                                ))}
+                                                                <PlusSquareIcon boxSize={6} color={'#05234E'} onClick={onOpen} />
+                                                            </Flex>
+                                                        </Box>
                                                     </Box>
+                                                </Box>
                                             </VStack>
                                         </Box>
                                     </TabPanel>
