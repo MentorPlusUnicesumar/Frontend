@@ -7,15 +7,15 @@ import { Login } from "../pages/login/login";
 import { RedefinirSenha } from "../pages/login/redefinirSenha";
 import { RedefinirSenhaEmail } from "../pages/login/redefinirSenhaEmail";
 import PrivateRoute from "../context/privateRoutes";
+import { Perfil } from "../pages/perfil";
 
 
 export function AppRoutes() {
   const { isSignedIn } = useContext(AuthContext);
   return (
     <Routes>
-      {/* Rotas protegidas */}
       <Route
-        path="/"
+        path="/Minhas-mentorias"
         element={
           <PrivateRoute isSignedIn={isSignedIn}>
             <Home />
@@ -30,8 +30,15 @@ export function AppRoutes() {
           </PrivateRoute>
         }
       />
+      <Route
+        path="/perfil"
+        element={
+          <PrivateRoute isSignedIn={isSignedIn}>
+            <Perfil />
+          </PrivateRoute>
+        }
+      />
 
-      {/* Rotas públicas */}
       {!isSignedIn && (
         <>
           <Route path="/login" element={<Login />} />

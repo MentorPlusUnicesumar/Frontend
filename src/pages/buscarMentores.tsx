@@ -1,7 +1,7 @@
 import { MentorCard } from "../components/card-mentor";
 
 import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Button, Flex, Input, Text } from "@chakra-ui/react";
-import { Menu } from "../components/menu";
+import { MenuUsuario } from "../components/menu";
 
 export function BuscarMentores() {
   const mentors = [
@@ -24,7 +24,7 @@ export function BuscarMentores() {
 
   return (
     <Flex w={'full'} h={'full'} flexDir={'column'}>
-      <Menu />
+      <MenuUsuario />
 
       <Text mt="30px" textAlign="center" fontSize={'3xl'} fontWeight={'bold'} color={'#1D428A'}>
         Encontrar novos mentores

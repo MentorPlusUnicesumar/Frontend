@@ -1,20 +1,25 @@
 import { Box, Flex, Link, Text } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface Props {
     name: string
     qntd?: number
-    onClick: (selectd: string) => void;
-    selecionado: string
+    link: string
 }
 
-export function ItemMenu({ name, qntd, onClick, selecionado }: Props) {
-
+export function ItemMenu({ name, qntd, link }: Props) {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [linkSelecionado, setLinkSelecionado] = useState("Minhas-mentorias");
+    useEffect(() => {
+        setLinkSelecionado(location.pathname)
+    },[])
 
     return (
         <Flex justifyContent={'center'} alignItems={'center'} gap={2}>
-            <Link onClick={() => onClick(name)}>
-                <Text textDecorationLine={name === selecionado ? 'underline' : "none"} color={'white'} fontWeight={'light'}>{name}</Text>
+            <Link onClick={() => navigate(`/${linkSelecionado}`)}>
+                <Text textDecorationLine={link === linkSelecionado ? 'underline' : "none"} color={'white'} fontWeight={'light'}>{name}</Text>
             </Link>
 
             {

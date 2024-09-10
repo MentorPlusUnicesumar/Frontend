@@ -28,7 +28,7 @@ export function Login() {
         try {
             await login({ email, senha });
 
-            navigate('/');     
+            navigate('/Minhas-mentorias');     
 
             return toast({
                 title: "Login realizado com sucesso",
@@ -53,7 +53,7 @@ export function Login() {
                 <Text color={'white'} fontSize={'lg'} mt={'50px'}>Bem-vindo ao</Text>
                 <Img src={logo} w={'320px'} h={'150px'} mt={'100px'} />
                 <Text color={'white'} fontSize={'sm'} mt={'50px'} textAlign={'center'}>Seu caminho para o sucesso começa aqui. Junte-se à Mentor+ e alcance novos horizontes!</Text>
-                <Link>
+                <Link href={"https://www.matera.com.br"} target="_blank">
                     <Text color={'white'} fontSize={'sm'} mt={'150px'} textAlign={'center'}>www.matera.com.br</Text>
                 </Link>
             </Flex>
