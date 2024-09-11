@@ -54,6 +54,22 @@ export function BuscarMentores() {
                     borderWidth={'2px'}
                     borderColor={'#ECECEC'}
                     borderRadius={'10px'}
+                    placeholder={"Nome do Profissional"}
+                    boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)" bg={'white'}
+                    sx={{
+                      '::placeholder': {
+                        fontSize: '12px',
+                        color: '#B0B0B0',
+                      },
+                    }}
+                  />
+                  <Input
+                    ml={"10px"}
+                    w={"200px"}
+                    h={'35px'}
+                    borderWidth={'2px'}
+                    borderColor={'#ECECEC'}
+                    borderRadius={'10px'}
                     placeholder={"Área de interesse"}
                     boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)" bg={'white'}
                     sx={{
@@ -65,7 +81,7 @@ export function BuscarMentores() {
                   />
                 </Box>
 
-                <Button 
+                <Button
                   ml={"10px"}
                   mt={"10px"}
                   h={'35px'}

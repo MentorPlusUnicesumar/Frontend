@@ -6,8 +6,8 @@ import { Home } from "../pages/home";
 import { Login } from "../pages/login/login";
 import { RedefinirSenha } from "../pages/login/redefinirSenha";
 import { RedefinirSenhaEmail } from "../pages/login/redefinirSenhaEmail";
+import { AlteraPerfil } from "../pages/alteraPerfil";
 import PrivateRoute from "../context/privateRoutes";
-import { Perfil } from "../pages/perfil";
 
 
 export function AppRoutes() {
@@ -36,7 +36,7 @@ export function AppRoutes() {
         path="/perfil"
         element={
           <PrivateRoute isSignedIn={isSignedIn}>
-            <Perfil />
+            <AlteraPerfil />
           </PrivateRoute>
         }
       />
@@ -44,6 +44,7 @@ export function AppRoutes() {
       {!isSignedIn && (
         <>        
           <Route path="/login" element={<Login />} />
+          <Route path="/Altera-perfil" element={<AlteraPerfil />} />
           <Route path="/Redefinir-senha" element={<RedefinirSenha />} />
           <Route path="/Redefinir-senha-email" element={<RedefinirSenhaEmail />} />
           <Route path="*" element={<Navigate to="/login" />} />
