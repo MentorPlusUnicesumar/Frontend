@@ -3,6 +3,7 @@ import {
     Box,
     Button,
     Flex, Img,
+    Link,
     Menu,
     MenuButton,
     MenuItem,
@@ -10,27 +11,50 @@ import {
     Text
 } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
+import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from "../context/authContext";
 import pedro from "../imgs/pedro.jpg";
-import { ItemMenu } from "./ItemMenu";
-import { useLocation, useNavigate } from 'react-router-dom';
 
 export function MenuUsuario() {
-    const [menuSelecionado, setMenuSelecionado] = useState("Minhas mentorias")
+    const links = [
+        {
+            name: "Minhas mentorias",
+            qnt: 2,
+            link: "/Minhas-mentorias"
+        },
+        {
+            name: "Encontrar mentores",
+            qnt: null,
+            link: "/Encontrar-mentores"
+        },
+        {
+            name: "Notificações",
+            qnt: 5,
+            link: "/Notificacoes"
+        },
+        {
+            name: "Chat",
+            qnt: 1,
+            link: "/Chat"
+        },
+    ]
+
     const { user, signOut } = useContext(AuthContext);
     const navigate = useNavigate();
-    console.log('user', user)
-    function selecionado(selected: string) {
-        setMenuSelecionado(selected)
-    }
-   
-    const nomeUsuario =  user?.name.split(" ")[0];
+    const location = useLocation();
+    const [linkSelecionado, setLinkSelecionado] = useState("Minhas-mentorias");
+    const nomeUsuario = user?.name.split(" ")[0];
+
+    useEffect(() => {
+        setLinkSelecionado(location.pathname)
+        console.log('linkSelecionado', linkSelecionado)
+    }, [])
 
     function menuSelect(action: 'logout' | 'perfil') {
         if (action === 'logout') {
-            signOut(); 
+            signOut();
         } else if (action === 'perfil') {
-            navigate("/perfil"); 
+            navigate("/perfil");
         }
     }
 
@@ -38,11 +62,27 @@ export function MenuUsuario() {
         <Flex px={'60px'} py={'10px'} alignItems={'center'} w={'full'} h={'70px'} bg={'#1D428A'} justifyContent={'space-between'}>
             <Text color={'white'} fontSize={'2xl'} fontWeight={'bold'} onClick={() => navigate("/Minhas-mentorias")}>Mentor +</Text>
 
-            <Flex justifyContent={'space-between'} w={'550px'}>
-                <ItemMenu link="Minhas-mentorias" name="Minhas mentorias" qntd={2} />
-                <ItemMenu link="Encontrar-mentores" name="Encontrar mentores" />
-                <ItemMenu link="Notificacoes" name="Notificações" qntd={5} />
-                <ItemMenu link="Chat" name="Chat" qntd={1} />
+            <Flex justifyContent={'center'} alignItems={'center'} gap={6}>
+                {
+                    links.map((link) => {
+                        return (
+                            <Flex flexDir={'row'} gap={2}>
+                                <Link onClick={() => navigate(`${link.link}`)}>
+                                    <Text textDecorationLine={link.link === linkSelecionado ? 'underline' : "none"} color={'white'} fontWeight={'light'}>{link.name}</Text>
+                                </Link>
+
+                                {
+                                    link.qnt ?
+                                        <Box display={'flex'} justifyContent={'center'} alignItems={'center'} w={'25px'} h='20px' bg={'white'} borderRadius={'5px'}>
+                                            <Text color={'#1D428A'}>{link.qnt}</Text>
+                                        </Box>
+                                        :
+                                        null
+                                }
+                            </Flex>
+                        )
+                    })
+                }
             </Flex>
 
             <Box justifyContent={'center'} alignItems={'center'} display={'flex'} flexDir={'column'}>
@@ -52,8 +92,8 @@ export function MenuUsuario() {
                         as={Button}
                         variant="link"
                         rightIcon={<ChevronDownIcon />}
-                        style={{ textDecoration: 'none', padding: 0, color: 'white', fontWeight: '300' }} 
-                        _focus={{ boxShadow: 'none' }} 
+                        style={{ textDecoration: 'none', padding: 0, color: 'white', fontWeight: '300' }}
+                        _focus={{ boxShadow: 'none' }}
                     >
                         {nomeUsuario}
                     </MenuButton>

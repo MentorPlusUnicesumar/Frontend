@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
 import { BuscarMentores } from "../pages/buscarMentores";
 import { Home } from "../pages/home";
@@ -11,6 +11,8 @@ import { Perfil } from "../pages/perfil";
 
 
 export function AppRoutes() {
+  const navigate = useNavigate();
+
   const { isSignedIn } = useContext(AuthContext);
   return (
     <Routes>
@@ -40,10 +42,11 @@ export function AppRoutes() {
       />
 
       {!isSignedIn && (
-        <>
+        <>        
           <Route path="/login" element={<Login />} />
           <Route path="/Redefinir-senha" element={<RedefinirSenha />} />
           <Route path="/Redefinir-senha-email" element={<RedefinirSenhaEmail />} />
+          <Route path="*" element={<Navigate to="/login" />} />
         </>
       )}
     </Routes>
