@@ -15,7 +15,7 @@ export function CardMentoria({ nomeMentoria, mentorName, date }: props) {
                 transition: 'transform 0.2s ease-in-out',
             }}
             flexDir={'column'} bg={'white'} w={'200px'} h={'200px'} borderRadius={'10px'} boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)" >
-            <Box px={'5px'} w={'full'} h={'60px'} borderTopRadius="10px" bgGradient="linear(to-r, #004DB8, #003C8F)">
+            <Box px={'5px'} w={'full'} minHeight={'60px'} borderTopRadius="10px" bgGradient="linear(to-r, #004DB8, #003C8F)">
                 <Text color={'white'} fontSize={'lg'} fontWeight={'bold'} p={'5px'}>{nomeMentoria}</Text>
             </Box>
 

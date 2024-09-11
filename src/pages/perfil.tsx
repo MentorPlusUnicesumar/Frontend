@@ -1,7 +1,7 @@
-import { Avatar, Box, Button, Flex, Input, Select, Tab, TabList, TabPanel, TabPanels, Tabs, Text, Tag, TagCloseButton, TagLabel, VStack, HStack, IconButton, Icon } from "@chakra-ui/react";
-import { useState } from "react";
 import { AddIcon } from "@chakra-ui/icons";
-import { Menu } from "../components/menu";
+import { Avatar, Box, Button, Flex, HStack, IconButton, Input, Select, Tab, TabList, TabPanel, TabPanels, Tabs, Tag, TagCloseButton, TagLabel, Text, VStack } from "@chakra-ui/react";
+import { useState } from "react";
+import { MenuUsuario } from "../components/menu";
 import { TextInput } from "../components/text-input";
 
 
@@ -43,7 +43,7 @@ export function Perfil() {
 
     return (
         <Flex w={'full'} h={'full'} flexDir={'column'} alignItems={'center'}>
-            <Menu />
+            <MenuUsuario />
             <Text mt="30px" textAlign="center" fontSize={'3xl'} fontWeight={'bold'} color={'#1D428A'}>Perfil</Text>
 
             <Flex

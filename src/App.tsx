@@ -1,9 +1,9 @@
 import { ChakraProvider, Flex } from '@chakra-ui/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import myTheme from './mytheme';
-import { AppRoutes } from './routes/AppRoutes';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AuthProvider } from './context/authContext';
+import { AppRoutes } from './routes/AppRoutes';
 
 function App() {
   const queryClient = new QueryClient();

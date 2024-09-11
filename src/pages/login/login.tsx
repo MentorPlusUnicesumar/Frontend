@@ -6,25 +6,29 @@ import logo from "../../imgs/logo.png";
 import { Formik } from "formik";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from 'react-router-dom';
 
 type LoginProps = {
-    usuario: string;
+    email: string;
     senha: string;
 };
 
 export function Login() {
+    const navigate = useNavigate();
     const [isVisiblePassword, setIsVisiblePassword] = useState(false);
     const toast = useToast();
-    const { login } = useContext(AuthContext);
+    const { login, isSignedIn } = useContext(AuthContext);
 
     const inicialValues = {
-        usuario: "",
+        email: "",
         senha: "",
     };
 
-    async function handleLogin({ usuario, senha }: LoginProps) {
+    async function handleLogin({ email, senha }: LoginProps) {
         try {
-            await login({ usuario, senha });
+            await login({ email, senha });
+
+            navigate('/Minhas-mentorias');     
 
             return toast({
                 title: "Login realizado com sucesso",
@@ -33,6 +37,7 @@ export function Login() {
                 isClosable: false,
             });
         } catch (error) {
+            console.log('error', error)
             return toast({
                 title: "Falha ao realizar login, tente novamente!",
                 status: "error",
@@ -48,7 +53,7 @@ export function Login() {
                 <Text color={'white'} fontSize={'lg'} mt={'50px'}>Bem-vindo ao</Text>
                 <Img src={logo} w={'320px'} h={'150px'} mt={'100px'} />
                 <Text color={'white'} fontSize={'sm'} mt={'50px'} textAlign={'center'}>Seu caminho para o sucesso começa aqui. Junte-se à Mentor+ e alcance novos horizontes!</Text>
-                <Link>
+                <Link href={"https://www.matera.com.br"} target="_blank">
                     <Text color={'white'} fontSize={'sm'} mt={'150px'} textAlign={'center'}>www.matera.com.br</Text>
                 </Link>
             </Flex>
@@ -67,7 +72,7 @@ export function Login() {
                                 borderRadius={'10px'}
                                 placeholder={'Informe seu e-mail'}
                                 onChange={(value) => {
-                                    handleChange("usuario")(value);
+                                    handleChange("email")(value);
                                 }}
                                 boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)" bg={'white'}
                                 sx={{

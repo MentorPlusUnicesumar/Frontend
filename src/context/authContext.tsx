@@ -1,13 +1,13 @@
 import { createContext, useEffect, useState } from "react";
-import { AuthProviderProps, AuthResponse, CachedUser, IToken, LoggedUser, LoginAccess, LoginResponse } from "./contestTypes";
+import { AuthProviderProps, CachedUser, IToken, LoggedUser, LoginAccess, LoginResponse, UserData } from "./contestTypes";
 import api from "../api";
 import { jwtDecode } from "jwt-decode";
 
 interface AuthContextData {
-    login: (credentials: LoginAccess) => Promise<AuthResponse>;
-    refreshToken: (token?: string) => Promise<AuthResponse>;
+    login: (credentials: LoginAccess) => Promise<LoginResponse>;
+    refreshToken: (token?: string) => Promise<LoginResponse>;
     signOut: () => void;
-    user?: LoggedUser | null;
+    user?: UserData | null;
     isSignedIn: boolean;
     cachedUser?: CachedUser | null;
     manageSecrets: {
@@ -19,10 +19,9 @@ interface AuthContextData {
   export const AuthContext = createContext({} as AuthContextData);
   
   export function AuthProvider({ children }: AuthProviderProps) {
-      const [user, setUser] = useState<LoggedUser | null>(null);
+      const [user, setUser] = useState<UserData | null>(null);
       const [cachedUser, setCachedUser] = useState<CachedUser | null>(null);
       const isSignedIn = !!user;
-  
       api.interceptors.response.use(
       (response: any) => response,
       (error: any) => {
@@ -39,9 +38,24 @@ interface AuthContextData {
     );
   
     async function login(body: LoginAccess) {
+      
       const { data } = await api.post<LoginResponse>("auth/login", body);
+
+      console.log(data)
+      
+      const userData = await api.get<UserData>(`users/id/${data._id}`, {
+        headers: {
+            'Authorization': `Bearer ${data.access_token}`
+        }
+    });
+
+      await localStorage.setItem("access_token", data.access_token);
   
-      setAuth(data);
+      api.defaults.headers.common["Authorization"] = `Bearer ${data.access_token}`;
+
+     console.log('user data', userData)
+
+      setAuth(userData.data);
   
       return data;
     }
@@ -64,7 +78,7 @@ interface AuthContextData {
           if (expiration < new Date()) {
             manageSecrets.deleteSecret("cachedUser");
             return null;
-          } else {
+          } else { 
             return JSON.parse(cachedUser) as CachedUser;
           }
         }
@@ -91,18 +105,14 @@ interface AuthContextData {
       retrieveCachedUser();
     }, []);
   
-    const setAuth = async (auth: AuthResponse) => {
-      const { funcao, usuario, access_token, urlImage, email, _id } = auth;
+    const setAuth = async (auth: UserData) => {
+      const { email, _id, cidade, cpf, fotos, mentoriasAtivas, name, status, telefone, typeUser, uf } = auth;
   
-      await localStorage.setItem("access_token", access_token);
-  
-      api.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
-  
-      setUser({ usuario, funcao, urlImage, email, _id });
+      setUser({  email, _id, cidade, cpf, fotos, mentoriasAtivas, name, status, telefone, typeUser, uf });
     };
   
-    async function refreshToken(token?: string): Promise<AuthResponse> {
-      const { data } = await api.post<AuthResponse>("auth/refresh", {
+    async function refreshToken(token?: string): Promise<LoginResponse> {
+      const { data } = await api.post<LoginResponse>("auth/refresh", {
         refresh_token: token,
       });
   
