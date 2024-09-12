@@ -8,6 +8,7 @@ import { RedefinirSenha } from "../pages/login/redefinirSenha";
 import { RedefinirSenhaEmail } from "../pages/login/redefinirSenhaEmail";
 import { AlteraPerfil } from "../pages/alteraPerfil";
 import PrivateRoute from "../context/privateRoutes";
+import { PerfilMentor } from "../pages/perfilMentor";
 
 
 export function AppRoutes() {
@@ -47,6 +48,7 @@ export function AppRoutes() {
           <Route path="/Altera-perfil" element={<AlteraPerfil />} />
           <Route path="/Redefinir-senha" element={<RedefinirSenha />} />
           <Route path="/Redefinir-senha-email" element={<RedefinirSenhaEmail />} />
+          <Route path="/Perfil-mentor" element={<PerfilMentor />} />
           <Route path="*" element={<Navigate to="/login" />} />
         </>
       )}
