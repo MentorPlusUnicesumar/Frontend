@@ -34,8 +34,9 @@ import { AddIcon, PlusSquareIcon } from "@chakra-ui/icons";
 import { FaLinkedin, FaInstagram, FaEnvelope } from "react-icons/fa";
 import { CardTrab } from "../components/card-trab-mentor";
 import { MenuUsuario } from "../components/menu";
+import Teste from "../components/InputAlteraPerfil";
 
-
+// Inputs iniciais
 const initialValues = {
     nome: "Gabriel",
     sobrenome: "Prisco",
@@ -72,34 +73,36 @@ const initialWorks = [
         image: "/path-to-image3.png",
     },
 ];
+//Areas de ensino
+const predefinedAreas = [
+    "Administração",
+    "Engenharia de Software",
+    "Análise de dados",
+    "Marketing",
+    "Finanças",
+    "Ciência de Dados",
+];
 
+//Trabalhos em destaque
+const trabs = [
+    {
+        trabName: "Contribuição no desenvolvimento do frontend do aplicativo Aiqfome",
+        trabImage: "https://avatars.githubusercontent.com/u/62121362?v=4",
+    },
+    {
+        trabName: "Palestra sobre como gerenciar e organizar grandes projetos",
+        trabImage: "https://via.placeholder.com/300x200",
+    },
+    {
+        trabName: "Mentorias sobre Inteligência Artifical e suas aplicações",
+        trabImage: "https://avatars.githubusercontent.com/u/114078455?v=4",
+    },
+];
 
+//Funçao principal
 export function AlteraPerfil() {
 
-    const trabs = [
-        {
-            trabName: "Contribuição no desenvolvimento do frontend do aplicativo Aiqfome",
-            trabImage: "https://avatars.githubusercontent.com/u/62121362?v=4",
-        },
-        {
-            trabName: "Palestra sobre como gerenciar e organizar grandes projetos",
-            trabImage: "https://via.placeholder.com/300x200",
-        },
-        {
-            trabName: "Mentorias sobre Inteligência Artifical e suas aplicações",
-            trabImage: "https://avatars.githubusercontent.com/u/114078455?v=4",
-        },
-    ];
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const predefinedAreas = [
-        "Administração",
-        "Engenharia de Software",
-        "Análise de dados",
-        "Marketing",
-        "Finanças",
-        "Ciência de Dados",
-    ];
-
     const [selectedAreas, setSelectedAreas] = useState<string[]>([]);
     const [newArea, setNewArea] = useState("");
 
@@ -121,30 +124,11 @@ export function AlteraPerfil() {
     return (
 
         <Flex w={"full"} h={"full"} flexDir={"column"} alignItems={"center"}>
-            <Modal isOpen={isOpen} onClose={onClose}>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>Novo trabalho de destaque</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
 
-                        <Textarea placeholder="Escreva o título do seu trabalho" />
-                        <Button colorScheme='blue' mr={3} onClick={onClose}>
-                            Adicionar imagem
-                        </Button>
-
-
-
-                    </ModalBody>
-                    <ModalFooter>
-                        <Button colorScheme='blue' mr={3} >
-                            Adicionar
-                        </Button>
-                        <Button onClick={onClose} variant='ghost'>Fechar</Button>
-                    </ModalFooter>
-                </ModalContent>
-            </Modal>
+            {/* Cabeçalho */}
             <MenuUsuario />
+            {/* Cabeçalho */}
+
             <Text mt="30px" textAlign="center" fontSize={"3xl"} fontWeight={"bold"} color={"#1D428A"}>
                 Perfil
             </Text>
@@ -193,176 +177,72 @@ export function AlteraPerfil() {
                                             <VStack spacing={"15px"} align="stretch">
                                                 {/* Nome e Sobrenome */}
                                                 <HStack>
-                                                    <Box w={"full"}>
-                                                        <Text fontSize={"lg"} fontWeight={"bold"} color={"#05234E"}>
-                                                            Nome
-                                                        </Text>
-                                                        <Input
-                                                            name="nome"
-                                                            placeholder="Digite seu nome"
-                                                            mt="10px"
-                                                            w={"full"}
-                                                            h={"35px"}
-                                                            borderWidth={"2px"}
-                                                            borderColor={"#ECECEC"}
-                                                            borderRadius={"10px"}
-                                                            value={values.nome}
-                                                            onChange={handleChange}
-                                                            boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)"
-                                                            bg={"white"}
-                                                        />
-                                                    </Box>
-                                                    <Box w={"full"}>
-                                                        <Text fontSize={"lg"} fontWeight={"bold"} color={"#05234E"}>
-                                                            Sobrenome
-                                                        </Text>
-                                                        <Input
-                                                            name="sobrenome"
-                                                            placeholder="Digite seu sobrenome"
-                                                            mt="10px"
-                                                            w={"full"}
-                                                            h={"35px"}
-                                                            borderWidth={"2px"}
-                                                            borderColor={"#ECECEC"}
-                                                            borderRadius={"10px"}
-                                                            value={values.sobrenome}
-                                                            onChange={handleChange}
-                                                            boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)"
-                                                            bg={"white"}
-                                                        />
-                                                    </Box>
+                                                    <Teste
+                                                        label="Nome"
+                                                        name="nome"
+                                                        value={values.nome}
+                                                        onChange={handleChange}
+                                                    />
+                                                    <Teste
+                                                        label="Sobrenome"
+                                                        name="sobrenome"
+                                                        value={values.sobrenome}
+                                                        onChange={handleChange}
+                                                    />
                                                 </HStack>
 
                                                 {/* Endereço */}
-                                                <Box w={"full"} mt={"10px"}>
-                                                    <Text fontSize={"lg"} fontWeight={"bold"} color={"#05234E"}>
-                                                        Endereço
-                                                    </Text>
-                                                    <Input
-                                                        name="endereco"
-                                                        mt="10px"
-                                                        w={"full"}
-                                                        h={"35px"}
-                                                        borderWidth={"2px"}
-                                                        borderColor={"#ECECEC"}
-                                                        borderRadius={"10px"}
-                                                        placeholder="Digite seu endereço"
-                                                        value={values.endereco}
-                                                        onChange={handleChange}
-                                                        boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)"
-                                                        bg={"white"}
-                                                    />
-                                                </Box>
+                                                <Teste
+                                                    label="Endereço"
+                                                    name="endereço"
+                                                    value={values.endereco}
+                                                    onChange={handleChange}
+                                                />
 
                                                 {/* Cidade e Estado */}
                                                 <HStack>
-                                                    <Box w={"full"}>
-                                                        <Text fontSize={"lg"} fontWeight={"bold"} color={"#05234E"}>
-                                                            Cidade
-                                                        </Text>
-                                                        <Input
-                                                            name="cidade"
-                                                            placeholder="Digite sua cidade"
-                                                            mt="10px"
-                                                            w={"full"}
-                                                            h={"35px"}
-                                                            borderWidth={"2px"}
-                                                            borderColor={"#ECECEC"}
-                                                            borderRadius={"10px"}
-                                                            value={values.cidade}
-                                                            onChange={handleChange}
-                                                            boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)"
-                                                            bg={"white"}
-                                                        />
-                                                    </Box>
-                                                    <Box w={"full"}>
-                                                        <Text fontSize={"lg"} fontWeight={"bold"} color={"#05234E"}>
-                                                            Estado
-                                                        </Text>
-                                                        <Input
-                                                            name="estado"
-                                                            placeholder="Digite seu estado"
-                                                            mt="10px"
-                                                            w={"full"}
-                                                            h={"35px"}
-                                                            borderWidth={"2px"}
-                                                            borderColor={"#ECECEC"}
-                                                            borderRadius={"10px"}
-                                                            value={values.estado}
-                                                            onChange={handleChange}
-                                                            boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)"
-                                                            bg={"white"}
-                                                        />
-                                                    </Box>
+                                                    <Teste
+                                                        label="Cidade"
+                                                        name="cidade"
+                                                        value={values.cidade}
+                                                        onChange={handleChange}
+                                                    />
+                                                    <Teste
+                                                        label="Estado"
+                                                        name="estado"
+                                                        value={values.estado}
+                                                        onChange={handleChange}
+                                                    />
                                                 </HStack>
 
                                                 {/* Sobre */}
-                                                <Box w={"full"} mt={"10px"}>
-                                                    <Text fontSize={"lg"} fontWeight={"bold"} color={"#05234E"}>
-                                                        Sobre
-                                                    </Text>
-                                                    <Input
-                                                        name="sobre"
-                                                        mt="10px"
-                                                        w={"full"}
-                                                        h={"35px"}
-                                                        borderWidth={"2px"}
-                                                        borderColor={"#ECECEC"}
-                                                        borderRadius={"10px"}
-                                                        placeholder="Diga algo sobre você"
-                                                        value={values.sobre}
-                                                        onChange={handleChange}
-                                                        boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)"
-                                                        bg={"white"}
-                                                    />
-                                                </Box>
+                                                <Teste
+                                                    label="Sobre"
+                                                    name="sobre"
+                                                    value={values.sobre}
+                                                    onChange={handleChange}
+                                                />
 
                                                 {/* Competências */}
-                                                <Box w={"full"} mt={"10px"}>
-                                                    <Text fontSize={"lg"} fontWeight={"bold"} color={"#05234E"}>
-                                                        Competências
-                                                    </Text>
-                                                    <Input
-                                                        name="competencia"
-                                                        mt="10px"
-                                                        w={"full"}
-                                                        h={"35px"}
-                                                        borderWidth={"2px"}
-                                                        borderColor={"#ECECEC"}
-                                                        borderRadius={"10px"}
-                                                        placeholder="Digite suas competências"
-                                                        value={values.competencia}
-                                                        onChange={handleChange}
-                                                        boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)"
-                                                        bg={"white"}
-                                                    />
-                                                </Box>
+                                                <Teste
+                                                    label="Competências"
+                                                    name="competências"
+                                                    value={values.competencia}
+                                                    onChange={handleChange}
+                                                />
 
                                                 {/* Experiências */}
-                                                <Box w={"full"} mt={"10px"}>
-                                                    <Text fontSize={"lg"} fontWeight={"bold"} color={"#05234E"}>
-                                                        Experiências
-                                                    </Text>
-                                                    <Input
-                                                        name="experiencia"
-                                                        mt="10px"
-                                                        w={"full"}
-                                                        h={"35px"}
-                                                        borderWidth={"2px"}
-                                                        borderColor={"#ECECEC"}
-                                                        borderRadius={"10px"}
-                                                        placeholder="Digite suas experiências"
-                                                        value={values.experiencia}
-                                                        onChange={handleChange}
-                                                        boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)"
-                                                        bg={"white"}
-                                                    />
-                                                </Box>
+                                                <Teste
+                                                    label="Experiências"
+                                                    name="experiências"
+                                                    value={values.experiencia}
+                                                    onChange={handleChange}
+                                                />
 
-                                                {/* Disponível para trabias */}
+                                                {/* Disponível para mentoria */}
                                                 <Box w={"400px"}>
                                                     <Text fontSize={"lg"} fontWeight={"bold"} color={"#05234E"}>
-                                                        Disponível para trabias
+                                                        Disponível para mentoria
                                                     </Text>
                                                     <Select
                                                         name="dispInd"
@@ -454,14 +334,10 @@ export function AlteraPerfil() {
                                                                 colorScheme="linkedin"
                                                                 size="lg"
                                                             />
-                                                            <Input
-                                                                name="linkedin"
-                                                                placeholder="Link do LinkedIn"
+                                                            <Teste
+                                                                name="linkedIn"
                                                                 value={values.linkedin}
                                                                 onChange={handleChange}
-                                                                w={"full"}
-                                                                bg={"white"}
-                                                                boxShadow="0px 4px 8px rgba(0, 0, 0, 0.1)"
                                                             />
                                                         </HStack>
 
@@ -473,14 +349,10 @@ export function AlteraPerfil() {
                                                                 colorScheme="pink"
                                                                 size="lg"
                                                             />
-                                                            <Input
+                                                            <Teste
                                                                 name="instagram"
-                                                                placeholder="Link do Instagram"
                                                                 value={values.instagram}
                                                                 onChange={handleChange}
-                                                                w={"full"}
-                                                                bg={"white"}
-                                                                boxShadow="0px 4px 8px rgba(0, 0, 0, 0.1)"
                                                             />
                                                         </HStack>
 
@@ -492,19 +364,39 @@ export function AlteraPerfil() {
                                                                 colorScheme="red"
                                                                 size="lg"
                                                             />
-                                                            <Input
+                                                            <Teste
                                                                 name="email"
-                                                                placeholder="Seu email"
                                                                 value={values.email}
                                                                 onChange={handleChange}
-                                                                w={"full"}
-                                                                bg={"white"}
-                                                                boxShadow="0px 4px 8px rgba(0, 0, 0, 0.1)"
                                                             />
                                                         </HStack>
                                                     </Box>
 
                                                     {/* Trabalhos em destaque */}
+
+                                                    <Modal isOpen={isOpen} onClose={onClose}>
+                                                        <ModalOverlay />
+                                                        <ModalContent>
+                                                            <ModalHeader>Novo trabalho de destaque</ModalHeader>
+                                                            <ModalCloseButton />
+                                                            <ModalBody>
+
+                                                                <Textarea placeholder="Escreva o título do seu trabalho" />
+                                                                <Button colorScheme='blue' mr={3} onClick={onClose}>
+                                                                    Adicionar imagem
+                                                                </Button>
+
+
+
+                                                            </ModalBody>
+                                                            <ModalFooter>
+                                                                <Button colorScheme='blue' mr={3} >
+                                                                    Adicionar
+                                                                </Button>
+                                                                <Button onClick={onClose} variant='ghost'>Fechar</Button>
+                                                            </ModalFooter>
+                                                        </ModalContent>
+                                                    </Modal>
                                                     <Box w={"100%"} mt={"20px"}>
                                                         <Text fontSize={"lg"} fontWeight={"bold"} color={"#05234E"}>
                                                             Trabalhos em destaque
