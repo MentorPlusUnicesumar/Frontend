@@ -6,7 +6,8 @@ const myTheme = extendTheme({
     body: "Inter, sans-serif",
   },
   colors: {
-    
+    verde: "#6bff50",
+    azul: "#441eda",    
     vermelho: "#d50c20",
     vermelho_hover: "#e64051",
     fundo_cinza: "#F6F6F6",

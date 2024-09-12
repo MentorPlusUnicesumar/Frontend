@@ -8,6 +8,7 @@ import { RedefinirSenha } from "../pages/login/redefinirSenha";
 import { RedefinirSenhaEmail } from "../pages/login/redefinirSenhaEmail";
 import { AlteraPerfil } from "../pages/alteraPerfil";
 import PrivateRoute from "../context/privateRoutes";
+import { TelaMentoria } from "../pages/teleMentoria";
 
 
 export function AppRoutes() {
@@ -37,6 +38,14 @@ export function AppRoutes() {
         element={
           <PrivateRoute isSignedIn={isSignedIn}>
             <AlteraPerfil />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/mentoria"
+        element={
+          <PrivateRoute isSignedIn={isSignedIn}>
+            <TelaMentoria />
           </PrivateRoute>
         }
       />

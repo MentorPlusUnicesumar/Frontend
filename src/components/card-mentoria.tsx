@@ -1,4 +1,5 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Link, Text } from "@chakra-ui/react";
+import { useNavigate } from "react-router";
 
 interface props {
     nomeMentoria: string
@@ -7,28 +8,32 @@ interface props {
 }
 
 export function CardMentoria({ nomeMentoria, mentorName, date }: props) {
-    return (
-        <Flex
-            _hover={{
-                transform: 'scale(1.05)',
-                boxShadow: '0px 6px 12px rgba(0, 0, 0, 0.5)',
-                transition: 'transform 0.2s ease-in-out',
-            }}
-            flexDir={'column'} bg={'white'} w={'200px'} h={'200px'} borderRadius={'10px'} boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)" >
-            <Box px={'5px'} w={'full'} minHeight={'60px'} borderTopRadius="10px" bgGradient="linear(to-r, #004DB8, #003C8F)">
-                <Text color={'white'} fontSize={'lg'} fontWeight={'bold'} p={'5px'}>{nomeMentoria}</Text>
-            </Box>
+    const navigate = useNavigate();
 
-            <Box borderBottomRadius={'10px'} p={'5px'} bg={'#F2F2F2'} w={'full'} h={'full'}>
-                <Box>
-                    <Text fontSize={'md'} fontWeight={'light'} color={'#1D428A'}>Mentor:</Text>
-                    <Text fontSize={'md'} fontWeight={'bold'} color={'#1D428A'}>{mentorName}</Text>
+    return (
+        <Link textDecoration="none"  _hover={{ textDecoration: "none" }} onClick={() => navigate("/mentoria")}>
+            <Flex
+                _hover={{
+                    transform: 'scale(1.05)',
+                    boxShadow: '0px 6px 12px rgba(0, 0, 0, 0.5)',
+                    transition: 'transform 0.2s ease-in-out',
+                }}
+                flexDir={'column'} bg={'white'} w={'200px'} h={'200px'} borderRadius={'10px'} boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)" >
+                <Box px={'5px'} w={'full'} minHeight={'60px'} borderTopRadius="10px" bgGradient="linear(to-r, #004DB8, #441eda)">
+                    <Text color={'white'} fontSize={'lg'} fontWeight={'bold'} p={'5px'}>{nomeMentoria}</Text>
                 </Box>
-                <Box mt={'5px'}>
-                    <Text fontSize={'md'} fontWeight={'light'} color={'#1D428A'}>Próximo encontro:</Text>
-                    <Text fontSize={'md'} fontWeight={'bold'} color={'#1D428A'}>{date}</Text>
+
+                <Box borderBottomRadius={'10px'} p={'5px'} bg={'#F2F2F2'} w={'full'} h={'full'}>
+                    <Box>
+                        <Text fontSize={'md'} fontWeight={'light'} color={'#1D428A'}>Mentor:</Text>
+                        <Text fontSize={'md'} fontWeight={'bold'} color={'#1D428A'}>{mentorName}</Text>
+                    </Box>
+                    <Box mt={'5px'}>
+                        <Text fontSize={'md'} fontWeight={'light'} color={'#1D428A'}>Próximo encontro:</Text>
+                        <Text fontSize={'md'} fontWeight={'bold'} color={'#1D428A'}>{date}</Text>
+                    </Box>
                 </Box>
-            </Box>
-        </Flex>
+            </Flex>
+        </Link>
     )
 }

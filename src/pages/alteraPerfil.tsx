@@ -132,9 +132,6 @@ export function AlteraPerfil() {
                         <Button colorScheme='blue' mr={3} onClick={onClose}>
                             Adicionar imagem
                         </Button>
-
-
-
                     </ModalBody>
                     <ModalFooter>
                         <Button colorScheme='blue' mr={3} >
