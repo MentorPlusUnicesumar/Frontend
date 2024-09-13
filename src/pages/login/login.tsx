@@ -1,6 +1,6 @@
 import { Box, Button, Checkbox, Flex, Img, Input, InputGroup, InputRightElement, Link, Text, Toast, useToast } from "@chakra-ui/react";
 import { useContext, useState } from "react";
-import { TextInput } from "../../components/text-input";
+import { TextInput } from "../../components/textInput";
 import { AuthContext } from "../../context/authContext";
 import logo from "../../imgs/logo.png";
 import { Formik } from "formik";
