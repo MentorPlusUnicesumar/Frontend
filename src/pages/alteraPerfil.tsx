@@ -125,7 +125,29 @@ export function AlteraPerfil() {
 
         <Flex w={"full"} h={"full"} flexDir={"column"} alignItems={"center"}>
 
+
             {/* Cabeçalho */}
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Novo trabalho de destaque</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+
+                        <Textarea placeholder="Escreva o título do seu trabalho" />
+                        <Button colorScheme='blue' mr={3} onClick={onClose}>
+                            Adicionar imagem
+                        </Button>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button colorScheme='blue' mr={3} >
+                            Adicionar
+                        </Button>
+                        <Button onClick={onClose} variant='ghost'>Fechar</Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+
             <MenuUsuario />
             {/* Cabeçalho */}
 

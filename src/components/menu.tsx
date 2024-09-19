@@ -8,12 +8,14 @@ import {
     MenuButton,
     MenuItem,
     MenuList,
-    Text
+    Text,
+    theme
 } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from "../context/authContext";
 import pedro from "../imgs/pedro.jpg";
+import myTheme from '../mytheme';
 
 export function MenuUsuario() {
     const links = [
@@ -59,7 +61,7 @@ export function MenuUsuario() {
     }
 
     return (
-        <Flex px={'60px'} py={'10px'} alignItems={'center'} w={'full'} h={'70px'} bg={'#1D428A'} justifyContent={'space-between'}>
+        <Flex px={'60px'} py={'10px'} alignItems={'center'} w={'full'} h={'70px'} bg={myTheme.colors.azul} justifyContent={'space-between'}>
             <Text color={'white'} fontSize={'2xl'} fontWeight={'bold'} onClick={() => navigate("/Minhas-mentorias")}>Mentor +</Text>
 
             <Flex justifyContent={'center'} alignItems={'center'} gap={6}>
