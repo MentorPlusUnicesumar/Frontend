@@ -10,13 +10,11 @@ import {
   MenuItem,
   MenuList,
   Text,
-  theme,
 } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
 import renan from "../imgs/renan.png";
-import myTheme from "../mytheme";
 
 export function MenuUsuario() {
   const links = [
