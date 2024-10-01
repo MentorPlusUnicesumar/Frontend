@@ -13,10 +13,10 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { MenuUsuario } from "../../components/menu";
-import myTheme from "../../mytheme";
+import guilherme from "../../imgs/guilherme.png";
 import pedro from "../../imgs/pedro.jpg";
 import prisco from "../../imgs/prisco.png";
-import guilherme from "../../imgs/guilherme.png";
+import myTheme from "../../mytheme";
 
 export function BuscarMentores() {
   const mentors = [
