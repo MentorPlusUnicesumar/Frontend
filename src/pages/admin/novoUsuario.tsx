@@ -2,6 +2,9 @@ import { Box, Button, Flex, Icon, Img, Text } from "@chakra-ui/react";
 import { MenuUsuario } from "../../components/menu";
 import { FaMapPin } from "react-icons/fa";
 import pedro from "../../imgs/pedro.jpg";
+import { AiFillInstagram } from "react-icons/ai";
+import { AiFillLinkedin } from "react-icons/ai";
+import myTheme from "../../mytheme";
 
 export function NovoUsuario() {
   return (
@@ -18,42 +21,64 @@ export function NovoUsuario() {
       >
         <Img w={"170px"} h={"170px"} borderRadius={"full"} src={pedro} />
         <Box>
-          <Text fontWeight={"bold"} fontSize={"2xl"}>
+          <Text
+            fontWeight={"bold"}
+            fontSize={"2xl"}
+            color={myTheme.colors.azul}
+          >
             Pedro Mazzurana
           </Text>
           <Box display={"flex"} flexDir={"row"} alignItems={"center"} gap={2}>
             <Icon as={FaMapPin} />
-            <Text>Mandaguari - PR</Text>
+            <Text>Maringá - PR</Text>
           </Box>
         </Box>
       </Box>
 
       <Flex justifyContent={"space-between"} my={"30px"} px={"150px"}>
         <Box>
-          <Text fontSize={"lg"} fontWeight={"bold"}>
+          <Text fontSize={"lg"} fontWeight={"bold"} color={myTheme.colors.azul}>
             Contatos:
           </Text>
           <Text fontSize={"md"}>(44) 998696460</Text>
           <Text fontSize={"md"}>pedroMazzurana@gmail.com</Text>
         </Box>
         <Box>
-          <Text fontSize={"lg"} fontWeight={"bold"}>
+          <Text fontSize={"lg"} fontWeight={"bold"} color={myTheme.colors.azul}>
             Formações:
           </Text>
           <Text fontSize={"md"}>Engenharia de Software - Unicesumar</Text>
           <Text fontSize={"md"}>Mestrado em Inteligência Artifical - USP</Text>
         </Box>
         <Box>
-          <Text fontSize={"lg"} fontWeight={"bold"}>
-            Contatos:
+          <Text fontSize={"lg"} fontWeight={"bold"} color={myTheme.colors.azul}>
+            Redes Sociais:
           </Text>
-          <Text fontSize={"md"}>(44) 998696460</Text>
-          <Text fontSize={"md"}>pedroMazzurana@gmail.com</Text>
+          <Box
+            display={"flex"}
+            flexDir={"row"}
+            // justifyContent={"center"}
+            alignItems={"center"}
+            gap={2}
+          >
+            <Icon as={AiFillInstagram} boxSize={"20px"} />
+            <Text fontSize={"md"}>mazzuranapmc</Text>
+          </Box>
+          <Box
+            display={"flex"}
+            flexDir={"row"}
+            // justifyContent={"center"}
+            alignItems={"center"}
+            gap={2}
+          >
+            <Icon as={AiFillLinkedin} boxSize={"20px"} />
+            <Text fontSize={"md"}>Pedro Mazzurana</Text>
+          </Box>
         </Box>
       </Flex>
 
       <Box px={"150px"}>
-        <Text fontSize={"lg"} fontWeight={"bold"}>
+        <Text fontSize={"lg"} fontWeight={"bold"} color={myTheme.colors.azul}>
           Sobre mim:
         </Text>
         <Text>
@@ -68,7 +93,7 @@ export function NovoUsuario() {
         </Text>
       </Box>
       <Box px={"150px"} mt={"30px"}>
-        <Text fontSize={"lg"} fontWeight={"bold"}>
+        <Text fontSize={"lg"} fontWeight={"bold"} color={myTheme.colors.azul}>
           Por quê desejo me cadastrar na plataforma?
         </Text>
         <Text>
