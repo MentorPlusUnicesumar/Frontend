@@ -41,12 +41,12 @@ export function MentorCard({
       <Image src={mentorImage} w="100%" h="150px" objectFit="cover" />
 
       <VStack p="10px" align="start">
-        <Text fontWeight="bold" fontSize="md" color="#1D428A">
+        <Text fontWeight="bold" fontSize="md" color={myTheme.colors.azul}>
           {mentorName}
         </Text>
         <List spacing={1}>
           {specialties.map((specialty, index) => (
-            <ListItem key={index} color="#1D428A" fontSize="sm">
+            <ListItem key={index} color={myTheme.colors.azul} fontSize="sm">
               • {specialty}
             </ListItem>
           ))}

@@ -51,18 +51,18 @@ export function CardMentoria({ nomeMentoria, mentorName, date }: props) {
           h={"full"}
         >
           <Box>
-            <Text fontSize={"md"} fontWeight={"light"} color={"#1D428A"}>
+            <Text fontSize={"md"} fontWeight={"light"} color={myTheme.colors.azul}>
               Mentor:
             </Text>
-            <Text fontSize={"md"} fontWeight={"bold"} color={"#1D428A"}>
+            <Text fontSize={"md"} fontWeight={"bold"} color={myTheme.colors.azul}>
               {mentorName}
             </Text>
           </Box>
           <Box mt={"5px"}>
-            <Text fontSize={"md"} fontWeight={"light"} color={"#1D428A"}>
+            <Text fontSize={"md"} fontWeight={"light"} color={myTheme.colors.azul}>
               Próximo encontro:
             </Text>
-            <Text fontSize={"md"} fontWeight={"bold"} color={"#1D428A"}>
+            <Text fontSize={"md"} fontWeight={"bold"} color={myTheme.colors.azul}>
               {date}
             </Text>
           </Box>

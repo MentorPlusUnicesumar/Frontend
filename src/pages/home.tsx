@@ -32,12 +32,12 @@ export function Home() {
             date="28/08/2024"
           />
           <CardMentoria
-            nomeMentoria="Frontal"
+            nomeMentoria="SecureDev"
             mentorName="Guilherme Nairne"
             date="30/08/2024"
           />
           <CardMentoria
-            nomeMentoria="Beck"
+            nomeMentoria="Data science"
             mentorName="Gabriel Prisco"
             date="01/09/2024"
           />

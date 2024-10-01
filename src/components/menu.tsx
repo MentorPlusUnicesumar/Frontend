@@ -22,11 +22,11 @@ export function MenuUsuario() {
   const links = [
     {
       name: "Minhas mentorias",
-      qnt: 2,
+      qnt: 3,
       link: "/minhas-mentorias",
     },
     {
-      name: "buscar mentores",
+      name: "Buscar mentores",
       qnt: null,
       link: "/buscar-mentores",
     },

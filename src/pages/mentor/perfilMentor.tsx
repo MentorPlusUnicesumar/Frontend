@@ -56,7 +56,8 @@ export function PerfilMentor() {
               w={"150px"}
               h={"150px"}
               borderRadius={"full"}
-              src={user?.fotos}
+              // src={user?.fotos}
+              src={'https://avatars.githubusercontent.com/u/77353839?v=4'}
             />
 
             <Box ml={"20px"}>
