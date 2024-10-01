@@ -33,10 +33,15 @@ import { FaEnvelope, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { CardTrab } from "../components/card-trab-mentor";
 import Teste from "../components/InputAlteraPerfil";
 import { MenuUsuario } from "../components/menu";
+import renan from "../imgs/renan.png";
+import trabalho1 from "../imgs/trabalho1.png";
+import trabalho2 from "../imgs/trabalho2.png";
+import trabalho3 from "../imgs/trabalho3.jpg";
+import myTheme from "../mytheme";
 
 const initialValues = {
-  nome: "Gabriel",
-  sobrenome: "Prisco",
+  nome: "Renan",
+  sobrenome: "Rocha",
   endereco: "Av. Prudente de Morais",
   cidade: "Maringá",
   estado: "Paraná",
@@ -47,9 +52,9 @@ const initialValues = {
   sobre:
     "Programador full stack especializado em JavaScript, com uma paixão por transformar ideias em soluções digitais inovadoras.",
   dispInd: "Disponível",
-  linkedin: "www.linkedin.com/GabrielPrisco",
-  instagram: "www.instagram.com/GabrielPrisco",
-  email: "Gabrielprisco@gmail.com",
+  linkedin: "www.linkedin.com/RenanRocha",
+  instagram: "www.instagram.com/RenanRocha",
+  email: "renanRocha@gmail.com",
 };
 
 // Trabalhos de Destaque
@@ -57,17 +62,17 @@ const initialWorks = [
   {
     id: 1,
     title: "Contribuição no desenvolvimento do frontend do aplicativo Aiqfome",
-    image: "/path-to-image1.png",
+    image: trabalho1,
   },
   {
     id: 2,
     title: "Palestra sobre como gerenciar e organizar grandes projetos",
-    image: "/path-to-image2.png",
+    image: trabalho2,
   },
   {
     id: 3,
     title: "trabias sobre Inteligência Artificial e suas aplicações",
-    image: "/path-to-image3.png",
+    image: trabalho3,
   },
 ];
 //Areas de ensino
@@ -85,15 +90,15 @@ const trabs = [
   {
     trabName:
       "Contribuição no desenvolvimento do frontend do aplicativo Aiqfome",
-    trabImage: "https://avatars.githubusercontent.com/u/62121362?v=4",
+    trabImage: trabalho1,
   },
   {
     trabName: "Palestra sobre como gerenciar e organizar grandes projetos",
-    trabImage: "https://via.placeholder.com/300x200",
+    trabImage: trabalho2,
   },
   {
     trabName: "Mentorias sobre Inteligência Artifical e suas aplicações",
-    trabImage: "https://avatars.githubusercontent.com/u/114078455?v=4",
+    trabImage: trabalho3,
   },
 ];
 
@@ -133,7 +138,7 @@ export function AlteraPerfil() {
             </Button>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" mr={3}>
+            <Button bg={myTheme.colors.azul} mr={3}>
               Adicionar
             </Button>
             <Button onClick={onClose} variant="ghost">
@@ -151,7 +156,7 @@ export function AlteraPerfil() {
         textAlign="center"
         fontSize={"3xl"}
         fontWeight={"bold"}
-        color={"#1D428A"}
+        color={myTheme.colors.azul}
       >
         Perfil
       </Text>
@@ -163,6 +168,7 @@ export function AlteraPerfil() {
         maxW={"800px"}
         p={"20px"}
         bg={"#f7f7f7"}
+        mb={"50px"}
         borderRadius={"10px"}
         boxShadow={"0px 4px 8px rgba(0, 0, 0, 0.1)"}
       >
@@ -170,14 +176,11 @@ export function AlteraPerfil() {
           {({ handleSubmit, handleChange, values }) => (
             <form onSubmit={handleSubmit}>
               <Flex flexDir={"column"} alignItems={"center"} mb={"20px"}>
-                <Avatar
-                  size={"xl"}
-                  src="https://avatars.githubusercontent.com/u/114078455?v=4"
-                />
+                <Avatar size={"xl"} src={renan} />
                 <a
                   href="#"
                   style={{
-                    color: "#1D428A",
+                    color: myTheme.colors.azul,
                     fontWeight: "bold",
                     textDecoration: "underline",
                     marginTop: "10px",
@@ -189,10 +192,18 @@ export function AlteraPerfil() {
 
               <Tabs variant="enclosed" colorScheme="blue" w={"full"}>
                 <TabList>
-                  <Tab mt="10px" color={"#1D428A"} fontWeight={"bold"}>
+                  <Tab
+                    mt="10px"
+                    color={myTheme.colors.azul}
+                    fontWeight={"bold"}
+                  >
                     Dados de Cadastro
                   </Tab>
-                  <Tab mt="10px" color={"#1D428A"} fontWeight={"bold"}>
+                  <Tab
+                    mt="10px"
+                    color={myTheme.colors.azul}
+                    fontWeight={"bold"}
+                  >
                     Informações profissionais
                   </Tab>
                 </TabList>
@@ -499,7 +510,7 @@ export function AlteraPerfil() {
                   h={"40px"}
                   w={"120px"}
                   borderRadius={"50px"}
-                  bg={"#1D428A"}
+                  bg={myTheme.colors.azul}
                   color={"white"}
                   _hover={{
                     transform: "scale(1.05)",

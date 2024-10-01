@@ -14,12 +14,15 @@ import {
 } from "@chakra-ui/react";
 import { MenuUsuario } from "../../components/menu";
 import myTheme from "../../mytheme";
+import pedro from "../../imgs/pedro.jpg";
+import prisco from "../../imgs/prisco.png";
+import guilherme from "../../imgs/guilherme.png";
 
 export function BuscarMentores() {
   const mentors = [
     {
       mentorName: "Guilherme Men",
-      mentorImage: "https://avatars.githubusercontent.com/u/62121362?v=4",
+      mentorImage: guilherme,
       specialties: [
         "Administração",
         "Engenharia de Software",
@@ -27,8 +30,8 @@ export function BuscarMentores() {
       ],
     },
     {
-      mentorName: "Renan Rocha",
-      mentorImage: "https://avatars.githubusercontent.com/u/77353839?v=4",
+      mentorName: "Gabriel Prisco",
+      mentorImage: prisco,
       specialties: [
         "Python",
         "Business Intelligence",
@@ -37,7 +40,7 @@ export function BuscarMentores() {
     },
     {
       mentorName: "Pedro Mazzurana",
-      mentorImage: "https://avatars.githubusercontent.com/u/114078455?v=4",
+      mentorImage: pedro,
       specialties: ["Empreendedorismo", "Consórcio", "Investimentos"],
     },
   ];

@@ -1,6 +1,7 @@
 import { Box, Button, Flex, Icon, Img, Text } from "@chakra-ui/react";
 import { MenuUsuario } from "../../components/menu";
 import { FaMapPin } from "react-icons/fa";
+import pedro from "../../imgs/pedro.jpg";
 
 export function NovoUsuario() {
   return (
@@ -15,12 +16,7 @@ export function NovoUsuario() {
         gap={4}
         py={"30px"}
       >
-        <Img
-          w={"170px"}
-          h={"170px"}
-          borderRadius={"full"}
-          src="https://avatars.githubusercontent.com/u/114078455?v=4"
-        />
+        <Img w={"170px"} h={"170px"} borderRadius={"full"} src={pedro} />
         <Box>
           <Text fontWeight={"bold"} fontSize={"2xl"}>
             Pedro Mazzurana

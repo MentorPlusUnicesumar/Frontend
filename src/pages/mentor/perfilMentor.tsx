@@ -7,12 +7,15 @@ import { FaMapPin } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
 import { FaEnvelope } from "react-icons/fa";
+import pedro from "../../imgs/pedro.jpg";
+import trabalho1 from "../../imgs/trabalho1.png";
+import trabalho2 from "../../imgs/trabalho2.png";
+import trabalho3 from "../../imgs/trabalho3.jpg";
 
 export function PerfilMentor() {
   const { user } = useContext(AuthContext);
   const competencias = [
     "Engenharia de software - Unicesumar",
-    "Mestrado em análise de dados - UEL",
     "Mestrado em análise de dados - UEL",
   ];
   const experiencias = [
@@ -22,16 +25,16 @@ export function PerfilMentor() {
 
   const trabalhos_destaque = [
     {
-      img: "https://miro.medium.com/v2/resize:fit:1400/format:webp/1*3FyPo1VTw_wBh4X9Ga8x6w.png",
+      img: trabalho1,
       sobre:
         "Contribuição no desenvolvimento do frontend do aplicativo Aiqfome",
     },
     {
-      img: "https://media.licdn.com/dms/image/v2/C4D12AQFcF3IvMWFyBA/article-inline_image-shrink_1500_2232/article-inline_image-shrink_1500_2232/0/1576810318081?e=1732147200&v=beta&t=sFBEg_KSnHt6g6T5_DP798NNhYuqOxzT8uFZM5U0xfY",
+      img: trabalho2,
       sobre: "Palestra sobre como gerenciar e organizar grandes projetos",
     },
     {
-      img: "https://www.varginhaonline.com.br/noticias/fotos/206045/18122023_palestra.jpg",
+      img: trabalho3,
       sobre: "Mentorias sobre Inteligência Artifical e suas aplicações",
     },
   ];
@@ -56,12 +59,13 @@ export function PerfilMentor() {
               w={"150px"}
               h={"150px"}
               borderRadius={"full"}
-              src={user?.fotos}
+              // src={user?.fotos}
+              src={pedro}
             />
 
             <Box ml={"20px"}>
               <Text fontSize={"xl"} fontWeight={"bold"}>
-                {user?.name}
+                Pedro Mazzurana
               </Text>
 
               <Text>
@@ -76,7 +80,7 @@ export function PerfilMentor() {
                 gap={2}
               >
                 <Icon as={FaMapPin} />
-                <Text>Mandaguari - PR</Text>
+                <Text>Maringá - PR</Text>
               </Box>
             </Box>
           </Flex>

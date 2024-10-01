@@ -28,23 +28,19 @@ export function Home() {
         <Flex gap={10} mt={"50px"} px={"100px"} w={"full"}>
           <CardMentoria
             nomeMentoria="Engenharia de Software"
-            mentorName="Renan Rocha"
+            mentorName="Pedro Mazzurana"
             date="28/08/2024"
           />
           <CardMentoria
-            nomeMentoria="Frontal"
+            nomeMentoria="SecureDev"
             mentorName="Guilherme Nairne"
             date="30/08/2024"
           />
           <CardMentoria
-            nomeMentoria="Beck"
+            nomeMentoria="Data science"
             mentorName="Gabriel Prisco"
             date="01/09/2024"
           />
-
-          <Link onClick={() => navigate("/gerenciamento-usuarios")}>
-            Gerenciamento
-          </Link>
         </Flex>
       </Flex>
     </Flex>

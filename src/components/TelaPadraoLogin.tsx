@@ -10,7 +10,7 @@ export function TelaPadraoLogin() {
       p={"30px"}
       h={"100%"}
       w={"35%"}
-      bg={myTheme.colors.azul}
+      bg="#1d418a"
     >
       <Text color={"white"} fontSize={"lg"} mt={"50px"} fontWeight={"light"}>
         Bem-vindo ao

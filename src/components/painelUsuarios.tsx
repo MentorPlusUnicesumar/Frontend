@@ -17,6 +17,7 @@ import {
 } from "@chakra-ui/react";
 import myTheme from "../mytheme";
 import { useNavigate } from "react-router-dom";
+import tardivo from "../imgs/tardivo.png";
 
 type ListaUsuarios = {
   nome: string;
@@ -71,7 +72,7 @@ export function PainelUsuarios({ listaUsuarios }: Props) {
                   w="100px"
                   h={"100px"}
                   borderRadius={"full"}
-                  src="https://avatars.githubusercontent.com/u/44455390?v=4"
+                  src={tardivo}
                 />
                 <Box>
                   <Text fontWeight={"bold"}>Henrique Tardivo</Text>
@@ -152,7 +153,7 @@ export function PainelUsuarios({ listaUsuarios }: Props) {
           fontWeight={"bold"}
           fontSize={"lg"}
           color={myTheme.colors.azul}
-          w={"500px"}
+          w={"350px"}
         >
           Nome
         </Text>
@@ -160,7 +161,7 @@ export function PainelUsuarios({ listaUsuarios }: Props) {
           fontWeight={"bold"}
           fontSize={"lg"}
           color={myTheme.colors.azul}
-          w={"500px"}
+          w={"350px"}
         >
           E-mail
         </Text>
@@ -168,7 +169,7 @@ export function PainelUsuarios({ listaUsuarios }: Props) {
           fontWeight={"bold"}
           fontSize={"lg"}
           color={myTheme.colors.azul}
-          w={"200px"}
+          w={"150px"}
         >
           Status
         </Text>
@@ -187,13 +188,13 @@ export function PainelUsuarios({ listaUsuarios }: Props) {
           p={"10px"}
           borderWidth={"1px"}
         >
-          <Text fontSize={"lg"} color={"gray"} w={"500px"}>
+          <Text fontSize={"lg"} color={"gray"} w={"350px"}>
             {usuario.nome}
           </Text>
-          <Text fontSize={"lg"} color={"gray"} w={"500px"}>
+          <Text fontSize={"lg"} color={"gray"} w={"350px"}>
             {usuario.email}
           </Text>
-          <Text fontSize={"lg"} color={"gray"} w={"200px"}>
+          <Text fontSize={"lg"} color={"gray"} w={"150px"}>
             {usuario.status ?? usuario.tipo}
           </Text>
           <Link

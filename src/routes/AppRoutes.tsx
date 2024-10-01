@@ -60,22 +60,22 @@ export function AppRoutes() {
           </PrivateRoute>
         }
       />
-      <Route
+      {/* <Route
         path="/gerenciamento-usuarios"
         element={
           <PrivateRoute isSignedIn={isSignedIn}>
             <GerenciamentoUsuarios />
           </PrivateRoute>
         }
-      />
-      <Route
+      /> */}
+      {/* <Route
         path="/novo-usuario"
         element={
           <PrivateRoute isSignedIn={isSignedIn}>
             <NovoUsuario />
           </PrivateRoute>
         }
-      />
+      /> */}
 
       {!isSignedIn && (
         <>
@@ -86,6 +86,11 @@ export function AppRoutes() {
             path="/Redefinir-senha-email"
             element={<RedefinirSenhaEmail />}
           />
+          <Route
+            path="/gerenciamento-usuarios"
+            element={<GerenciamentoUsuarios />}
+          />
+          <Route path="/novo-usuario" element={<NovoUsuario />} />
           <Route path="/Perfil-mentor" element={<PerfilMentor />} />
           <Route path="*" element={<Navigate to="/login" />} />
         </>
