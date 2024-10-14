@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Icon, Img, Text } from "@chakra-ui/react";
-import { MenuUsuario } from "../../components/menu";
+import { MenuUsuario } from "../../components/Menu";
 import { FaMapPin } from "react-icons/fa";
 import pedro from "../../imgs/pedro.jpg";
 import { AiFillInstagram } from "react-icons/ai";

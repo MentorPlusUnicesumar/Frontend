@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Icon, Img, Text } from "@chakra-ui/react";
-import { MenuUsuario } from "../../components/menu";
+import { MenuUsuario } from "../../components/Menu";
 import myTheme from "../../mytheme";
 import { useContext } from "react";
 import { AuthContext } from "../../context/authContext";

@@ -1,6 +1,6 @@
 import { Flex, Link, Text } from "@chakra-ui/react";
 import { CardMentoria } from "../components/card-mentoria";
-import { MenuUsuario } from "../components/menu";
+import { MenuUsuario } from "../components/Menu";
 import myTheme from "../mytheme";
 import { useNavigate } from "react-router-dom";
 

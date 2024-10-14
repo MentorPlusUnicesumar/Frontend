@@ -12,11 +12,11 @@ import {
   Input,
   Text,
 } from "@chakra-ui/react";
-import { MenuUsuario } from "../../components/menu";
 import guilherme from "../../imgs/guilherme.png";
 import pedro from "../../imgs/pedro.jpg";
 import prisco from "../../imgs/prisco.png";
 import myTheme from "../../mytheme";
+import { MenuUsuario } from "../../components/Menu";
 
 export function BuscarMentores() {
   const mentors = [

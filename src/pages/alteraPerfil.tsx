@@ -32,7 +32,7 @@ import { useState } from "react";
 import { FaEnvelope, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { CardTrab } from "../components/card-trab-mentor";
 import Teste from "../components/InputAlteraPerfil";
-import { MenuUsuario } from "../components/menu";
+import { MenuUsuario } from "../components/Menu";
 import renan from "../imgs/renan.png";
 import trabalho1 from "../imgs/trabalho1.png";
 import trabalho2 from "../imgs/trabalho2.png";
