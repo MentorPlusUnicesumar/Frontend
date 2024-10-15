@@ -10,19 +10,24 @@ import {
   MenuItem,
   MenuList,
   Text,
-  theme,
 } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
-import renan from "../imgs/renan.png";
-import myTheme from "../mytheme";
+import userIcon from "../imgs/userIcon.png";
+import { UseMentorias } from "../context/useMentorias";
+import { useQuery } from "react-query";
 
 export function MenuUsuario() {
+  const { data } = useQuery({
+    queryKey: ["mentorias"],
+    queryFn: async () => getMentorias(user!._id),
+  });
+
   const links = [
     {
       name: "Minhas mentorias",
-      qnt: 3,
+      qnt: data?.length,
       link: "/minhas-mentorias",
     },
     {
@@ -42,6 +47,8 @@ export function MenuUsuario() {
     },
   ];
 
+  const { getMentorias } = UseMentorias();
+
   const { user, signOut } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
@@ -50,7 +57,6 @@ export function MenuUsuario() {
 
   useEffect(() => {
     setLinkSelecionado(location.pathname);
-    console.log("linkSelecionado", linkSelecionado);
   }, []);
 
   function menuSelect(action: "logout" | "perfil") {
@@ -120,7 +126,12 @@ export function MenuUsuario() {
         display={"flex"}
         flexDir={"column"}
       >
-        <Img src={renan} w={"40px"} h={"40px"} borderRadius={"20px"} />
+        <Img
+          src={user?.fotos ?? userIcon}
+          w={"40px"}
+          h={"40px"}
+          borderRadius={"20px"}
+        />
         <Menu>
           <MenuButton
             as={Button}

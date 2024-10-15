@@ -28,16 +28,16 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Formik } from "formik";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FaEnvelope, FaInstagram, FaLinkedin } from "react-icons/fa";
-import { CardTrab } from "../components/card-trab-mentor";
-import Teste from "../components/InputAlteraPerfil";
-import { MenuUsuario } from "../components/menu";
-import renan from "../imgs/renan.png";
-import trabalho1 from "../imgs/trabalho1.png";
-import trabalho2 from "../imgs/trabalho2.png";
-import trabalho3 from "../imgs/trabalho3.jpg";
-import myTheme from "../mytheme";
+import { CardTrab } from "../../components/card-trab-mentor";
+import { MenuUsuario } from "../../components/menu";
+import myTheme from "../../mytheme";
+import trabalho1 from "../../imgs/trabalho1.png";
+import trabalho2 from "../../imgs/trabalho2.png";
+import trabalho3 from "../../imgs/trabalho3.jpg";
+import { AuthContext } from "../../context/authContext";
+import { PainelDadosCadastro } from "./painelDadosCadastro";
 
 const initialValues = {
   nome: "Renan",
@@ -102,11 +102,11 @@ const trabs = [
   },
 ];
 
-//Funçao principal
-export function AlteraPerfil() {
+export function PerfilUsuario() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedAreas, setSelectedAreas] = useState<string[]>([]);
   const [newArea, setNewArea] = useState("");
+  const { user } = useContext(AuthContext);
 
   const handleAddArea = () => {
     if (newArea && !selectedAreas.includes(newArea)) {
@@ -125,7 +125,6 @@ export function AlteraPerfil() {
 
   return (
     <Flex w={"full"} h={"full"} flexDir={"column"} alignItems={"center"}>
-      {/* Cabeçalho */}
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -176,7 +175,7 @@ export function AlteraPerfil() {
           {({ handleSubmit, handleChange, values }) => (
             <form onSubmit={handleSubmit}>
               <Flex flexDir={"column"} alignItems={"center"} mb={"20px"}>
-                <Avatar size={"xl"} src={renan} />
+                <Avatar size={"xl"} src={user?.fotos} />
                 <a
                   href="#"
                   style={{
@@ -210,100 +209,7 @@ export function AlteraPerfil() {
                 <TabPanels>
                   {/* Aba de Dados de Cadastro */}
                   <TabPanel>
-                    <Box w={"100%"} mt={"10px"}>
-                      <VStack spacing={"15px"} align="stretch">
-                        {/* Nome e Sobrenome */}
-                        <HStack>
-                          <Teste
-                            label="Nome"
-                            name="nome"
-                            value={values.nome}
-                            onChange={handleChange}
-                          />
-                          <Teste
-                            label="Sobrenome"
-                            name="sobrenome"
-                            value={values.sobrenome}
-                            onChange={handleChange}
-                          />
-                        </HStack>
-
-                        {/* Endereço */}
-                        <Teste
-                          label="Endereço"
-                          name="endereço"
-                          value={values.endereco}
-                          onChange={handleChange}
-                        />
-
-                        {/* Cidade e Estado */}
-                        <HStack>
-                          <Teste
-                            label="Cidade"
-                            name="cidade"
-                            value={values.cidade}
-                            onChange={handleChange}
-                          />
-                          <Teste
-                            label="Estado"
-                            name="estado"
-                            value={values.estado}
-                            onChange={handleChange}
-                          />
-                        </HStack>
-
-                        {/* Sobre */}
-                        <Teste
-                          label="Sobre"
-                          name="sobre"
-                          value={values.sobre}
-                          onChange={handleChange}
-                        />
-
-                        {/* Competências */}
-                        <Teste
-                          label="Competências"
-                          name="competências"
-                          value={values.competencia}
-                          onChange={handleChange}
-                        />
-
-                        {/* Experiências */}
-                        <Teste
-                          label="Experiências"
-                          name="experiências"
-                          value={values.experiencia}
-                          onChange={handleChange}
-                        />
-
-                        {/* Disponível para mentoria */}
-                        <Box w={"400px"}>
-                          <Text
-                            fontSize={"lg"}
-                            fontWeight={"bold"}
-                            color={"#05234E"}
-                          >
-                            Disponível para mentoria
-                          </Text>
-                          <Select
-                            name="dispInd"
-                            mt="10px"
-                            w={"400px"}
-                            h={"35px"}
-                            borderWidth={"2px"}
-                            borderColor={"#ECECEC"}
-                            borderRadius={"10px"}
-                            value={values.dispInd}
-                            onChange={handleChange}
-                            boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)"
-                            bg={"white"}
-                          >
-                            <option value="disponivel">Disponível</option>
-                            <option value="indisponivel">Indisponível</option>
-                          </Select>
-                        </Box>
-                      </VStack>
-                    </Box>
+                    <PainelDadosCadastro />
                   </TabPanel>
 
                   {/* Aba de Informações profissionais */}
@@ -385,11 +291,11 @@ export function AlteraPerfil() {
                                 colorScheme="linkedin"
                                 size="lg"
                               />
-                              <Teste
+                              {/* <Teste
                                 name="linkedIn"
                                 value={values.linkedin}
                                 onChange={handleChange}
-                              />
+                              /> */}
                             </HStack>
 
                             {/* Instagram */}
@@ -400,11 +306,11 @@ export function AlteraPerfil() {
                                 colorScheme="pink"
                                 size="lg"
                               />
-                              <Teste
+                              {/* <Teste
                                 name="instagram"
                                 value={values.instagram}
                                 onChange={handleChange}
-                              />
+                              /> */}
                             </HStack>
 
                             {/* Email */}
@@ -415,11 +321,11 @@ export function AlteraPerfil() {
                                 colorScheme="red"
                                 size="lg"
                               />
-                              <Teste
+                              {/* <Teste
                                 name="email"
                                 value={values.email}
                                 onChange={handleChange}
-                              />
+                              /> */}
                             </HStack>
                           </Box>
 

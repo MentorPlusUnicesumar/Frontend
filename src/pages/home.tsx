@@ -1,11 +1,25 @@
-import { Flex, Link, Text } from "@chakra-ui/react";
-import { CardMentoria } from "../components/card-mentoria";
-import { MenuUsuario } from "../components/menu";
-import myTheme from "../mytheme";
+import { Flex, Text } from "@chakra-ui/react";
+import { useContext } from "react";
+import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
+import { MenuUsuario } from "../components/menu";
+import { AuthContext } from "../context/authContext";
+import { UseMentorias } from "../context/useMentorias";
+import myTheme from "../mytheme";
+import { CardMentoriaAluno } from "../components/cardMentoriaAluno";
+import { CardMentoriaMentor } from "../components/cardMentoriaMentor";
 
 export function Home() {
   const navigate = useNavigate();
+
+  const { user } = useContext(AuthContext);
+
+  const { getMentorias } = UseMentorias();
+
+  const { data } = useQuery({
+    queryKey: ["mentorias"],
+    queryFn: async () => getMentorias(user!._id),
+  });
 
   return (
     <Flex w={"full"} h={"full"} flexDir={"column"}>
@@ -26,21 +40,24 @@ export function Home() {
           Mentorias
         </Text>
         <Flex gap={10} mt={"50px"} px={"100px"} w={"full"}>
-          <CardMentoria
-            nomeMentoria="Engenharia de Software"
-            mentorName="Pedro Mazzurana"
-            date="28/08/2024"
-          />
-          <CardMentoria
-            nomeMentoria="SecureDev"
-            mentorName="Guilherme Nairne"
-            date="30/08/2024"
-          />
-          <CardMentoria
-            nomeMentoria="Data science"
-            mentorName="Gabriel Prisco"
-            date="01/09/2024"
-          />
+          {user?.typeUser === "Aluno"
+            ? data?.map((mentoria, index) => (
+                <CardMentoriaAluno
+                  date={mentoria.proximoEncontro}
+                  mentorName={mentoria.nomeMentor}
+                  nomeMentoria={mentoria.nome}
+                  key={index}
+                />
+              ))
+            : data?.map((mentoria, index) => (
+                <CardMentoriaMentor
+                  date={mentoria.proximoEncontro}
+                  mentorName={mentoria.nomeMentor}
+                  nomeMentoria={mentoria.nome}
+                  key={index}
+                  aluno={mentoria.nomeMentorado}
+                />
+              ))}
         </Flex>
       </Flex>
     </Flex>
