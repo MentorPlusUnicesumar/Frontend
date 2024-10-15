@@ -4,10 +4,10 @@ export interface AuthProviderProps {
   children: ReactNode;
 }
 
-export type LoginResponse = { 
+export type LoginResponse = {
   _id: string;
   access_token: string;
-  refresh_token: string; 
+  refresh_token: string;
 };
 
 export type LoginAccess = {
@@ -15,12 +15,14 @@ export type LoginAccess = {
   senha: string;
 };
 
+type User = "Mentor" | "Aluno" | "Admin";
+
 export type UserData = {
   _id: string;
   name: string;
   email: string;
   telefone: string;
-  typeUser: string;
+  typeUser: User;
   status: string;
   cidade: string;
   uf: string;

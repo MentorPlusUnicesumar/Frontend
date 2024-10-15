@@ -5,10 +5,10 @@ interface InputAlteraPerfilProps {
   label?: string;
   name: string;
   value: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  // onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const InputAlteraPerfil: React.FC<InputAlteraPerfilProps> = ({ label, name, value, onChange }) => {
+export function InputPerfil({ label, name, value }: InputAlteraPerfilProps) {
   return (
     <Box w={"full"}>
       <Text fontSize={"lg"} fontWeight={"bold"} color={"#05234E"}>
@@ -22,13 +22,11 @@ const InputAlteraPerfil: React.FC<InputAlteraPerfilProps> = ({ label, name, valu
         borderWidth={"2px"}
         borderColor={"#ECECEC"}
         borderRadius={"10px"}
-        value={value}
-        onChange={onChange}
         boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)"
         bg={"white"}
+        value={value}
+        // onChange={onChange}
       />
     </Box>
   );
-};
-
-export default InputAlteraPerfil;
+}

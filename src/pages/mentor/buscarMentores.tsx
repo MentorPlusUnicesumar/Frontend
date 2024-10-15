@@ -16,7 +16,7 @@ import guilherme from "../../imgs/guilherme.png";
 import pedro from "../../imgs/pedro.jpg";
 import prisco from "../../imgs/prisco.png";
 import myTheme from "../../mytheme";
-import { MenuUsuario } from "../../components/Menu";
+import { MenuUsuario } from "../../components/menu";
 
 export function BuscarMentores() {
   const mentors = [

@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { PainelUsuarios } from "../../components/painelUsuarios";
 import myTheme from "../../mytheme";
-import { MenuUsuario } from "../../components/Menu";
+import { MenuUsuario } from "../../components/menu";
 
 export function GerenciamentoUsuarios() {
   const mentores = [
