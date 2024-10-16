@@ -15,7 +15,7 @@ import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
 import userIcon from "../imgs/userIcon.png";
-import { UseMentorias } from "../context/useMentorias";
+import { UseMentorias } from "../utils/useMentorias";
 import { useQuery } from "react-query";
 
 export function MenuUsuario() {

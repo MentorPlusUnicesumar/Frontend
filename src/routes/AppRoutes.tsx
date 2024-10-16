@@ -12,6 +12,7 @@ import { TelaMentoria } from "../pages/teleMentoria";
 import { GerenciamentoUsuarios } from "../pages/admin/gerenciamentoUsuarios";
 import { NovoUsuario } from "../pages/admin/novoUsuario";
 import { PerfilUsuario } from "../pages/perfil/perfilUsuario";
+import { Chat } from "../pages/chat";
 
 export function AppRoutes() {
   const navigate = useNavigate();
@@ -56,6 +57,14 @@ export function AppRoutes() {
         element={
           <PrivateRoute isSignedIn={isSignedIn}>
             <PerfilMentor />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/chat"
+        element={
+          <PrivateRoute isSignedIn={isSignedIn}>
+            <Chat />
           </PrivateRoute>
         }
       />
