@@ -1,5 +1,11 @@
 import api from "../api";
 
+export type Message = {
+    chatId: string;
+    senderId?: string;
+    content: string;
+  }
+
 type User = {     
     fotos: string,
     name: string,
@@ -7,7 +13,7 @@ type User = {
 }
 
 type getChats = {
-    lastMessage: boolean,
+    lastMessage: Message
     idAluno: User,
     idMentor: User,
     _id: string,
@@ -29,5 +35,11 @@ export function useChat() {
         return data;
     }
 
-    return {createChat, getChats};
+    async function getMessagesByChat(_id: string) {
+        const {data} = await api.get(`chat/${_id}`);
+
+        return data
+    }
+
+    return {createChat, getChats, getMessagesByChat};
 }

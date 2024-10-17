@@ -44,7 +44,6 @@ interface AuthContextData {
       
       const { data } = await api.post<LoginResponse>("auth/login", body);
 
-      console.log(data)
       
       const userData = await api.get<UserData>(`users/id/${data._id}`, {
         headers: {

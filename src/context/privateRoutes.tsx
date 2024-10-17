@@ -7,8 +7,7 @@ interface Props {
 }
 
 const PrivateRoute = ({ isSignedIn, children }: Props) => {
-    console.log('isSignedIn', isSignedIn)
-    console.log('children', children)
+
 
   return isSignedIn ? children : <Navigate to="/login" />;
 };
