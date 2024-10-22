@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { AuthProviderProps, CachedUser, IToken, LoggedUser, LoginAccess, LoginResponse, UserData } from "./contestTypes";
-import api from "../api";
+import api, { baseURL } from "../api";
 import { jwtDecode } from "jwt-decode";
 import { Socket, io } from 'socket.io-client';
 
@@ -55,7 +55,7 @@ interface AuthContextData {
   
       api.defaults.headers.common["Authorization"] = `Bearer ${data.access_token}`;
 
-      const socket = io('http://10.7.13.43:3000', {
+      const socket = io(baseURL, {
         auth: {
           token: data.access_token 
         }

@@ -1,7 +1,7 @@
 import { Box, Flex, Text } from "@chakra-ui/layout";
 import { Tab, TabList, TabPanel, Tabs, TabPanels } from "@chakra-ui/tabs";
-import { MenuUsuario } from "../components/menu";
-import myTheme from "../mytheme";
+import { MenuUsuario } from "../../components/menu";
+import myTheme from "../../mytheme";
 
 export function TelaMentoria() {
   return (

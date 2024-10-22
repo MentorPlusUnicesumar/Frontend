@@ -8,11 +8,11 @@ import { RedefinirSenha } from "../pages/login/redefinirSenha";
 import { RedefinirSenhaEmail } from "../pages/login/redefinirSenhaEmail";
 import PrivateRoute from "../context/privateRoutes";
 import { PerfilMentor } from "../pages/mentor/perfilMentor";
-import { TelaMentoria } from "../pages/teleMentoria";
+import { TelaMentoria } from "../pages/mentoria/telaMentoria";
 import { GerenciamentoUsuarios } from "../pages/admin/gerenciamentoUsuarios";
 import { NovoUsuario } from "../pages/admin/novoUsuario";
 import { PerfilUsuario } from "../pages/perfil/perfilUsuario";
-import { Chat } from "../pages/chat";
+import { Chat } from "../pages/chat/chat";
 
 export function AppRoutes() {
   const navigate = useNavigate();

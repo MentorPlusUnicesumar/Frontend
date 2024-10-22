@@ -1,0 +1,23 @@
+/* styles.css */
+.scrollable {
+    overflow-y: scroll; /* Habilitar rolagem */
+  }
+  
+  .scrollable::-webkit-scrollbar {
+    width: 8px; /* Largura da barra de rolagem */
+  }
+  
+  .scrollable::-webkit-scrollbar-thumb {
+    background: #007AFF; /* Cor da barra de rolagem */
+    border-radius: 10px; /* Cantos arredondados */
+  }
+  
+  .scrollable::-webkit-scrollbar-track {
+    background: #F2F2F7; /* Cor de fundo da barra de rolagem */
+  }
+  
+  .scrollable {
+    scrollbar-width: thin; /* Para Firefox */
+    scrollbar-color: #007AFF #F2F2F7; /* Cor da barra e do fundo */
+  }
+  

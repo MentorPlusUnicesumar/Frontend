@@ -1,9 +1,10 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Box, Button, Flex, Img, Input, Link, Text } from '@chakra-ui/react';
-import { AuthContext } from '../context/authContext';
-import { Message, useChat } from '../utils/useChat';
+import { AuthContext } from '../../context/authContext';
+import { Message, useChat } from '../../utils/useChat';
 import { useQuery } from 'react-query';
-import { MenuUsuario } from '../components/menu';
+import { MenuUsuario } from '../../components/menu';
+import './styles.css';
 
 type ChatSelecionado = {
   id: string;
@@ -73,6 +74,7 @@ export function Chat() {
 
     socket?.emit('sendMessage', newMessage);
     setMessage('');
+    
   }
 
   return (
@@ -121,7 +123,7 @@ export function Chat() {
             )}
           </Box>
           <Flex flexDir="column" w="100%" h="100%" borderWidth="1px" borderColor="#D9D9D9" borderRadius="10px" justifyContent={'space-around'}>
-            <Flex w="full" h="80%" flexDir="column" gap={5} p="20px" overflowY="scroll">
+            <Flex w="full" h="80%" flexDir="column" gap={5} p="20px" overflowY="scroll" className="scrollable">
               {messages.map((msg, index) => (
                 <Box
                   key={index}
