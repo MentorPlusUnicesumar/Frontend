@@ -45,7 +45,7 @@ export function PerfilMentor() {
   ];
 
   async function criarChat() {
-    const data = await createChat(user!._id, '67103f21a3c189012523a3f6')
+    const data = await createChat(user!._id, '6716db8d762c2d114b5506eb')
 
     // navigate("/chat")
   }

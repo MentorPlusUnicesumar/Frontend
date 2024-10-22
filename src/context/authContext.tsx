@@ -55,9 +55,9 @@ interface AuthContextData {
   
       api.defaults.headers.common["Authorization"] = `Bearer ${data.access_token}`;
 
-      const socket = io('http://10.10.17.7:3000', {
+      const socket = io('http://10.7.13.43:3000', {
         auth: {
-          token: data.access_token // Encapsulando o token em um objeto
+          token: data.access_token 
         }
       });
 
