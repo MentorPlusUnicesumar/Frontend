@@ -11,9 +11,14 @@ import pedro from "../../imgs/pedro.jpg";
 import trabalho1 from "../../imgs/trabalho1.png";
 import trabalho2 from "../../imgs/trabalho2.png";
 import trabalho3 from "../../imgs/trabalho3.jpg";
+import { useChat } from "../../utils/useChat";
+import { useNavigate } from "react-router-dom";
 
 export function PerfilMentor() {
   const { user } = useContext(AuthContext);
+  const {createChat} = useChat();
+  const navigate = useNavigate();
+
   const competencias = [
     "Engenharia de software - Unicesumar",
     "Mestrado em análise de dados - UEL",
@@ -38,6 +43,12 @@ export function PerfilMentor() {
       sobre: "Mentorias sobre Inteligência Artifical e suas aplicações",
     },
   ];
+
+  async function criarChat() {
+    const data = await createChat(user!._id, '6716db8d762c2d114b5506eb')
+
+    // navigate("/chat")
+  }
 
   return (
     <Flex w={"full"} h={"full"} flexDir={"column"}>
@@ -104,6 +115,7 @@ export function PerfilMentor() {
               borderRadius={"10px"}
               _hover={{ bg: "#05234E" }}
               bg={myTheme.colors.azul}
+              onClick={criarChat}
             >
               <Text fontWeight={"bold"} color={"white"}>
                 Entrar em contato

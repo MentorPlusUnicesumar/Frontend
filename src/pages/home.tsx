@@ -4,7 +4,7 @@ import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { MenuUsuario } from "../components/menu";
 import { AuthContext } from "../context/authContext";
-import { UseMentorias } from "../context/useMentorias";
+import { UseMentorias } from "../utils/useMentorias";
 import myTheme from "../mytheme";
 import { CardMentoriaAluno } from "../components/cardMentoriaAluno";
 import { CardMentoriaMentor } from "../components/cardMentoriaMentor";

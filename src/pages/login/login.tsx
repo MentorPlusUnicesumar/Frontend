@@ -51,7 +51,6 @@ export function Login() {
         isClosable: false,
       });
     } catch (error) {
-      console.log("error", error);
       return toast({
         title: "Falha ao realizar login, tente novamente!",
         status: "error",
