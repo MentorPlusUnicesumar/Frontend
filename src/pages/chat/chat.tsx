@@ -16,12 +16,15 @@ export function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [msg, setMessage] = useState<string>('');
   const [chatSelecionado, setChatSelecionado] = useState<ChatSelecionado | undefined>();
-  const { getChats, getMessagesByChat } = useChat();
+  const { getChats, getMessagesByChat, markerMessageRead } = useChat();
   
   const { data: chats } = useQuery({
     queryKey: ["chats"],
     queryFn: async () => getChats(),
   });
+
+  console.log('chats', chats)
+  console.log('chatSelecionado', chatSelecionado);
 
   const { data: messagensByChat } = useQuery({
     queryKey: ["messagensByChat", chatSelecionado],
@@ -36,6 +39,7 @@ export function Chat() {
   useEffect(() => {
     if (messagensByChat) {
       setMessages(messagensByChat);
+      markerMessageRead(chatSelecionado?.id);
     }
   }, [messagensByChat]);
 
@@ -43,6 +47,7 @@ export function Chat() {
     const handleNewMessage = (message: Message) => {
       if (message.chatId === chatSelecionado?.id) {
         setMessages((prevMessages) => [...prevMessages, message]);
+        markerMessageRead(chatSelecionado?.id)
       }
     };
 
@@ -55,7 +60,7 @@ export function Chat() {
         socket.off('newMessage', handleNewMessage);
       }
     };
-  }, [socket, chatSelecionado]);
+  }, [chatSelecionado]);
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -147,6 +152,7 @@ export function Chat() {
 
             <Flex w="100%" h="10%" px="20px" gap={2}>
               <Input
+                isDisabled={!chatSelecionado}
                 w="90%"
                 h="40px"
                 placeholder='Mensagem'
@@ -158,7 +164,7 @@ export function Chat() {
                   }
                 }}
               />
-              <Button onClick={() => sendMessage(msg)}>Enviar</Button>
+              <Button isDisabled={!chatSelecionado} onClick={() => sendMessage(msg)}>Enviar</Button>
             </Flex>
           </Flex>
         </Flex>

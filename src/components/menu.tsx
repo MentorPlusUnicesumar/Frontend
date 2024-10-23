@@ -17,12 +17,23 @@ import { AuthContext } from "../context/authContext";
 import userIcon from "../imgs/userIcon.png";
 import { UseMentorias } from "../utils/useMentorias";
 import { useQuery } from "react-query";
+import { useChat } from "../utils/useChat";
 
 export function MenuUsuario() {
+  const { getChats } = useChat();
+
   const { data } = useQuery({
     queryKey: ["mentorias"],
     queryFn: async () => getMentorias(user!._id),
   });
+
+  const { data: chats } = useQuery({
+    queryKey: ["chats"],
+    queryFn: async () => getChats(),
+    refetchInterval: 5000,
+  });
+
+  const newMessagens = chats?.filter((chat) => chat.hasNewMessages);
 
   const links = [
     {
@@ -42,7 +53,7 @@ export function MenuUsuario() {
     },
     {
       name: "Chat",
-      qnt: 1,
+      qnt: newMessagens?.length,
       link: "/chat",
     },
   ];

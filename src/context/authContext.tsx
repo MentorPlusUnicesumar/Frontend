@@ -22,7 +22,7 @@ interface AuthContextData {
   
   export function AuthProvider({ children }: AuthProviderProps) {
       const [user, setUser] = useState<UserData | null>(null);
-      const [socket, setSockt] = useState<Socket | null>(null);
+      const [socket, setSocket] = useState<Socket | null>(null);
       const [cachedUser, setCachedUser] = useState<CachedUser | null>(null);
       const isSignedIn = !!user;
       api.interceptors.response.use(
@@ -61,7 +61,7 @@ interface AuthContextData {
         }
       });
 
-      setSockt(socket)
+      setSocket(socket)
 
       setAuth(userData.data);
   

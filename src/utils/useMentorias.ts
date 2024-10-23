@@ -1,3 +1,4 @@
+import { async } from "q";
 import api from "../api";
 
 type Cards = {
@@ -8,6 +9,20 @@ type Cards = {
   nomeMentorado: string;
 };
 
+type EnumStatusMentoria = 'Ativa' | 'Recusada' | 'Pendente' | 'Finalizada';
+
+type MentoriaInterface = {
+  nome: string;
+  idMentor: string;
+  idAluno: string;
+  reuniao: string[];
+  status: EnumStatusMentoria;
+  materialAnexado: string[];
+  feedback: string;
+  descricao: string;
+  qtdtotal: number;
+}
+
 export function UseMentorias() {
   async function getMentorias(id: string) {
     const { data } = await api.get<Cards[]>("mentorias/cards");
@@ -15,5 +30,11 @@ export function UseMentorias() {
     return data;
   }
 
-  return { getMentorias };
+  async function getMentoriaById(id: string) {
+    const {data} = await api.get<MentoriaInterface>(`mentorias/id/${id}`);
+
+    return data;
+  }
+
+  return { getMentorias, getMentoriaById };
 }
