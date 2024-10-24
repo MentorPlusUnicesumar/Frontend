@@ -1,7 +1,8 @@
 import { createContext, useEffect, useState } from "react";
 import { AuthProviderProps, CachedUser, IToken, LoggedUser, LoginAccess, LoginResponse, UserData } from "./contestTypes";
-import api from "../api";
+import api, { baseURL } from "../api";
 import { jwtDecode } from "jwt-decode";
+import { Socket, io } from 'socket.io-client';
 
 interface AuthContextData {
     login: (credentials: LoginAccess) => Promise<LoginResponse>;
@@ -14,12 +15,14 @@ interface AuthContextData {
       setSecret: (key: string, value: object) => Promise<void>;
       deleteSecret: (key: string) => Promise<void>;
     };
+    socket: Socket | null
   }
   
   export const AuthContext = createContext({} as AuthContextData);
   
   export function AuthProvider({ children }: AuthProviderProps) {
       const [user, setUser] = useState<UserData | null>(null);
+      const [socket, setSocket] = useState<Socket | null>(null);
       const [cachedUser, setCachedUser] = useState<CachedUser | null>(null);
       const isSignedIn = !!user;
       api.interceptors.response.use(
@@ -41,7 +44,6 @@ interface AuthContextData {
       
       const { data } = await api.post<LoginResponse>("auth/login", body);
 
-      console.log(data)
       
       const userData = await api.get<UserData>(`users/id/${data._id}`, {
         headers: {
@@ -53,7 +55,13 @@ interface AuthContextData {
   
       api.defaults.headers.common["Authorization"] = `Bearer ${data.access_token}`;
 
-     console.log('user data', userData)
+      const socket = io(baseURL, {
+        auth: {
+          token: data.access_token 
+        }
+      });
+
+      setSocket(socket)
 
       setAuth(userData.data);
   
@@ -129,6 +137,7 @@ interface AuthContextData {
           cachedUser,
           manageSecrets,
           refreshToken,
+          socket
         }}
       >
         {children}

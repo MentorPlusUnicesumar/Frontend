@@ -1,12 +1,12 @@
 import axios from "axios";
 
-const baseURL = "http://localhost:3030";
+export const baseURL = "http://10.10.17.7:3000";
 
 const api = axios.create({
-    baseURL,
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  
-  export default api;
+  baseURL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+export default api;
