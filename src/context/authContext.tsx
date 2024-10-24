@@ -45,7 +45,7 @@ interface AuthContextData {
       const { data } = await api.post<LoginResponse>("auth/login", body);
 
       
-      const userData = await api.get<UserData>(`users/id/${data.idUser}`, {
+      const userData = await api.get<UserData>(`users/id/${data._id}`, {
         headers: {
             'Authorization': `Bearer ${data.access_token}`
         }

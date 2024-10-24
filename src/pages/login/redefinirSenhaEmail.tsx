@@ -1,6 +1,6 @@
 import { Box, Button, Checkbox, Flex, Img, Input, Link, Text } from "@chakra-ui/react";
 import logo from "../../imgs/logo.png";
-import { TextInput } from "../../components/text-input";
+import { TextInput } from "../../components/textInput";
 
 export function RedefinirSenhaEmail() {
     return (
