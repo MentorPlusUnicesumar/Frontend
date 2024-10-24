@@ -3,9 +3,11 @@ import { ReactNode } from "react";
 export interface AuthProviderProps {
   children: ReactNode;
 }
-
+  
 export type LoginResponse = {
   _id: string;
+  idUser: string;
+  typeUser: string;
   access_token: string;
   refresh_token: string;
 };
