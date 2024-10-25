@@ -114,9 +114,9 @@ interface AuthContextData {
     }, []);
   
     const setAuth = async (auth: UserData) => {
-      const { email, _id, cidade, cpf, fotos, mentoriasAtivas, name, status, telefone, typeUser, uf } = auth;
+      const { email, _id, cidade, cpf, fotos, mentoriasAtivas, nome, status, telefone, typeUser, uf } = auth;
   
-      setUser({  email, _id, cidade, cpf, fotos, mentoriasAtivas, name, status, telefone, typeUser, uf });
+      setUser({  email, _id, cidade, cpf, fotos, mentoriasAtivas, nome, status, telefone, typeUser, uf });
     };
   
     async function refreshToken(token?: string): Promise<LoginResponse> {

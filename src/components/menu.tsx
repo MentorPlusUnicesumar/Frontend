@@ -64,7 +64,7 @@ export function MenuUsuario() {
   const navigate = useNavigate();
   const location = useLocation();
   const [linkSelecionado, setLinkSelecionado] = useState("minhas-mentorias");
-  const nomeUsuario = user?.name.split(" ")[0];
+  const nomeUsuario = user?.nome.split(" ")[0];
 
   useEffect(() => {
     setLinkSelecionado(location.pathname);

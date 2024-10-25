@@ -37,7 +37,7 @@ export function PainelDadosCadastro() {
   return (
     <Box w={"100%"} mt={"10px"}>
       <VStack spacing={"15px"} align="stretch">
-        <InputPerfil name="nome" value={user!.name} label="Nome" />
+        <InputPerfil name="nome" value={user!.nome} label="Nome" />
         <InputPerfil name="email" value={user!.email} label="E-mail" />
         <InputPerfil name="telefone" value={user!.telefone} label="Telefone" />
         <InputPerfil name="cidade" value={user!.cidade} label="Cidade" />
