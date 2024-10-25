@@ -8,7 +8,7 @@ export type Message = {
 
 type User = {
     fotos: string,
-    name: string,
+    nome: string,
     _id: string
 }
 
