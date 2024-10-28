@@ -21,7 +21,7 @@ type User = "Mentor" | "Aluno" | "Admin";
 
 export type UserData = {
   _id: string;
-  name: string;
+  nome: string;
   email: string;
   telefone: string;
   typeUser: User;

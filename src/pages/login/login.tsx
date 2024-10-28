@@ -13,7 +13,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useContext, useState } from "react";
-import { TextInput } from "../../components/text-input";
+import { TextInput } from "../../components/textInput";
 import { AuthContext } from "../../context/authContext";
 import logo from "../../imgs/logo.png";
 import { Formik } from "formik";
@@ -36,7 +36,7 @@ export function Login() {
   const inicialValues = {
     email: "",
     senha: "",
-  };
+};
 
   async function handleLogin({ email, senha }: LoginProps) {
     try {

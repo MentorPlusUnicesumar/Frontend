@@ -13,6 +13,7 @@ import { GerenciamentoUsuarios } from "../pages/admin/gerenciamentoUsuarios";
 import { NovoUsuario } from "../pages/admin/novoUsuario";
 import { PerfilUsuario } from "../pages/perfil/perfilUsuario";
 import { Chat } from "../pages/chat/chat";
+import { CadastroUsuario } from "../pages/cadastroUsuario/cadastroUsuario";
 
 export function AppRoutes() {
   const navigate = useNavigate();
@@ -67,23 +68,7 @@ export function AppRoutes() {
             <Chat />
           </PrivateRoute>
         }
-      />
-      {/* <Route
-        path="/gerenciamento-usuarios"
-        element={
-          <PrivateRoute isSignedIn={isSignedIn}>
-            <GerenciamentoUsuarios />
-          </PrivateRoute>
-        }
-      /> */}
-      {/* <Route
-        path="/novo-usuario"
-        element={
-          <PrivateRoute isSignedIn={isSignedIn}>
-            <NovoUsuario />
-          </PrivateRoute>
-        }
-      /> */}
+      />      
 
       {!isSignedIn && (
         <>
@@ -101,6 +86,7 @@ export function AppRoutes() {
           <Route path="/novo-usuario" element={<NovoUsuario />} />
           <Route path="/Perfil-mentor" element={<PerfilMentor />} />
           <Route path="*" element={<Navigate to="/login" />} />
+          <Route path="/cadastro" element={<CadastroUsuario />} />
         </>
       )}
     </Routes>

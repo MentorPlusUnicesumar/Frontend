@@ -90,7 +90,7 @@ export function Chat() {
         <Flex w="25%" h="full" flexDir="column" px="20px">
           <Text fontWeight="bold" mb="30px" color="#6A6A6A">Conversas</Text>
           {chats?.map((chat) => {
-            const User = user?.typeUser === 'Aluno' ? chat.idMentor.name : chat.idAluno.name;
+            const User = user?.typeUser === 'Aluno' ? chat.idMentor.nome : chat.idAluno.nome;
 
             return (
               <Link
