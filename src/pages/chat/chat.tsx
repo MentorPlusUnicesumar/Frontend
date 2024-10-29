@@ -5,6 +5,7 @@ import { Message, useChat } from '../../utils/useChat';
 import { useQuery } from 'react-query';
 import { MenuUsuario } from '../../components/menu';
 import './styles.css';
+import { useLocation, useParams } from 'react-router-dom';
 
 type ChatSelecionado = {
   id: string;
@@ -17,14 +18,23 @@ export function Chat() {
   const [msg, setMessage] = useState<string>('');
   const [chatSelecionado, setChatSelecionado] = useState<ChatSelecionado | undefined>();
   const { getChats, getMessagesByChat, markerMessageRead } = useChat();
-  
+  const location = useLocation();
+
   const { data: chats } = useQuery({
     queryKey: ["chats"],
     queryFn: async () => getChats(),
   });
 
-  console.log('chats', chats)
-  console.log('chatSelecionado', chatSelecionado);
+  console.log('chatSelecionado', chatSelecionado)
+
+ useEffect(() => {
+  const { chat } = location.state || {};
+  console.log('chat', chat)
+
+  if(chat) {
+    setChatSelecionado(chat)
+  }
+},[])
 
   const { data: messagensByChat } = useQuery({
     queryKey: ["messagensByChat", chatSelecionado],

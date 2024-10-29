@@ -10,17 +10,20 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import myTheme from "../mytheme";
+import { areas } from "../utils/useMentor";
 
 interface MentorCardProps {
-  mentorName: string;
-  mentorImage: string;
-  specialties: string[];
+  mentorName?: string;
+  mentorImage?: string;
+  areas?: areas[];
+  id: string
 }
 
 export function MentorCard({
   mentorName,
   mentorImage,
-  specialties,
+  areas,
+  id
 }: MentorCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
@@ -45,9 +48,9 @@ export function MentorCard({
           {mentorName}
         </Text>
         <List spacing={1}>
-          {specialties.map((specialty, index) => (
+          {areas?.slice(0, 3).map((area, index) => (
             <ListItem key={index} color={myTheme.colors.azul} fontSize="sm">
-              • {specialty}
+              • {area.nome}
             </ListItem>
           ))}
         </List>
@@ -63,7 +66,7 @@ export function MentorCard({
         bottom={isHovered ? "0" : "-40px"}
         transition="bottom 0.3s ease-in-out"
         _hover={{ bg: myTheme.colors.azul }}
-        onClick={() => navigate("/perfil-mentor")}
+        onClick={() => navigate(`/perfil-mentor/${id}`)}
       >
         Ver mais
       </Button>

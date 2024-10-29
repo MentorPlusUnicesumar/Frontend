@@ -12,38 +12,18 @@ import {
   Input,
   Text,
 } from "@chakra-ui/react";
-import guilherme from "../../imgs/guilherme.png";
-import pedro from "../../imgs/pedro.jpg";
-import prisco from "../../imgs/prisco.png";
-import myTheme from "../../mytheme";
+import { useQuery } from "react-query";
 import { MenuUsuario } from "../../components/menu";
+import myTheme from "../../mytheme";
+import { UseMentor } from "../../utils/useMentor";
 
 export function BuscarMentores() {
-  const mentors = [
-    {
-      mentorName: "Guilherme Men",
-      mentorImage: guilherme,
-      specialties: [
-        "Administração",
-        "Engenharia de Software",
-        "Análise de dados",
-      ],
-    },
-    {
-      mentorName: "Gabriel Prisco",
-      mentorImage: prisco,
-      specialties: [
-        "Python",
-        "Business Intelligence",
-        "Arquitetura de Software",
-      ],
-    },
-    {
-      mentorName: "Pedro Mazzurana",
-      mentorImage: pedro,
-      specialties: ["Empreendedorismo", "Consórcio", "Investimentos"],
-    },
-  ];
+  const { getMentores } = UseMentor();
+
+  const { data } = useQuery({
+    queryKey: ["mentores"],
+    queryFn: async () => getMentores(),
+  });
 
   return (
     <Flex w={"full"} h={"full"} flexDir={"column"}>
@@ -159,19 +139,19 @@ export function BuscarMentores() {
           </AccordionItem>
         </Accordion>
 
-        <Box maxW="1100px" mx="0" mt="20px" overflow="hidden" p="10px">
+        <Box mx="0" mt="20px" p="10px">
           <Flex
             wrap="wrap"
-            justifyContent="flex-start"
-            alignItems="flex-start"
-            gap="20px"
+            flexGrow={"initial"}
+            gap={'50px'}
           >
-            {mentors.map((mentor, index) => (
+            {data?.map((mentor, index) => (
               <MentorCard
                 key={index}
-                mentorName={mentor.mentorName}
-                mentorImage={mentor.mentorImage}
-                specialties={mentor.specialties}
+                mentorName={mentor?.nome}
+                mentorImage={mentor?.fotos}
+                areas={mentor?.areas}
+                id={mentor?._id}
               />
             ))}
           </Flex>
