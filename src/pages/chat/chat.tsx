@@ -25,11 +25,8 @@ export function Chat() {
     queryFn: async () => getChats(),
   });
 
-  console.log('chatSelecionado', chatSelecionado)
-
  useEffect(() => {
   const { chat } = location.state || {};
-  console.log('chat', chat)
 
   if(chat) {
     setChatSelecionado(chat)
@@ -45,6 +42,8 @@ export function Chat() {
       return [];
     },
   });
+
+  console.log('messagensByChat', messagensByChat)
 
   useEffect(() => {
     if (messagensByChat) {
@@ -88,15 +87,22 @@ export function Chat() {
     };
 
     socket?.emit('sendMessage', newMessage);
-    setMessage('');
-    
+    setMessage('');    
   }
+
+  function formatDate(date?: string): string {
+    const parsedDate = new Date(date || "");
+    const hours = String(parsedDate.getHours()).padStart(2, '0');
+    const minutes = String(parsedDate.getMinutes()).padStart(2, '0');
+
+    return `${hours}:${minutes}`;
+}
 
   return (
     <Flex w="full" h="full" flexDir="column">
       <MenuUsuario />
 
-      <Flex w="full" h="calc(100% - 100px)" flexDir="row" pt="25px"> {/* Ajuste a altura */}
+      <Flex w="full" h="calc(100% - 100px)" flexDir="row" pt="25px">
         <Flex w="25%" h="full" flexDir="column" px="20px">
           <Text fontWeight="bold" mb="30px" color="#6A6A6A">Conversas</Text>
           {chats?.map((chat) => {
@@ -147,14 +153,15 @@ export function Chat() {
                   px="10px"
                   py="5px"
                   alignSelf={user?._id === msg.senderId ? 'end' : 'start'}
-                  minW="50px"
+                  minW="100px"
                   maxW="60%"
                   display="flex"
-                  justifyContent={user?._id === msg.senderId ? 'flex-end' : 'flex-start'}
+                  justifyContent={'space-between'}
                   bg={user?._id === msg.senderId ? '#007AFF' : '#F2F2F7'}
                   color={user?._id === msg.senderId ? 'white' : 'black'}
                 >
-                  {msg.content}
+                  <Text fontWeight={500}>{msg.content}</Text>
+                  <Text mt={'22px'} fontSize={'10px'} alignSelf={'flex-end'}>{formatDate(msg.createdAt)}</Text>
                 </Box>
               ))}
               <div ref={messagesEndRef} />

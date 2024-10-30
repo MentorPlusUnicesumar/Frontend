@@ -1,6 +1,6 @@
 import api from "../api";
 
- type TrabDestaqueDto = {
+type TrabDestaqueDto = {
     foto: string;
     descricao: string;
 };
@@ -35,16 +35,26 @@ export interface UserInterface {
     estrela: number[];
 }
 
+export type filtroType = {
+    nomeMentor?: string,
+    areaMentor?: string
+  }
+
 export function UseMentor() {
-    async function getMentores() {
-        const { data } = await api.get<UserInterface[]>("users/mentores")
-        
+    async function getMentores({areaMentor, nomeMentor} : filtroType = {}) {
+        const { data } = await api.get<UserInterface[]>("users/mentores", {
+            params: {
+                areaMentor,
+                nomeMentor
+            }
+        })
+
         return data;
     }
 
     async function getMentorById(id: string) {
         const { data } = await api.get<UserInterface>(`users/id/${id}`)
-        
+
         return data;
     }
 

@@ -22,12 +22,14 @@ export function PerfilMentor() {
   const { getMentorById } = UseMentor();
 
   async function criarChat() {
-    const chat  = await createChat(user!._id, data!._id)
+    const chatSelecionado  = await createChat(user!._id, data!._id)
+    const User = user?.typeUser === 'Aluno' ? chatSelecionado.idMentor.nome : chatSelecionado.idAluno.nome;
 
-    // const chatSelecionado = {
-    //   id: chat.id,
-    //   nome: chat.
-    // }
+    const chat = {
+      id: chatSelecionado._id,
+      nome: User
+    }
+
     navigate('/chat/', { state: { chat } })
   }
 
