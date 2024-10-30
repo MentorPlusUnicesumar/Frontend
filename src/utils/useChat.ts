@@ -4,6 +4,7 @@ export type Message = {
     chatId: string;
     senderId?: string;
     content: string;
+    createdAt?: string
 }
 
 type User = {

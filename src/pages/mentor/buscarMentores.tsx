@@ -10,40 +10,41 @@ import {
   Button,
   Flex,
   Input,
+  Link,
   Text,
 } from "@chakra-ui/react";
-import guilherme from "../../imgs/guilherme.png";
-import pedro from "../../imgs/pedro.jpg";
-import prisco from "../../imgs/prisco.png";
-import myTheme from "../../mytheme";
+import { Formik } from "formik";
+import { useQuery } from "react-query";
 import { MenuUsuario } from "../../components/menu";
+import myTheme from "../../mytheme";
+import { UseMentor, filtroType } from "../../utils/useMentor";
+import { useState } from "react";
 
 export function BuscarMentores() {
-  const mentors = [
-    {
-      mentorName: "Guilherme Men",
-      mentorImage: guilherme,
-      specialties: [
-        "Administração",
-        "Engenharia de Software",
-        "Análise de dados",
-      ],
-    },
-    {
-      mentorName: "Gabriel Prisco",
-      mentorImage: prisco,
-      specialties: [
-        "Python",
-        "Business Intelligence",
-        "Arquitetura de Software",
-      ],
-    },
-    {
-      mentorName: "Pedro Mazzurana",
-      mentorImage: pedro,
-      specialties: ["Empreendedorismo", "Consórcio", "Investimentos"],
-    },
-  ];
+  const [filtro, setFiltro] = useState<filtroType>();
+  const { getMentores } = UseMentor();
+
+  const inicialValues = {
+    nomeMentor: "",
+    areaMentor: ""
+  }
+
+  function limpaFiltro(resetForm: () => void) {
+    setFiltro({})
+    resetForm();
+  }
+
+  function filtrar({ areaMentor, nomeMentor }: filtroType) {
+    setFiltro({
+      areaMentor,
+      nomeMentor
+    })
+  }
+
+  const { data } = useQuery({
+    queryKey: ["mentores", filtro],
+    queryFn: async () => getMentores(filtro),
+  });
 
   return (
     <Flex w={"full"} h={"full"} flexDir={"column"}>
@@ -67,7 +68,7 @@ export function BuscarMentores() {
         >
           Sugestões
         </Text>
-        <Box w={"full"} bg={myTheme.colors.azul_claro} h={"2px"} />
+        <Box w={"full"} bg={myTheme.colors.azul_claro} h={"2px"}>‎</Box>
 
         <Accordion defaultIndex={[1]} allowMultiple>
           <AccordionItem border="none">
@@ -89,91 +90,112 @@ export function BuscarMentores() {
               </AccordionButton>
             </h2>
             <AccordionPanel pb={4}>
-              <Flex>
-                <Box
-                  w={"400px"}
-                  mt={"10px"}
-                  display={"flex"}
-                  flexDirection={"row"}
-                >
-                  <Input
-                    ml={"10px"}
-                    w={"200px"}
-                    h={"35px"}
-                    borderWidth={"2px"}
-                    borderColor={"#ECECEC"}
-                    borderRadius={"10px"}
-                    placeholder={"Nome do Profissional"}
-                    boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)"
-                    bg={"white"}
-                    sx={{
-                      "::placeholder": {
-                        fontSize: "12px",
-                        color: "#B0B0B0",
-                      },
-                    }}
-                  />
-                  <Input
-                    ml={"10px"}
-                    w={"200px"}
-                    h={"35px"}
-                    borderWidth={"2px"}
-                    borderColor={"#ECECEC"}
-                    borderRadius={"10px"}
-                    placeholder={"Área de interesse"}
-                    boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)"
-                    bg={"white"}
-                    sx={{
-                      "::placeholder": {
-                        fontSize: "12px",
-                        color: "#B0B0B0",
-                      },
-                    }}
-                  />
-                </Box>
+              <Formik initialValues={inicialValues} onSubmit={filtrar}>
+                {({ handleSubmit, handleChange, values, resetForm  }) => (
+                  <Flex alignItems={'center'}>
+                    <Box
+                      w={"400px"}
+                      mt={"10px"}
+                      display={"flex"}
+                      flexDirection={"row"}
+                    >
+                      <Input
+                        ml={"10px"}
+                        w={"200px"}
+                        h={"35px"}
+                        borderWidth={"2px"}
+                        borderColor={"#ECECEC"}
+                        borderRadius={"10px"}
+                        value={values.nomeMentor}
+                        onChange={(value) => {
+                          handleChange("nomeMentor")(value);
+                        }}
+                        placeholder={"Nome do Profissional"}
+                        boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)"
+                        bg={"white"}
+                        sx={{
+                          "::placeholder": {
+                            fontSize: "12px",
+                            color: "#B0B0B0",
+                          },
+                        }}
+                      />
+                      <Input
+                        ml={"10px"}
+                        w={"200px"}
+                        h={"35px"}
+                        borderWidth={"2px"}
+                        borderColor={"#ECECEC"}
+                        borderRadius={"10px"}
+                        value={values.areaMentor}
+                        onChange={(value) => {
+                          handleChange("areaMentor")(value);
+                        }}
+                        placeholder={"Área de interesse"}
+                        boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)"
+                        bg={"white"}
+                        sx={{
+                          "::placeholder": {
+                            fontSize: "12px",
+                            color: "#B0B0B0",
+                          },
+                        }}
+                      />
+                    </Box>
 
-                <Button
-                  ml={"10px"}
-                  mt={"10px"}
-                  h={"35px"}
-                  w={"100px"}
-                  borderRadius={"50px"}
-                  boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)"
-                  _hover={{
-                    transform: "scale(1.05)",
-                    boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.5)",
-                    transition: "transform 0.2s ease-in-out",
-                  }}
-                  bg={myTheme.colors.azul_claro}
-                >
-                  <Text
-                    color={"white"}
-                    fontSize={"sm"}
-                    fontWeight={"semi-bold"}
-                  >
-                    Buscar
-                  </Text>
-                </Button>
-              </Flex>
+                    <Button
+                      ml={"10px"}
+                      mt={"10px"}
+                      h={"35px"}
+                      w={"100px"}
+                      borderRadius={"50px"}
+                      onClick={() => handleSubmit()}
+                      boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)"
+                      _hover={{
+                        transform: "scale(1.05)",
+                        boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.5)",
+                        transition: "transform 0.2s ease-in-out",
+                      }}
+                      bg={myTheme.colors.azul_claro}
+                    >
+                      <Text
+                        color={"white"}
+                        fontSize={"sm"}
+                        fontWeight={"semi-bold"}
+                      >
+                        Buscar
+                      </Text>
+                    </Button>
+                    {filtro?.areaMentor || filtro?.nomeMentor ?
+                      <Link onClick={() => limpaFiltro(resetForm)}>
+                        <Text mt={'8px'} ml={'20px'}>Limpar</Text>
+                      </Link>
+                      : null}
+                  </Flex>
+                )}
+              </Formik>
             </AccordionPanel>
           </AccordionItem>
         </Accordion>
 
-        <Box maxW="1100px" mx="0" mt="20px" overflow="hidden" p="10px">
+        <Box mx="0" mt="20px" p="10px">
           <Flex
             wrap="wrap"
-            justifyContent="flex-start"
-            alignItems="flex-start"
-            gap="20px"
+            flexGrow={"initial"}
+            gap={'50px'}
           >
-            {mentors.map((mentor, index) => (
-              <MentorCard
-                key={index}
-                mentorName={mentor.mentorName}
-                mentorImage={mentor.mentorImage}
-                specialties={mentor.specialties}
-              />
-            ))}
+            {data && data.length > 0 ?
+              data?.map((mentor, index) => (
+                <MentorCard
+                  key={index}
+                  mentorName={mentor?.nome}
+                  mentorImage={mentor?.fotos}
+                  areas={mentor?.areas}
+                  id={mentor?._id}
+                />
+              ))
+              : <Text ml={'1%'} fontSize={'lg'} fontWeight={'bold'}>Nenhum mentor encotrado</Text>
+            }
           </Flex>
         </Box>
       </Flex>

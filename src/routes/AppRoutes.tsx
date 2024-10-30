@@ -54,7 +54,7 @@ export function AppRoutes() {
         }
       />
       <Route
-        path="/perfil-mentor"
+        path="/perfil-mentor/:id"
         element={
           <PrivateRoute isSignedIn={isSignedIn}>
             <PerfilMentor />
@@ -62,7 +62,7 @@ export function AppRoutes() {
         }
       />
       <Route
-        path="/chat"
+        path="/chat/"
         element={
           <PrivateRoute isSignedIn={isSignedIn}>
             <Chat />
