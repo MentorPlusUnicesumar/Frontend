@@ -6,9 +6,11 @@ interface Props {
   placeholder: string;
   mt?: string;
   w?: string;
+  value: string | null;
+  onChange: (value: string) => void;
 }
 
-export function TextInputCadastro({ name, placeholder, mt, w }: Props) {
+export function TextInputCadastro({ name, placeholder, mt, w, value, onChange }: Props) {
   return (
     <Box w="400px" mt={mt}>
       {name && (
@@ -20,6 +22,8 @@ export function TextInputCadastro({ name, placeholder, mt, w }: Props) {
         mt="5px"
         w={w}
         h="35px"
+        value={value || undefined}
+        onChange={(e) => onChange(e.target.value)}
         borderColor="#ECECEC"
         borderRadius="5px"
         placeholder={placeholder}

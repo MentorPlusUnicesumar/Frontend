@@ -1,11 +1,8 @@
-import { Box, Button, Flex, Progress, Step, StepIcon, StepIndicator, StepStatus, Stepper, Text, useSteps } from "@chakra-ui/react";
-import { TextInputCadastro } from "../../components/textInputCadastro";
+import { Box, Button, Flex, Progress, Step, StepIcon, StepIndicator, StepStatus, Stepper, Text } from "@chakra-ui/react";
 import { useState } from "react";
 
 export function AbaMentor() {
     const [activeStep, setActiveStep] = useState(0);
-
-    console.log(activeStep);
 
     const steps = [
         { title: 'Primeiro passo', description: 'Informações pessoais' },
@@ -49,7 +46,7 @@ export function AbaMentor() {
                 </Box>
             </Flex>
 
-            <Box gap={2} display={'flex'} flexDir={'row'} mt={'20px'}>
+            {/* <Box gap={2} display={'flex'} flexDir={'row'} mt={'20px'}>
                 <TextInputCadastro w="370px" placeholder="Nome completo" name="nome" />
                 <TextInputCadastro w="370px" placeholder="E-mail" name="email" />
             </Box>
@@ -67,7 +64,7 @@ export function AbaMentor() {
             <Box mt={'15px'} gap={2} display={'flex'} flexDir={'row'}>
                 <TextInputCadastro w="370px" placeholder="Senha" name="senha" />
                 <TextInputCadastro w="370px" placeholder="Foto de perfil" name="Foto de perfil" />
-            </Box>
+            </Box> */}
 
 
             <Box mt={'8%'} display={'flex'} justifyContent={'center'} gap={5}>
