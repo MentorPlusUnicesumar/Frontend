@@ -29,6 +29,21 @@ export function GerenciamentoUsuarios() {
       email: "anaBrencic@gmail.com",
       status: "Inativo",
     },
+    {
+      nome: "Ana Paula Brencic",
+      email: "anaBrencic@gmail.com",
+      status: "Inativo",
+    },
+    {
+      nome: "Ana Paula Brencic",
+      email: "anaBrencic@gmail.com",
+      status: "Inativo",
+    },
+    {
+      nome: "Ana Paula Brencic",
+      email: "anaBrencic@gmail.com",
+      status: "Inativo",
+    },
   ];
   const alunos = [
     {
@@ -61,7 +76,7 @@ export function GerenciamentoUsuarios() {
   ];
 
   return (
-    <Flex w={"full"} h={"full"} flexDir={"column"}>
+    <Flex w={"full"} h={"full"} flexDir={"column"} overflow={'hidden'}>
       <MenuUsuario />
       <Box w={"full"} h={"full"} p={"30px"}>
         <Flex
@@ -73,7 +88,7 @@ export function GerenciamentoUsuarios() {
           borderColor={myTheme.colors.cinza_hover}
           borderRadius={"10px"}
         >
-          <Tabs>
+          <Tabs w={'full'}>
             <TabList>
               <Tab>
                 <Text fontSize={"lg"} fontWeight={"bold"}>

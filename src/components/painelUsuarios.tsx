@@ -18,6 +18,7 @@ import {
 import myTheme from "../mytheme";
 import { useNavigate } from "react-router-dom";
 import tardivo from "../imgs/tardivo.png";
+import './styles.css';
 
 type ListaUsuarios = {
   nome: string;
@@ -41,6 +42,10 @@ export function PainelUsuarios({ listaUsuarios }: Props) {
       navigate("/novo-usuario");
     }
   }
+
+  const widthNome = '35%'
+  const widthEmail = '35%'
+  const widthStatus = '15%'
 
   return (
     <>
@@ -148,12 +153,13 @@ export function PainelUsuarios({ listaUsuarios }: Props) {
           </Flex>
         </>
       ) : null}
+
       <Flex mt={"30px"} gap={5} p={"10px"}>
         <Text
           fontWeight={"bold"}
           fontSize={"lg"}
           color={myTheme.colors.azul}
-          w={"350px"}
+          w={widthNome}
         >
           Nome
         </Text>
@@ -161,7 +167,7 @@ export function PainelUsuarios({ listaUsuarios }: Props) {
           fontWeight={"bold"}
           fontSize={"lg"}
           color={myTheme.colors.azul}
-          w={"350px"}
+          w={widthEmail}
         >
           E-mail
         </Text>
@@ -169,48 +175,50 @@ export function PainelUsuarios({ listaUsuarios }: Props) {
           fontWeight={"bold"}
           fontSize={"lg"}
           color={myTheme.colors.azul}
-          w={"150px"}
+          w={widthStatus}
         >
           Status
         </Text>
       </Flex>
 
-      {listaUsuarios.map((usuario) => (
-        <Flex
-          mt={"15px"}
-          gap={5}
-          w={"full"}
-          h={"40px"}
-          borderRadius={"10px"}
-          boxShadow="0px 4px 8px rgba(0, 0, 0, 0.1)"
-          justifyContent={"center"}
-          alignItems={"center"}
-          p={"10px"}
-          borderWidth={"1px"}
-        >
-          <Text fontSize={"lg"} color={"gray"} w={"350px"}>
-            {usuario.nome}
-          </Text>
-          <Text fontSize={"lg"} color={"gray"} w={"350px"}>
-            {usuario.email}
-          </Text>
-          <Text fontSize={"lg"} color={"gray"} w={"150px"}>
-            {usuario.status ?? usuario.tipo}
-          </Text>
-          <Link
-            onClick={() => handleClick(usuario.status ? "existente" : "novo")}
+      <Flex overflowY="scroll" w={'full'} h={'250px'} flexDir={'column'} className="scrollable">
+        {listaUsuarios.map((usuario) => (
+          <Flex
+            mt={"15px"}
+            gap={5}
+            w={"full"}
+            h={"40px"}
+            borderRadius={"10px"}
+            boxShadow="0px 4px 8px rgba(0, 0, 0, 0.1)"
+            alignItems={"center"}
+            p={"10px"}
+            borderWidth={"1px"}
           >
-            <Text
-              fontSize={"lg"}
-              color={myTheme.colors.azul}
-              w={"100px"}
-              fontWeight={"bold"}
-            >
-              Ver mais
+            <Text fontSize={"lg"} color={"gray"} w={widthNome}>
+              {usuario.nome}
             </Text>
-          </Link>
-        </Flex>
-      ))}
+            <Text fontSize={"lg"} color={"gray"} w={widthEmail}>
+              {usuario.email}
+            </Text>
+            <Text fontSize={"lg"} color={"gray"} w={widthStatus}>
+              {usuario.status ?? usuario.tipo}
+            </Text>
+            <Link
+              onClick={() => handleClick(usuario.status ? "existente" : "novo")}
+            >
+              <Text
+                fontSize={"lg"}
+                color={myTheme.colors.azul}
+
+                w={"100px"}
+                fontWeight={"bold"}
+              >
+                Ver mais
+              </Text>
+            </Link>
+          </Flex>
+        ))}
+      </Flex>
     </>
   );
 }

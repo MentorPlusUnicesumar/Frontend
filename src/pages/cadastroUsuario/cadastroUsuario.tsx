@@ -16,7 +16,6 @@ export function CadastroUsuario() {
 
     return (
         <Flex w={"full"} h={"full"} flexDir={"row"}>
-            <TelaPadraoLogin />
 
             <Formik initialValues={inicialValues} onSubmit={handleLogin}>
                 {({ handleSubmit, handleChange, values }) => (
