@@ -36,7 +36,7 @@ export function Login() {
   const inicialValues = {
     email: "",
     senha: "",
-};
+  };
 
   async function handleLogin({ email, senha }: LoginProps) {
     try {
@@ -159,12 +159,7 @@ export function Login() {
               </InputGroup>
             </Box>
 
-            <Flex w="400px" mt={"10px"} justifyContent={"space-between"}>
-              <Checkbox size="sm" defaultChecked>
-                <Text fontSize={"sm"} fontWeight={"light"}>
-                  Manter conectado
-                </Text>
-              </Checkbox>
+            <Flex w="400px" mt={"10px"} justifyContent={"flex-end"}>
               <Link>
                 <Text color={"#05234E"} fontSize={"sm"} fontWeight={"light"}>
                   Esqueceu sua senha?
@@ -176,6 +171,7 @@ export function Login() {
                 w={"170px"}
                 borderRadius={"10px"}
                 boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)"
+                onClick={() => navigate("/cadastro")}
                 _hover={{
                   transform: "scale(1.05)",
                   boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.5)",
