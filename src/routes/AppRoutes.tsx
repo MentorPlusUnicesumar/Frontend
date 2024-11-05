@@ -46,7 +46,7 @@ export function AppRoutes() {
         }
       />
       <Route
-        path="/mentoria"
+        path="/mentoria/:id"
         element={
           <PrivateRoute isSignedIn={isSignedIn}>
             <TelaMentoria />
@@ -84,7 +84,6 @@ export function AppRoutes() {
             element={<GerenciamentoUsuarios />}
           />
           <Route path="/novo-usuario" element={<NovoUsuario />} />
-          <Route path="/Perfil-mentor" element={<PerfilMentor />} />
           <Route path="*" element={<Navigate to="/login" />} />
           <Route path="/cadastro" element={<CadastroUsuario />} />
         </>

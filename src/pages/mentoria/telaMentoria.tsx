@@ -1,11 +1,170 @@
-import { Box, Flex, Text } from "@chakra-ui/layout";
-import { Tab, TabList, TabPanel, Tabs, TabPanels } from "@chakra-ui/tabs";
+import { Box, Flex, HStack, Text } from "@chakra-ui/layout";
+import { Button, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Textarea, useDisclosure } from "@chakra-ui/react";
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/tabs";
+import { Formik } from "formik";
+import 'react-datepicker/dist/react-datepicker.css';
+import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
 import { MenuUsuario } from "../../components/menu";
 import myTheme from "../../mytheme";
+import { CreateReuniao, UseMentorias } from "../../utils/useMentorias";
+import { format } from 'date-fns';
 
 export function TelaMentoria() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { getMentoriaById, agendarEncontro } = UseMentorias()
+  const { id } = useParams();
+
+  const { data } = useQuery({
+    queryKey: ["mentoriById", id],
+    queryFn: async () => getMentoriaById(id!)
+  });
+
+  async function agendarReuniao(reuniao: CreateReuniao) {
+    const formattedDate = format(reuniao.diaReuniao, 'yyyy-MM-yyyy HH:mm');
+    
+    const body: CreateReuniao = {
+      diaReuniao: formattedDate,
+      idMentoria: reuniao.idMentoria,
+      resumo: reuniao.resumo,
+      materialAnexado: ['a']
+    }
+    await agendarEncontro(body)
+  }
+
+  const inicialValues = {
+    idMentoria: id!,
+    diaReuniao: "",
+    resumo: "",
+    materialAnexado: []
+  }
+
+
   return (
     <Flex w={"full"} h={"full"} flexDir={"column"}>
+      <Modal size={"2xl"} isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            <Text textAlign={"center"} fontSize={"2xl"} fontWeight={"bold"}>
+              Agendar encontro
+            </Text>
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Flex alignItems={'center'} my={'20px'} flexDir={'column'} w={'full'} h={'full'}>
+              <Formik initialValues={inicialValues} onSubmit={agendarReuniao}>
+                {({ handleSubmit, handleChange, values, setFieldValue }) => (
+                  <>
+                    <Box w="full">
+                      <Text fontSize="lg" fontWeight="bold" color="#05234E">
+                        Resumo da aula
+                      </Text>
+                      <Textarea
+                        mt="5px"
+                        w={'full'}
+                        h="120px"
+                        value={values.resumo}
+                        borderColor="#ECECEC"
+                        borderRadius="5px"
+                        onChange={(value) => {
+                          handleChange("resumo")(value);
+                        }}
+                        placeholder={'Tema da próxima aula'}
+                        boxShadow="0px 4px 8px rgba(0, 0, 0, 0.2)"
+                        bg="white"
+                        sx={{
+                          "::placeholder": {
+                            fontSize: "12px",
+                            color: "#B0B0B0",
+                          },
+                        }}
+                      />
+                    </Box>
+
+                    <Box w={'full'} mt={'30px'}>
+                      <Text fontSize="lg" fontWeight="bold" color="#05234E">
+                        Arquivos
+                      </Text>
+                      <Input
+                        mt="10px"
+                        w={'full'}
+                        h="35px"
+                        borderColor="#ECECEC"
+                        borderRadius="5px"
+                        onChange={(value) => {
+                          handleChange("materialAnexado")(value);
+                        }}
+                        value={values.materialAnexado}
+                        placeholder={'Adicionar arquivos'}
+                        boxShadow="0px 4px 8px rgba(0, 0, 0, 0.2)"
+                        bg="white"
+                        sx={{
+                          "::placeholder": {
+                            fontSize: "12px",
+                            color: "#B0B0B0",
+                          },
+                        }}
+                      />
+                    </Box>
+
+                    <Box w={'full'} mt={'30px'}>
+                      <Text fontSize="lg" fontWeight="bold" color="#05234E">
+                        Data
+                      </Text>
+                      <Input
+                        mt="10px"
+                        w={'full'}
+                        h="35px"
+                        borderColor="#ECECEC"
+                        borderRadius="5px"
+                        // value={values.diaReuniao}
+                        onChange={(e) => {
+                          const selectedDate = new Date(e.target.value);
+                          setFieldValue('diaReuniao', selectedDate);
+                        }}
+                        boxShadow="0px 4px 8px rgba(0, 0, 0, 0.2)"
+                        bg="white"
+                        sx={{
+                          "::placeholder": {
+                            fontSize: "12px",
+                            color: "#B0B0B0",
+                          },
+                        }} type="datetime-local"
+                      />
+                    </Box>
+
+                    <Button
+                      mt={"50px"}
+                      h={"35px"}
+                      w={"120px"}
+                      borderRadius={"10px"}
+                      onClick={() => handleSubmit()}
+                      boxShadow="0px 4px 8px rgba(0, 0, 0, 0.2)"
+                      _hover={{
+                        transform: "scale(1.05)",
+                        boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.5)",
+                        transition: "transform 0.2s ease-in-out",
+                      }}
+                      bg={myTheme.colors.azul_claro}
+                    >
+                      <Text
+                        color={"white"}
+                        fontSize={"sm"}
+                        fontWeight={"semi-bold"}
+                      >
+                        Agendar
+                      </Text>
+                    </Button>
+                  </>
+                )}
+              </Formik>
+            </Flex>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
+
       <MenuUsuario />
 
       <Flex w={"full"} h={"full"} flexDir={"column"} p={"30px"}>
@@ -24,7 +183,7 @@ export function TelaMentoria() {
             fontWeight={"bold"}
             color={myTheme.colors.azul}
           >
-            Nome da mentoria
+            {data?.nome}
           </Text>
           <Flex flexDir={"column"} mt={"20px"} gap={3}>
             <Box display={"flex"} flexDir={"row"} gap={1}>
@@ -38,14 +197,14 @@ export function TelaMentoria() {
               <Text fontSize={"md"} fontWeight={"bold"}>
                 Mentorias realizadas:
               </Text>
-              <Text fontSize={"md"}>5/12</Text>
+              <Text fontSize={"md"}>{`${data?.reuniao.length}/${data?.qtdtotal}`}</Text>
             </Box>
 
             <Box display={"flex"} flexDir={"row"} gap={1}>
               <Text fontSize={"md"} fontWeight={"bold"}>
                 Próximo encontro:
               </Text>
-              <Text fontSize={"md"}>11/09/2024</Text>
+              <Text fontSize={"md"}>{data?.proximoEncontro ? data?.proximoEncontro : "Não definido"}</Text>
             </Box>
           </Flex>
         </Flex>
@@ -61,14 +220,40 @@ export function TelaMentoria() {
           </Text>
           <Text>Nenhum arquivo adicionado</Text>
 
-          <Text
-            mt={"50px"}
-            fontSize={"2xl"}
-            fontWeight={"bold"}
-            color={myTheme.colors.azul}
-          >
-            Aulas
-          </Text>
+          <HStack mt={"50px"} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
+            <Text
+              fontSize={"2xl"}
+              fontWeight={"bold"}
+              color={myTheme.colors.azul}
+            >
+              Aulas
+            </Text>
+
+            <Button
+              ml={"10px"}
+              mt={"10px"}
+              h={"35px"}
+              w={"170px"}
+              borderRadius={"10px"}
+              onClick={(onOpen)}
+              boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)"
+              _hover={{
+                transform: "scale(1.05)",
+                boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.5)",
+                transition: "transform 0.2s ease-in-out",
+              }}
+              bg={myTheme.colors.azul_claro}
+            >
+              <Text
+                color={"white"}
+                fontSize={"sm"}
+                fontWeight={"semi-bold"}
+              >
+                Agendar encontro
+              </Text>
+            </Button>
+          </HStack>
+
           <Tabs variant="enclosed" colorScheme="blue" w={"full"}>
             <TabList>
               <Tab mt="10px">13/08</Tab>

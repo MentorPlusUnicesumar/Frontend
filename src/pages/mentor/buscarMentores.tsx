@@ -148,7 +148,7 @@ export function BuscarMentores() {
                       mt={"10px"}
                       h={"35px"}
                       w={"100px"}
-                      borderRadius={"50px"}
+                      borderRadius={"10px"}
                       onClick={() => handleSubmit()}
                       boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)"
                       _hover={{

@@ -10,8 +10,6 @@ import { CardMentoriaAluno } from "../components/cardMentoriaAluno";
 import { CardMentoriaMentor } from "../components/cardMentoriaMentor";
 
 export function Home() {
-  const navigate = useNavigate();
-
   const { user } = useContext(AuthContext);
 
   const { getMentorias } = UseMentorias();
@@ -47,6 +45,7 @@ export function Home() {
                   mentorName={mentoria.nomeMentor}
                   nomeMentoria={mentoria.nome}
                   key={index}
+                  id={mentoria.id}
                 />
               ))
             : data?.map((mentoria, index) => (
@@ -56,6 +55,7 @@ export function Home() {
                   nomeMentoria={mentoria.nome}
                   key={index}
                   aluno={mentoria.nomeMentorado}
+                  id={mentoria.id}
                 />
               ))}
         </Flex>

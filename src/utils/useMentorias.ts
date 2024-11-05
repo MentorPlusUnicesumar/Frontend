@@ -21,6 +21,14 @@ type MentoriaInterface = {
   feedback: string;
   descricao: string;
   qtdtotal: number;
+  proximoEncontro: string;
+}
+
+export type CreateReuniao = {
+  idMentoria: string;
+  diaReuniao: string;
+  resumo: string;
+  materialAnexado?: string[]
 }
 
 export function UseMentorias() {
@@ -31,10 +39,18 @@ export function UseMentorias() {
   }
 
   async function getMentoriaById(id: string) {
-    const {data} = await api.get<MentoriaInterface>(`mentorias/id/${id}`);
+    const {data} = await api.get<MentoriaInterface>(`mentorias/${id}`);
 
     return data;
   }
 
-  return { getMentorias, getMentoriaById };
+  async function agendarEncontro(body: CreateReuniao) {
+    console.log('body', body)
+
+    const {data} = await api.post("reuniao", body);
+
+    return data;
+  }
+
+  return { getMentorias, getMentoriaById, agendarEncontro };
 }
