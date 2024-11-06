@@ -9,13 +9,25 @@ type Cards = {
   nomeMentorado: string;
 };
 
+type Reuniao = {
+  idMentoria: string,
+  diaReuniao: Date,
+  status: string,
+  feedback: string,
+  materialAnexado: string[],
+  link: string,
+  resumo: string
+}
+
 type EnumStatusMentoria = 'Ativa' | 'Recusada' | 'Pendente' | 'Finalizada';
+
+type typeUser = {_id: string, nome: string}
 
 type MentoriaInterface = {
   nome: string;
-  idMentor: string;
-  idAluno: string;
-  reuniao: string[];
+  idMentor: typeUser;
+  idAluno: typeUser;
+  reuniao: Reuniao[];
   status: EnumStatusMentoria;
   materialAnexado: string[];
   feedback: string;
@@ -26,7 +38,7 @@ type MentoriaInterface = {
 
 export type CreateReuniao = {
   idMentoria: string;
-  diaReuniao: string;
+  diaReuniao: string | undefined;
   resumo: string;
   materialAnexado?: string[]
 }
@@ -49,6 +61,7 @@ export function UseMentorias() {
 
     const {data} = await api.post("reuniao", body);
 
+    console.log('data', data)
     return data;
   }
 
