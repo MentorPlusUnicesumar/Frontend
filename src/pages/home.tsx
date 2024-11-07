@@ -8,10 +8,9 @@ import { UseMentorias } from "../utils/useMentorias";
 import myTheme from "../mytheme";
 import { CardMentoriaAluno } from "../components/cardMentoriaAluno";
 import { CardMentoriaMentor } from "../components/cardMentoriaMentor";
+import { formatDateBR } from "../commons/formatDate";
 
 export function Home() {
-  const navigate = useNavigate();
-
   const { user } = useContext(AuthContext);
 
   const { getMentorias } = UseMentorias();
@@ -43,19 +42,21 @@ export function Home() {
           {user?.typeUser === "Aluno"
             ? data?.map((mentoria, index) => (
                 <CardMentoriaAluno
-                  date={mentoria.proximoEncontro}
+                  date={mentoria.proximoEncontro ? formatDateBR(mentoria.proximoEncontro) : "Não definido"}
                   mentorName={mentoria.nomeMentor}
                   nomeMentoria={mentoria.nome}
                   key={index}
+                  id={mentoria.id}
                 />
               ))
             : data?.map((mentoria, index) => (
                 <CardMentoriaMentor
-                  date={mentoria.proximoEncontro}
+                  date={mentoria.proximoEncontro ? formatDateBR(mentoria.proximoEncontro) : "Não definido"}
                   mentorName={mentoria.nomeMentor}
                   nomeMentoria={mentoria.nome}
                   key={index}
                   aluno={mentoria.nomeMentorado}
+                  id={mentoria.id}
                 />
               ))}
         </Flex>

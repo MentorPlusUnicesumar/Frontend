@@ -7,6 +7,7 @@ interface props {
   mentorName: string;
   date: string;
   aluno: string;
+  id: string
 }
 
 export function CardMentoriaMentor({
@@ -14,6 +15,7 @@ export function CardMentoriaMentor({
   nomeMentoria,
   mentorName,
   date,
+  id
 }: props) {
   const navigate = useNavigate();
 
@@ -21,7 +23,7 @@ export function CardMentoriaMentor({
     <Link
       textDecoration="none"
       _hover={{ textDecoration: "none" }}
-      onClick={() => navigate("/mentoria")}
+      onClick={() => navigate(`/mentoria/${id}`)}
     >
       <Flex
         _hover={{

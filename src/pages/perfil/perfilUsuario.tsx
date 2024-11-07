@@ -120,7 +120,6 @@ export function PerfilUsuario() {
   };
 
   function handleSave(values: any) {
-    console.log("Valores atualizados:", values);
   }
 
   return (

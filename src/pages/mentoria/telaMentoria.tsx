@@ -1,12 +1,56 @@
-import { Box, Flex, Text } from "@chakra-ui/layout";
-import { Tab, TabList, TabPanel, Tabs, TabPanels } from "@chakra-ui/tabs";
+import { Box, Flex, HStack, Text } from "@chakra-ui/layout";
+import { Button, Icon } from "@chakra-ui/react";
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/tabs";
+import { useState, useContext } from "react";
+import { BsFillPencilFill } from "react-icons/bs";
+import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
+import { formatDateBR } from "../../commons/formatDate";
 import { MenuUsuario } from "../../components/menu";
 import myTheme from "../../mytheme";
+import { UseMentorias } from "../../utils/useMentorias";
+import { ModalAgendarAula } from "./modalAgendarAula";
+import { ModalEditarAula } from "./modalEditarAula";
+import { AuthContext } from "../../context/authContext";
+
+export type Aula = {
+  resumo: string,
+  comentario: string,
+  arquivos: string[],
+  diaAula: Date,
+  idEncontro: string
+}
 
 export function TelaMentoria() {
+  const { getMentoriaById } = UseMentorias()
+  const { user } = useContext(AuthContext);
+  const { id } = useParams();
+  const [openModalAgendamento, setOpenModalAgendamento] = useState(false)
+  const [openModalEdit, setOpenModalEdit] = useState(false)
+  const [aulaContent, setAulaContent] = useState<Aula>()
+
+  const { data } = useQuery({
+    queryKey: ["mentoriById", openModalEdit, openModalAgendamento],
+    queryFn: async () => getMentoriaById(id!)
+  });
+
+  function OpenModalEditAula(props: Aula) {
+    setAulaContent(props)
+
+    setOpenModalEdit(true)
+  }
+
   return (
     <Flex w={"full"} h={"full"} flexDir={"column"}>
       <MenuUsuario />
+
+      <ModalAgendarAula id={id} OpenModalAgendamento={openModalAgendamento} setOpenModalAgendamento={setOpenModalAgendamento} />
+
+      {
+        openModalEdit ?
+          <ModalEditarAula aula={aulaContent} OpenModalEdit={openModalEdit} setOpenModalEdit={setOpenModalEdit} />
+          : null
+      }
 
       <Flex w={"full"} h={"full"} flexDir={"column"} p={"30px"}>
         <Flex
@@ -24,29 +68,59 @@ export function TelaMentoria() {
             fontWeight={"bold"}
             color={myTheme.colors.azul}
           >
-            Nome da mentoria
+            {data?.nome}
           </Text>
           <Flex flexDir={"column"} mt={"20px"} gap={3}>
             <Box display={"flex"} flexDir={"row"} gap={1}>
               <Text fontSize={"md"} fontWeight={"bold"}>
                 Mentor:
               </Text>
-              <Text fontSize={"md"}>Pedro Mazzurana</Text>
+              <Text fontSize={"md"}>{data?.idMentor.nome}</Text>
             </Box>
 
             <Box display={"flex"} flexDir={"row"} gap={1}>
               <Text fontSize={"md"} fontWeight={"bold"}>
                 Mentorias realizadas:
               </Text>
-              <Text fontSize={"md"}>5/12</Text>
+              <Text fontSize={"md"}>{`${data?.reuniao.length}/${data?.qtdtotal}`}</Text>
             </Box>
 
-            <Box display={"flex"} flexDir={"row"} gap={1}>
-              <Text fontSize={"md"} fontWeight={"bold"}>
-                Próximo encontro:
-              </Text>
-              <Text fontSize={"md"}>11/09/2024</Text>
-            </Box>
+            <HStack display={'flex'} justifyContent={'space-between'}>
+              <Box display={"flex"} flexDir={"row"} gap={1}>
+                <Text fontSize={"md"} fontWeight={"bold"}>
+                  Próximo encontro:
+                </Text>
+                <Text fontSize={"md"}>{data?.proximoEncontro ? formatDateBR(data?.proximoEncontro) : "Não definido"}</Text>
+              </Box>
+              {
+                user?.typeUser === 'Mentor' ?
+                  <Button
+                    ml={"10px"}
+                    h={"35px"}
+                    w={"170px"}
+                    borderRadius={"10px"}
+                    onClick={() => setOpenModalAgendamento(true)}
+                    boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)"
+                    _hover={{
+                      transform: "scale(1.05)",
+                      boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.5)",
+                      transition: "transform 0.2s ease-in-out",
+                    }}
+                    bg={myTheme.colors.azul_claro}
+                  >
+                    <Text
+                      color={"white"}
+                      fontSize={"sm"}
+                      fontWeight={"semi-bold"}
+                    >
+                      Agendar encontro
+                    </Text>
+                  </Button>
+                  : null
+              }
+
+            </HStack>
+
           </Flex>
         </Flex>
 
@@ -62,92 +136,75 @@ export function TelaMentoria() {
           <Text>Nenhum arquivo adicionado</Text>
 
           <Text
-            mt={"50px"}
             fontSize={"2xl"}
+            mt={'30px'}
             fontWeight={"bold"}
             color={myTheme.colors.azul}
           >
             Aulas
           </Text>
+
           <Tabs variant="enclosed" colorScheme="blue" w={"full"}>
             <TabList>
-              <Tab mt="10px">13/08</Tab>
-              <Tab mt="10px">18/08</Tab>
+              {data?.reuniao.map((reu) => (
+                <Tab mt="10px">{formatDateBR(String(reu.diaReuniao), true)}</Tab>
+              ))}
             </TabList>
+
             <TabPanels>
-              <TabPanel>
-                <Text
-                  mt={"10px"}
-                  color={myTheme.colors.azul}
-                  fontSize={"md"}
-                  fontWeight={"bold"}
-                >
-                  Resumo da aula do dia 13/08
-                </Text>
-                <Text>
-                  Na aula de mentoria sobre Business Intelligence (BI),
-                  começamos com a definição do conceito: Business Intelligence
-                  envolve a utilização de ferramentas e práticas para coletar,
-                  analisar e apresentar dados de maneira a auxiliar as empresas
-                  na tomada de decisões mais informadas. O objetivo principal do
-                  BI é transformar dados brutos em informações úteis e insights
-                  estratégicos que possam direcionar ações e estratégias de
-                  negócios. Exploramos os principais componentes do BI,
-                  começando pela coleta de dados, que abrange a reunião de
-                  informações provenientes de diversas fontes, como bancos de
-                  dados, planilhas e sistemas de ERP, além de fontes externas.
-                  Após a coleta, os dados são armazenados em sistemas
-                  especializados, como Data Warehouses e Data Lakes, que
-                  permitem o gerenciamento e a consulta eficiente de grandes
-                  volumes de informações.
-                </Text>
+              {data?.reuniao.map((reu) => (
+                <TabPanel>
+                  <Box display={'flex'} flexDir={'row'} justifyContent={'space-between'} alignItems={'center'}>
+                    <Text
+                      mt={"10px"}
+                      color={myTheme.colors.azul}
+                      fontSize={"md"}
+                      fontWeight={"bold"}
+                    >
+                      Resumo da aula
+                    </Text>
+                    {
+                      user?.typeUser === 'Mentor' ?
+                        <Icon
+                          onClick={() => OpenModalEditAula({
+                            arquivos: reu.materialAnexado,
+                            comentario: reu.feedback,
+                            resumo: reu.resumo,
+                            diaAula: reu.diaReuniao,
+                            idEncontro: reu._id
+                          })}
+                          mr={'20px'} mt={"10px"} w={5} h={5} as={BsFillPencilFill} />
+                        : null
+                    }
+                  </Box>
 
-                <Text
-                  mt={"15px"}
-                  color={myTheme.colors.azul}
-                  fontSize={"md"}
-                  fontWeight={"bold"}
-                >
-                  Comentários
-                </Text>
-                <Text>
-                  Na aula de mentoria sobre Business Intelligence, o aluno
-                  demonstrou um bom entendimento dos conceitos fundamentais
-                  apresentados. Sua capacidade de compreender e explicar os
-                  componentes principais do BI, como coleta e armazenamento de
-                  dados, análise e visualização, foi notável. Ele participou
-                  ativamente das discussões, fazendo perguntas pertinentes que
-                  evidenciaram seu interesse e desejo de aprofundar o
-                  conhecimento. O aluno mostrou um entendimento claro do
-                  processo ETL e da importância do OLAP para análises
-                  multidimensionais, o que é um indicativo de sua capacidade de
-                  absorver e aplicar conceitos complexos. No entanto, seria
-                  benéfico se ele pudesse explorar mais detalhadamente as
-                  diferentes ferramentas de BI, como Power BI e Tableau, e como
-                  essas ferramentas se comparam em termos de funcionalidades e
-                  aplicabilidade em diferentes cenários de negócios.
-                </Text>
+                  <Text>
+                    {reu.resumo}
+                  </Text>
 
-                <Text
-                  mt={"15px"}
-                  color={myTheme.colors.azul}
-                  fontSize={"md"}
-                  fontWeight={"bold"}
-                >
-                  Materiais
-                </Text>
-                <Text>Nenhum material adicionado</Text>
-              </TabPanel>
-              <TabPanel>
-                <Text
-                  mt={"10px"}
-                  color={myTheme.colors.azul}
-                  fontSize={"md"}
-                  fontWeight={"bold"}
-                >
-                  Resumo da aula do dia 18/08
-                </Text>
-              </TabPanel>
+                  <Text
+                    mt={"15px"}
+                    color={myTheme.colors.azul}
+                    fontSize={"md"}
+                    fontWeight={"bold"}
+                  >
+                    Comentário
+                  </Text>
+                  <Text>
+                    {reu.feedback}
+                  </Text>
+
+                  <Text
+                    mt={"15px"}
+                    color={myTheme.colors.azul}
+                    fontSize={"md"}
+                    fontWeight={"bold"}
+                  >
+                    Materiais
+                  </Text>
+                  <Text>Nenhum material adicionado</Text>
+                </TabPanel>
+              ))}
             </TabPanels>
           </Tabs>
         </Flex>

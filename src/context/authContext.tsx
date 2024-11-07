@@ -5,7 +5,8 @@ import { jwtDecode } from "jwt-decode";
 import { Socket, io } from 'socket.io-client';
 
 interface AuthContextData {
-    login: (credentials: LoginAccess) => Promise<LoginResponse>;
+    // login: (credentials: LoginAccess) => Promise<LoginResponse>;
+    login: (credentials: LoginAccess) => any;
     refreshToken: (token?: string) => Promise<LoginResponse>;
     signOut: () => void;
     user?: UserData | null;
@@ -43,7 +44,6 @@ interface AuthContextData {
     async function login(body: LoginAccess) {
       
       const { data } = await api.post<LoginResponse>("auth/login", body);
-
       
       const userData = await api.get<UserData>(`users/id/${data._id}`, {
         headers: {
@@ -62,10 +62,10 @@ interface AuthContextData {
       });
 
       setSocket(socket)
-
+     
       setAuth(userData.data);
-  
-      return data;
+
+      return userData.data;
     }
   
     function signOut() {
@@ -115,7 +115,7 @@ interface AuthContextData {
   
     const setAuth = async (auth: UserData) => {
       const { email, _id, cidade, cpf, fotos, mentoriasAtivas, nome, status, telefone, typeUser, uf } = auth;
-  
+      console.log('admin', typeUser)
       setUser({  email, _id, cidade, cpf, fotos, mentoriasAtivas, nome, status, telefone, typeUser, uf });
     };
   

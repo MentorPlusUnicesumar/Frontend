@@ -31,7 +31,7 @@ export function Login() {
   const navigate = useNavigate();
   const [isVisiblePassword, setIsVisiblePassword] = useState(false);
   const toast = useToast();
-  const { login, isSignedIn } = useContext(AuthContext);
+  const { login, isSignedIn, user } = useContext(AuthContext);
 
   const inicialValues = {
     email: "",
@@ -40,9 +40,14 @@ export function Login() {
 
   async function handleLogin({ email, senha }: LoginProps) {
     try {
-      await login({ email, senha });
+     const data = await login({ email, senha });
 
-      navigate("/minhas-mentorias");
+      if (data?.typeUser === 'Admin') {
+        navigate("/gerenciamento-usuarios");
+      } else {
+        console.log('Naveganndo')
+        navigate("/minhas-mentorias");
+      }
 
       return toast({
         title: "Login realizado com sucesso",

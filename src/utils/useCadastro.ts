@@ -35,7 +35,6 @@ export function UseCadastro() {
     }
 
     async function cadastroUsuario(usuario: UserInterface) {
-        console.log('aaaa', usuario)
 
         try {
                const {data} = await api.post("users", usuario)
@@ -47,7 +46,6 @@ export function UseCadastro() {
             }
         }
 
-        // console.log(data)
     }
 
     return {getAreas, cadastroUsuario}

@@ -11,8 +11,10 @@ import {
 import { PainelUsuarios } from "../../components/painelUsuarios";
 import myTheme from "../../mytheme";
 import { MenuUsuario } from "../../components/menu";
+import { UseAdmin } from "../../utils/useAdmin";
 
 export function GerenciamentoUsuarios() {
+  const { getUsuarios } = UseAdmin()
   const mentores = [
     {
       nome: "Henrique tardivo",
