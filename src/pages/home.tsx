@@ -8,7 +8,7 @@ import { UseMentorias } from "../utils/useMentorias";
 import myTheme from "../mytheme";
 import { CardMentoriaAluno } from "../components/cardMentoriaAluno";
 import { CardMentoriaMentor } from "../components/cardMentoriaMentor";
-import { formatDateBR } from "../comons/formatDate";
+import { formatDateBR } from "../commons/formatDate";
 
 export function Home() {
   const { user } = useContext(AuthContext);

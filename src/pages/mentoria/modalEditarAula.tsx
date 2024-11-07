@@ -1,40 +1,36 @@
 import { Box, Button, Flex, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Text, Textarea, useToast } from "@chakra-ui/react";
 import { Formik } from "formik";
 import myTheme from "../../mytheme";
-import { CreateReuniao, UseMentorias } from "../../utils/useMentorias";
+import { Aula } from "./telaMentoria";
+import { formatDateBR } from "../../commons/formatDate";
+import { BodyEnvioAtualizaEncontro, UseMentorias } from "../../utils/useMentorias";
 
 type Props = {
     id?: string
-    OpenModalAgendamento: boolean;
-    setOpenModalAgendamento: (open: boolean) => void;
+    OpenModalEdit: boolean;
+    setOpenModalEdit: (open: boolean) => void;
+    aula: Aula | undefined
 }
 
-export function ModalAgendarAula({ id, OpenModalAgendamento, setOpenModalAgendamento }: Props) {
-    const { agendarEncontro } = UseMentorias()
+export function ModalEditarAula({ aula, id, OpenModalEdit, setOpenModalEdit }: Props) {
     const toast = useToast();
+    const { atualizarEncontro } = UseMentorias()
 
     const inicialValues = {
-        idMentoria: id!,
-        diaReuniao: undefined,
-        resumo: "",
-        materialAnexado: []
+        resumo: aula!.resumo,
+        feedback: aula!.comentario,
+        materialAnexado: aula!.arquivos
     }
 
-    async function agendarReuniao(reuniao: CreateReuniao) {
+    async function handleEdit(props: BodyEnvioAtualizaEncontro) {
         try {
-            await agendarEncontro(reuniao)
-
-            setOpenModalAgendamento(false)
-
-            return toast({
-                title: "Encontro marcado com sucesso",
-                status: "success",
-                duration: 2000,
-                isClosable: false,
-            });
+            await atualizarEncontro(aula!.idEncontro, props)
+            
+            setOpenModalEdit(false)
+         
         } catch (error) {
             return toast({
-                title: "Erro ao marcar encontro",
+                title: "Erro ao atualizar dados do encontro!",
                 status: "error",
                 duration: 2000,
                 isClosable: false,
@@ -43,20 +39,20 @@ export function ModalAgendarAula({ id, OpenModalAgendamento, setOpenModalAgendam
     }
 
     return (
-        <Modal size={"2xl"} isOpen={OpenModalAgendamento} onClose={() => setOpenModalAgendamento(false)}>
+        <Modal size={"2xl"} isOpen={OpenModalEdit} onClose={() => setOpenModalEdit(false)}>
             <ModalOverlay />
             <ModalContent>
                 <ModalHeader>
                     <Text textAlign={"center"} fontSize={"2xl"} fontWeight={"bold"}>
-                        Agendar encontro
+                        {`Editar aula do dia ${formatDateBR(String(aula!.diaAula), true)}`} 
                     </Text>
                 </ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
                     <Flex alignItems={'center'} my={'20px'} flexDir={'column'} w={'full'} h={'full'}>
-                        <Formik initialValues={inicialValues} onSubmit={agendarReuniao}>
+                        <Formik initialValues={inicialValues} onSubmit={handleEdit}>
                             {({ handleSubmit, handleChange, values, setFieldValue }) => (
-                                <>
+                                <Flex alignItems={'center'} flexDir={'column'} w={'full'} h={'full'}>
                                     <Box w="full">
                                         <Text fontSize="lg" fontWeight="bold" color="#05234E">
                                             Resumo da aula
@@ -82,8 +78,33 @@ export function ModalAgendarAula({ id, OpenModalAgendamento, setOpenModalAgendam
                                             }}
                                         />
                                     </Box>
+                                    <Box w="full" mt={'30px'}>
+                                        <Text fontSize="lg" fontWeight="bold" color="#05234E">
+                                            Comentário
+                                        </Text>
+                                        <Textarea
+                                            mt="5px"
+                                            w={'full'}
+                                            h="120px"
+                                            value={values.feedback}
+                                            borderColor="#ECECEC"
+                                            borderRadius="5px"
+                                            onChange={(value) => {
+                                                handleChange("feedback")(value);
+                                            }}
+                                            placeholder={'Comentário da aula'}
+                                            boxShadow="0px 4px 8px rgba(0, 0, 0, 0.2)"
+                                            bg="white"
+                                            sx={{
+                                                "::placeholder": {
+                                                    fontSize: "12px",
+                                                    color: "#B0B0B0",
+                                                },
+                                            }}
+                                        />
+                                    </Box>
 
-                                    <Box w={'full'} mt={'30px'}>
+                                    <Box w="full" mt={'30px'}>
                                         <Text fontSize="lg" fontWeight="bold" color="#05234E">
                                             Arquivos
                                         </Text>
@@ -109,31 +130,6 @@ export function ModalAgendarAula({ id, OpenModalAgendamento, setOpenModalAgendam
                                         />
                                     </Box>
 
-                                    <Box w={'full'} mt={'30px'}>
-                                        <Text fontSize="lg" fontWeight="bold" color="#05234E">
-                                            Data
-                                        </Text>
-                                        <Input
-                                            mt="10px"
-                                            w={'full'}
-                                            h="35px"
-                                            borderColor="#ECECEC"
-                                            borderRadius="5px"
-                                            onChange={(e) => {
-                                                const selectedDate = new Date(e.target.value);
-                                                setFieldValue('diaReuniao', selectedDate);
-                                            }}
-                                            boxShadow="0px 4px 8px rgba(0, 0, 0, 0.2)"
-                                            bg="white"
-                                            sx={{
-                                                "::placeholder": {
-                                                    fontSize: "12px",
-                                                    color: "#B0B0B0",
-                                                },
-                                            }} type="datetime-local"
-                                        />
-                                    </Box>
-
                                     <Button
                                         mt={"50px"}
                                         h={"35px"}
@@ -153,10 +149,10 @@ export function ModalAgendarAula({ id, OpenModalAgendamento, setOpenModalAgendam
                                             fontSize={"sm"}
                                             fontWeight={"semi-bold"}
                                         >
-                                            Agendar
+                                            Salvar
                                         </Text>
                                     </Button>
-                                </>
+                                </Flex>
                             )}
                         </Formik>
                     </Flex>
@@ -164,4 +160,5 @@ export function ModalAgendarAula({ id, OpenModalAgendamento, setOpenModalAgendam
             </ModalContent>
         </Modal>
     )
+
 }

@@ -1,26 +1,32 @@
 import { useContext } from "react";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
-import { BuscarMentores } from "../pages/mentor/buscarMentores";
+import PrivateRoute from "../context/privateRoutes";
+import { GerenciamentoUsuarios } from "../pages/admin/gerenciamentoUsuarios";
+import { NovoUsuario } from "../pages/admin/novoUsuario";
+import { CadastroUsuario } from "../pages/cadastroUsuario/cadastroUsuario";
+import { Chat } from "../pages/chat/chat";
 import { Home } from "../pages/home";
 import { Login } from "../pages/login/login";
 import { RedefinirSenha } from "../pages/login/redefinirSenha";
 import { RedefinirSenhaEmail } from "../pages/login/redefinirSenhaEmail";
-import PrivateRoute from "../context/privateRoutes";
+import { BuscarMentores } from "../pages/mentor/buscarMentores";
 import { PerfilMentor } from "../pages/mentor/perfilMentor";
 import { TelaMentoria } from "../pages/mentoria/telaMentoria";
-import { GerenciamentoUsuarios } from "../pages/admin/gerenciamentoUsuarios";
-import { NovoUsuario } from "../pages/admin/novoUsuario";
 import { PerfilUsuario } from "../pages/perfil/perfilUsuario";
-import { Chat } from "../pages/chat/chat";
-import { CadastroUsuario } from "../pages/cadastroUsuario/cadastroUsuario";
 
 export function AppRoutes() {
-  const navigate = useNavigate();
-
   const { isSignedIn } = useContext(AuthContext);
   return (
     <Routes>
+      <Route
+        path="/gerenciamento-usuarios"
+        element={
+          <PrivateRoute isSignedIn={isSignedIn}>
+            <GerenciamentoUsuarios />
+          </PrivateRoute>
+        }
+      />
       <Route
         path="/minhas-mentorias"
         element={
@@ -68,8 +74,7 @@ export function AppRoutes() {
             <Chat />
           </PrivateRoute>
         }
-      />      
-
+      />
       {!isSignedIn && (
         <>
           <Route path="/login" element={<Login />} />
@@ -78,10 +83,6 @@ export function AppRoutes() {
           <Route
             path="/Redefinir-senha-email"
             element={<RedefinirSenhaEmail />}
-          />
-          <Route
-            path="/gerenciamento-usuarios"
-            element={<GerenciamentoUsuarios />}
           />
           <Route path="/novo-usuario" element={<NovoUsuario />} />
           <Route path="*" element={<Navigate to="/login" />} />

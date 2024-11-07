@@ -1,31 +1,56 @@
 import { Box, Flex, HStack, Text } from "@chakra-ui/layout";
 import { Button, Icon } from "@chakra-ui/react";
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/tabs";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { BsFillPencilFill } from "react-icons/bs";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import { formatDateBR } from "../../comons/formatDate";
+import { formatDateBR } from "../../commons/formatDate";
 import { MenuUsuario } from "../../components/menu";
 import myTheme from "../../mytheme";
 import { UseMentorias } from "../../utils/useMentorias";
 import { ModalAgendarAula } from "./modalAgendarAula";
+import { ModalEditarAula } from "./modalEditarAula";
+import { AuthContext } from "../../context/authContext";
+
+export type Aula = {
+  resumo: string,
+  comentario: string,
+  arquivos: string[],
+  diaAula: Date,
+  idEncontro: string
+}
 
 export function TelaMentoria() {
-  const { getMentoriaById} = UseMentorias()
+  const { getMentoriaById } = UseMentorias()
+  const { user } = useContext(AuthContext);
   const { id } = useParams();
+  const [openModalAgendamento, setOpenModalAgendamento] = useState(false)
   const [openModalEdit, setOpenModalEdit] = useState(false)
+  const [aulaContent, setAulaContent] = useState<Aula>()
 
   const { data } = useQuery({
-    queryKey: ["mentoriById", openModalEdit],
+    queryKey: ["mentoriById", openModalEdit, openModalAgendamento],
     queryFn: async () => getMentoriaById(id!)
-  });  
+  });
+
+  function OpenModalEditAula(props: Aula) {
+    setAulaContent(props)
+
+    setOpenModalEdit(true)
+  }
 
   return (
     <Flex w={"full"} h={"full"} flexDir={"column"}>
       <MenuUsuario />
 
-      <ModalAgendarAula id={id} OpenModalEdit={openModalEdit} SetOpenModalEdit={setOpenModalEdit} />
+      <ModalAgendarAula id={id} OpenModalAgendamento={openModalAgendamento} setOpenModalAgendamento={setOpenModalAgendamento} />
+
+      {
+        openModalEdit ?
+          <ModalEditarAula aula={aulaContent} OpenModalEdit={openModalEdit} setOpenModalEdit={setOpenModalEdit} />
+          : null
+      }
 
       <Flex w={"full"} h={"full"} flexDir={"column"} p={"30px"}>
         <Flex
@@ -67,28 +92,33 @@ export function TelaMentoria() {
                 </Text>
                 <Text fontSize={"md"}>{data?.proximoEncontro ? formatDateBR(data?.proximoEncontro) : "Não definido"}</Text>
               </Box>
-              <Button
-                ml={"10px"}
-                h={"35px"}
-                w={"170px"}
-                borderRadius={"10px"}
-                onClick={() => setOpenModalEdit(true)}
-                boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)"
-                _hover={{
-                  transform: "scale(1.05)",
-                  boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.5)",
-                  transition: "transform 0.2s ease-in-out",
-                }}
-                bg={myTheme.colors.azul_claro}
-              >
-                <Text
-                  color={"white"}
-                  fontSize={"sm"}
-                  fontWeight={"semi-bold"}
-                >
-                  Agendar encontro
-                </Text>
-              </Button>
+              {
+                user?.typeUser === 'Mentor' ?
+                  <Button
+                    ml={"10px"}
+                    h={"35px"}
+                    w={"170px"}
+                    borderRadius={"10px"}
+                    onClick={() => setOpenModalAgendamento(true)}
+                    boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)"
+                    _hover={{
+                      transform: "scale(1.05)",
+                      boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.5)",
+                      transition: "transform 0.2s ease-in-out",
+                    }}
+                    bg={myTheme.colors.azul_claro}
+                  >
+                    <Text
+                      color={"white"}
+                      fontSize={"sm"}
+                      fontWeight={"semi-bold"}
+                    >
+                      Agendar encontro
+                    </Text>
+                  </Button>
+                  : null
+              }
+
             </HStack>
 
           </Flex>
@@ -133,7 +163,19 @@ export function TelaMentoria() {
                     >
                       Resumo da aula
                     </Text>
-                    <Icon mr={'20px'} mt={"10px"} w={5} h={5} as={BsFillPencilFill}/>
+                    {
+                      user?.typeUser === 'Mentor' ?
+                        <Icon
+                          onClick={() => OpenModalEditAula({
+                            arquivos: reu.materialAnexado,
+                            comentario: reu.feedback,
+                            resumo: reu.resumo,
+                            diaAula: reu.diaReuniao,
+                            idEncontro: reu._id
+                          })}
+                          mr={'20px'} mt={"10px"} w={5} h={5} as={BsFillPencilFill} />
+                        : null
+                    }
                   </Box>
 
                   <Text>

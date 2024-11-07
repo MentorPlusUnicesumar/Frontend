@@ -10,6 +10,7 @@ type Cards = {
 };
 
 type Reuniao = {
+  _id: string,
   idMentoria: string,
   diaReuniao: Date,
   status: string,
@@ -21,7 +22,7 @@ type Reuniao = {
 
 type EnumStatusMentoria = 'Ativa' | 'Recusada' | 'Pendente' | 'Finalizada';
 
-type typeUser = {_id: string, nome: string}
+type typeUser = { _id: string, nome: string }
 
 type MentoriaInterface = {
   nome: string;
@@ -34,6 +35,12 @@ type MentoriaInterface = {
   descricao: string;
   qtdtotal: number;
   proximoEncontro: string;
+}
+
+export type BodyEnvioAtualizaEncontro = {
+  resumo?: string,
+  materialAnexado?: string[],
+  feedback?: string
 }
 
 export type CreateReuniao = {
@@ -51,19 +58,22 @@ export function UseMentorias() {
   }
 
   async function getMentoriaById(id: string) {
-    const {data} = await api.get<MentoriaInterface>(`mentorias/${id}`);
+    const { data } = await api.get<MentoriaInterface>(`mentorias/${id}`);
 
     return data;
   }
 
   async function agendarEncontro(body: CreateReuniao) {
-    console.log('body', body)
+    const { data } = await api.post("reuniao", body);
 
-    const {data} = await api.post("reuniao", body);
-
-    console.log('data', data)
     return data;
   }
 
-  return { getMentorias, getMentoriaById, agendarEncontro };
+  async function atualizarEncontro(idEncontro: string, body: BodyEnvioAtualizaEncontro) {
+    const { data } = await api.patch(`reuniao/${idEncontro}`, body);
+
+    return data
+  }
+
+  return { getMentorias, getMentoriaById, agendarEncontro, atualizarEncontro };
 }

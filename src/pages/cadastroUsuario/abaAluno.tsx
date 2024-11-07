@@ -30,7 +30,6 @@ export function AbaAluno() {
 
     async function cadastrar(values: UserInterface) {
         const data = await cadastroUsuario(values)
-        console.log("asdasd", data)
     }
 
     return (

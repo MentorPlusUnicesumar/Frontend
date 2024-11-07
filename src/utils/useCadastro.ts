@@ -46,7 +46,6 @@ export function UseCadastro() {
             }
         }
 
-        // console.log(data)
     }
 
     return {getAreas, cadastroUsuario}

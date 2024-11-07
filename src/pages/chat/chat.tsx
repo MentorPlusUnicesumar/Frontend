@@ -43,7 +43,6 @@ export function Chat() {
     },
   });
 
-  console.log('messagensByChat', messagensByChat)
 
   useEffect(() => {
     if (messagensByChat) {

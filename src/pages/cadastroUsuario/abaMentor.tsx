@@ -27,7 +27,6 @@ export function AbaMentor() {
     const progressPercent = (activeStep / (steps.length - 1)) * 100;
 
     function setStep(acao: string) {
-        console.log('Cai no avancar')
         if (acao === 'Avancar' && activeStep === 0) {
             setActiveStep(1);
         }
@@ -35,11 +34,9 @@ export function AbaMentor() {
             setActiveStep(2);
         }
         if (acao === 'Voltar' && activeStep === 1) {
-            console.log('Cai no voltar')
             setActiveStep(0);
         }
         if (acao === 'Voltar' && activeStep === 2) {
-            console.log('Cai no voltar')
             setActiveStep(1);
         }
     }
@@ -59,7 +56,6 @@ export function AbaMentor() {
 
     async function cadastrar(values: UserInterface) {
         const data = await cadastroUsuario(values)
-        console.log("asdasd", data)
     }
 
     return (
