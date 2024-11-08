@@ -11,29 +11,36 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  Select,
   Text,
-  useDisclosure,
+  useDisclosure
 } from "@chakra-ui/react";
-import myTheme from "../mytheme";
+import { Formik } from "formik";
 import { useNavigate } from "react-router-dom";
 import tardivo from "../imgs/tardivo.png";
+import myTheme from "../mytheme";
+import { filter } from "../utils/useAdmin";
+import { UserInterface } from "../utils/useMentor";
 import './styles.css';
 
-type ListaUsuarios = {
-  nome: string;
-  email: string;
-  status?: string;
-  tipo?: string;
-}[];
-
 type Props = {
-  listaUsuarios: ListaUsuarios;
+  listaUsuarios: UserInterface[],
+  filterFunction: (prosp: filter) => void
 };
 
-export function PainelUsuarios({ listaUsuarios }: Props) {
+export function PainelUsuarios({ listaUsuarios, filterFunction }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
+
+  const inicialValues = {
+    nome: ""
+  }
+
+  function handleFilter(props: filter) {
+    filterFunction({
+      nome: props.nome,
+      typeUser: listaUsuarios[0].typeUser === 'Mentor' ? "Mentor" : "Aluno"
+    })
+  }
 
   function handleClick(tipo: "existente" | "novo") {
     if (tipo === "existente") {
@@ -119,40 +126,44 @@ export function PainelUsuarios({ listaUsuarios }: Props) {
         </ModalContent>
       </Modal>
 
-      {listaUsuarios[0].status ? (
-        <>
-          <Text fontSize={"lg"} fontWeight={"bold"}>
-            Filtrar por:
-          </Text>
+      <Text fontSize={"lg"} fontWeight={"bold"}>
+        Buscar por:
+      </Text>
+      <Formik initialValues={inicialValues} onSubmit={handleFilter}>
+        {({ handleSubmit, handleChange, values }) => (
           <Flex mt={"10px"} gap={5}>
             <Input
               boxShadow="0px 4px 8px rgba(0, 0, 0, 0.1)"
               w={"250px"}
-              placeholder="Nome"
+              placeholder="nome"
+              value={values.nome}
+              onChange={(value) => {
+                handleChange("nome")(value);
+              }}
               borderRadius={"10px"}
             />
-            <Select
-              boxShadow="0px 4px 8px rgba(0, 0, 0, 0.1)"
-              w={"150px"}
-              placeholder="Status"
-            >
-              <option value="ativos">Ativos</option>
-              <option value="inativos">Inativos</option>
-            </Select>
-
-            <Button
-              _hover={{ bg: myTheme.colors.azul }}
-              w={"150px"}
-              bg={myTheme.colors.azul}
-              h={"40px"}
-            >
-              <Text fontWeight={"bold"} color={"white"}>
-                Filtrar
-              </Text>
-            </Button>
+            <Box display={'flex'} flexDir={'row'} alignItems={'center'} gap={5}>
+              <Button
+                _hover={{ bg: myTheme.colors.azul }}
+                w={"150px"}
+                bg={myTheme.colors.azul}
+                h={"40px"}
+                onClick={() => handleSubmit()}
+              >
+                <Text fontWeight={"bold"} color={"white"}>
+                  Filtrar
+                </Text>
+              </Button>
+              <Link onClick={() => filterFunction({
+                nome: "",
+                typeUser: ""
+              })}>
+                <Text>Limpar</Text>
+              </Link>
+            </Box>
           </Flex>
-        </>
-      ) : null}
+        )}
+      </Formik>
 
       <Flex mt={"30px"} gap={5} p={"10px"}>
         <Text
@@ -182,7 +193,7 @@ export function PainelUsuarios({ listaUsuarios }: Props) {
       </Flex>
 
       <Flex overflowY="scroll" w={'full'} h={'250px'} flexDir={'column'} className="scrollable">
-        {listaUsuarios.map((usuario) => (
+        {listaUsuarios?.map((usuario) => (
           <Flex
             mt={"15px"}
             gap={5}
@@ -201,7 +212,7 @@ export function PainelUsuarios({ listaUsuarios }: Props) {
               {usuario.email}
             </Text>
             <Text fontSize={"lg"} color={"gray"} w={widthStatus}>
-              {usuario.status ?? usuario.tipo}
+              {usuario.status}
             </Text>
             <Link
               onClick={() => handleClick(usuario.status ? "existente" : "novo")}
