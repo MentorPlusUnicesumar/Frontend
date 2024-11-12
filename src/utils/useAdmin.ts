@@ -9,7 +9,7 @@ export type filter = {
 export function UseAdmin() {
 
     async function getUsuarios({ nome, typeUser }: filter = {}) {
-         const { data } = await api.get<UserInterface[]>('users', {
+        const { data } = await api.get<UserInterface[]>('users', {
             params: {
                 nome,
                 typeUser
@@ -19,6 +19,18 @@ export function UseAdmin() {
         return data;
     }
 
+    async function getUsuariosById(id: string) {
+        const { data } = await api.get<UserInterface>(`users/id/${id}`)
 
-    return { getUsuarios }
+        return data
+    }
+
+    async function statusUsuaruio(id: string, status: string) {
+        const { data } = await api.patch(`users/update-status/${id}`, { status })
+
+        return data;
+    }
+
+
+    return { getUsuarios, getUsuariosById, statusUsuaruio }
 }

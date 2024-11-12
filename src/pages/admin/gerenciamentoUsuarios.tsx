@@ -8,17 +8,17 @@ import {
   Tabs,
   Text,
 } from "@chakra-ui/react";
-import { useQuery } from "react-query";
 import { useState } from "react";
+import { useQuery } from "react-query";
 import { MenuUsuario } from "../../components/menu";
 import { PainelUsuarios } from "../../components/painelUsuarios";
 import myTheme from "../../mytheme";
 import { UseAdmin, filter } from "../../utils/useAdmin";
+import { MenuAdmin } from "../../components/menuAdmin";
 
 export function GerenciamentoUsuarios() {
   const { getUsuarios } = UseAdmin()
   const [filter, setFilter] = useState<filter>()
-  const [tab, setTab] = useState<boolean>()
 
   const { data, isLoading } = useQuery({
     queryKey: ["users", filter],
@@ -35,7 +35,8 @@ export function GerenciamentoUsuarios() {
 
   return (
     <Flex w={"full"} h={"full"} flexDir={"column"} overflow={'hidden'}>
-      <MenuUsuario />
+      <MenuAdmin />
+      
       <Box w={"full"} h={"full"} p={"30px"}>
         <Flex
           w={"full"}
@@ -46,7 +47,7 @@ export function GerenciamentoUsuarios() {
           borderColor={myTheme.colors.cinza_hover}
           borderRadius={"10px"}
         >
-          <Tabs w={'full'}>
+          <Tabs w={'full'} onChange={() => setFilter({})}>
             <TabList>
               <Tab>
                 <Text fontSize={"lg"} fontWeight={"bold"}>
@@ -67,13 +68,13 @@ export function GerenciamentoUsuarios() {
 
             {isLoading ? <Text>Buscando usuários</Text> :
               <TabPanels>
-                <TabPanel onChange={() => setFilter({})}>
+                <TabPanel>
                   <PainelUsuarios listaUsuarios={mentores || []} filterFunction={(filter) => handleFilter(filter)}/>
                 </TabPanel>
                 <TabPanel>
                   <PainelUsuarios listaUsuarios={alunos || []} filterFunction={(filter) => handleFilter(filter)}/>
                 </TabPanel>
-                <TabPanel onDrag={() => setFilter({})}>
+                <TabPanel>
                   <PainelUsuarios listaUsuarios={novosCadastros || []} filterFunction={(filter) => handleFilter(filter)}/>
                 </TabPanel>
               </TabPanels>

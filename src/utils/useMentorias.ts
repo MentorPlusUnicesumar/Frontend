@@ -24,7 +24,7 @@ type EnumStatusMentoria = 'Ativa' | 'Recusada' | 'Pendente' | 'Finalizada';
 
 type typeUser = { _id: string, nome: string }
 
-type MentoriaInterface = {
+export type MentoriaInterface = {
   nome: string;
   idMentor: typeUser;
   idAluno: typeUser;

@@ -2,22 +2,15 @@ import {
   Box,
   Button,
   Flex,
-  Img,
   Input,
   Link,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  Text,
-  useDisclosure
+  Text
 } from "@chakra-ui/react";
 import { Formik } from "formik";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import tardivo from "../imgs/tardivo.png";
 import myTheme from "../mytheme";
+import { ModalPerfilUsuario } from "../pages/admin/modalPerfilUsuario";
 import { filter } from "../utils/useAdmin";
 import { UserInterface } from "../utils/useMentor";
 import './styles.css';
@@ -28,7 +21,9 @@ type Props = {
 };
 
 export function PainelUsuarios({ listaUsuarios, filterFunction }: Props) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [openModalUser, setOpenModalUser] = useState(false)
+  const [idUser, setIdUser] = useState<string>();
+
   const navigate = useNavigate();
 
   const inicialValues = {
@@ -42,11 +37,13 @@ export function PainelUsuarios({ listaUsuarios, filterFunction }: Props) {
     })
   }
 
-  function handleClick(tipo: "existente" | "novo") {
+  function handleClick(tipo: "existente" | "novo", id: string) {
     if (tipo === "existente") {
-      onOpen();
+      setIdUser(id)
+      setOpenModalUser(true)
     } else {
-      navigate("/novo-usuario");
+      setIdUser(id)
+      navigate(`/novo-usuario/${id}`);
     }
   }
 
@@ -56,75 +53,7 @@ export function PainelUsuarios({ listaUsuarios, filterFunction }: Props) {
 
   return (
     <>
-      <Modal size={"2xl"} isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>
-            <Text textAlign={"center"} fontSize={"2xl"} fontWeight={"bold"}>
-              Perfil do usuário
-            </Text>
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Flex
-              flexDir={"column"}
-              gap={3}
-              mt={"20px"}
-              alignItems={"center"}
-              justifyContent={"center"}
-            >
-              <Box
-                display={"flex"}
-                flexDir={"row"}
-                gap={3}
-                justifyContent={"center"}
-                alignItems={"center"}
-              >
-                <Img
-                  w="100px"
-                  h={"100px"}
-                  borderRadius={"full"}
-                  src={tardivo}
-                />
-                <Box>
-                  <Text fontWeight={"bold"}>Henrique Tardivo</Text>
-                  <Text>henriqueTardivo@gmail.com</Text>
-                  <Text color={"green"}>Disponível para mentorias</Text>
-                </Box>
-              </Box>
-
-              <Box mt={"20px"} display={"flex"} flexDir={"row"} gap={"100px"}>
-                <Flex>
-                  <Box>
-                    <Text fontWeight={"bold"}>Áreas de especialidade</Text>
-                    <Text>Engenharia de Software</Text>
-                    <Text>Análise de dados</Text>
-                    <Text>Team leader</Text>
-                  </Box>
-                </Flex>
-                <Flex>
-                  <Box>
-                    <Text fontWeight={"bold"}>Mentorias ativas</Text>
-                    <Text>Gestão ágil com Scrum</Text>
-                  </Box>
-                </Flex>
-              </Box>
-              <Button
-                mt={"50px"}
-                mb={"20px"}
-                w={"200px"}
-                h={"40px"}
-                borderRadius={"10px"}
-                bg={myTheme.colors.azul}
-              >
-                <Text fontWeight={"bold"} color={"white"}>
-                  Desativar perfil
-                </Text>
-              </Button>
-            </Flex>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+      <ModalPerfilUsuario OpenModalUser={openModalUser} setOpenModalUser={setOpenModalUser} id={idUser!} />
 
       <Text fontSize={"lg"} fontWeight={"bold"}>
         Buscar por:
@@ -136,7 +65,7 @@ export function PainelUsuarios({ listaUsuarios, filterFunction }: Props) {
               boxShadow="0px 4px 8px rgba(0, 0, 0, 0.1)"
               w={"250px"}
               placeholder="nome"
-              value={values.nome}
+              // value={values.nome}
               onChange={(value) => {
                 handleChange("nome")(value);
               }}
@@ -215,7 +144,7 @@ export function PainelUsuarios({ listaUsuarios, filterFunction }: Props) {
               {usuario.status}
             </Text>
             <Link
-              onClick={() => handleClick(usuario.status ? "existente" : "novo")}
+              onClick={() => handleClick(usuario.status === 'Analisando' ? "novo" : "existente", usuario._id)}
             >
               <Text
                 fontSize={"lg"}

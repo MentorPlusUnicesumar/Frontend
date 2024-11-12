@@ -20,14 +20,6 @@ export function AppRoutes() {
   return (
     <Routes>
       <Route
-        path="/gerenciamento-usuarios"
-        element={
-          <PrivateRoute isSignedIn={isSignedIn}>
-            <GerenciamentoUsuarios />
-          </PrivateRoute>
-        }
-      />
-      <Route
         path="/minhas-mentorias"
         element={
           <PrivateRoute isSignedIn={isSignedIn}>
@@ -75,6 +67,22 @@ export function AppRoutes() {
           </PrivateRoute>
         }
       />
+      <Route
+        path="/gerenciamento-usuarios"
+        element={
+          <PrivateRoute isSignedIn={isSignedIn}>
+            <GerenciamentoUsuarios />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/novo-usuario/:id"
+        element={
+          <PrivateRoute isSignedIn={isSignedIn}>
+            <NovoUsuario />
+          </PrivateRoute>
+        }
+      />
       {!isSignedIn && (
         <>
           <Route path="/login" element={<Login />} />
@@ -84,7 +92,6 @@ export function AppRoutes() {
             path="/Redefinir-senha-email"
             element={<RedefinirSenhaEmail />}
           />
-          <Route path="/novo-usuario" element={<NovoUsuario />} />
           <Route path="*" element={<Navigate to="/login" />} />
           <Route path="/cadastro" element={<CadastroUsuario />} />
         </>
