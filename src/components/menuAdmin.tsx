@@ -27,7 +27,7 @@ export function MenuAdmin() {
         },
         {
             name: "Mentorias",
-            link: "/",
+            link: "/gerenciamento-mentorias",
         }
     ];
 

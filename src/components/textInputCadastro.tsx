@@ -31,7 +31,7 @@ export function TextInputCadastro({ name, placeholder, mt, w, value, onChange }:
         bg="white"
         sx={{
           "::placeholder": {
-            fontSize: "12px",
+            fontSize: "14px",
             color: "#B0B0B0",
             fontWeight: "bold"
           },

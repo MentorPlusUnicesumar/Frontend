@@ -1,9 +1,15 @@
 import api from "../api";
 import { UserInterface } from "./useMentor";
+import { MentoriaInterface } from "./useMentorias";
 
 export type filter = {
     nome?: string,
     typeUser?: string
+}
+
+export type filterMentoria = {
+    nomeMentor?: string,
+    nomeAluno?: string
 }
 
 export function UseAdmin() {
@@ -31,6 +37,20 @@ export function UseAdmin() {
         return data;
     }
 
+    async function getMentorias({nomeAluno, nomeMentor}: filterMentoria) {
+        console.log('nomeAluno', nomeAluno)
+        console.log('nomeMentor', nomeMentor)
 
-    return { getUsuarios, getUsuariosById, statusUsuaruio }
+        const { data } = await api.get<MentoriaInterface[]>('mentorias', {
+            params: {
+                nomeAluno, 
+                nomeMentor
+            }
+        })
+
+        return data;
+    }
+
+
+    return { getUsuarios, getUsuariosById, statusUsuaruio, getMentorias }
 }

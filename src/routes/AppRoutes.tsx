@@ -14,6 +14,7 @@ import { BuscarMentores } from "../pages/mentor/buscarMentores";
 import { PerfilMentor } from "../pages/mentor/perfilMentor";
 import { TelaMentoria } from "../pages/mentoria/telaMentoria";
 import { PerfilUsuario } from "../pages/perfil/perfilUsuario";
+import { GerenciamentoMentorias } from "../pages/admin/gerenciamentoMentorias";
 
 export function AppRoutes() {
   const { isSignedIn } = useContext(AuthContext);
@@ -72,6 +73,14 @@ export function AppRoutes() {
         element={
           <PrivateRoute isSignedIn={isSignedIn}>
             <GerenciamentoUsuarios />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/gerenciamento-mentorias"
+        element={
+          <PrivateRoute isSignedIn={isSignedIn}>
+            <GerenciamentoMentorias />
           </PrivateRoute>
         }
       />

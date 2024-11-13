@@ -37,7 +37,6 @@ export function CardMentoriaAluno({ nomeMentoria, mentorName, date, id }: props)
           minHeight={"60px"}
           borderTopRadius="10px"
           bgGradient="linear(to-r, #000024 10%, #0D0D42 100%)"
-          // bg={myTheme.colors.azul_claro}
         >
           <Text color={"white"} fontSize={"lg"} fontWeight={"bold"} p={"5px"}>
             {nomeMentoria}
