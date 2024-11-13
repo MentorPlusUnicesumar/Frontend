@@ -15,9 +15,13 @@ import { PerfilMentor } from "../pages/mentor/perfilMentor";
 import { TelaMentoria } from "../pages/mentoria/telaMentoria";
 import { PerfilUsuario } from "../pages/perfil/perfilUsuario";
 import { GerenciamentoMentorias } from "../pages/admin/gerenciamentoMentorias";
+import { useMediaQuery } from 'react-responsive';
+import { LoginCelular } from "../pages/login/loginCelular";
 
 export function AppRoutes() {
   const { isSignedIn } = useContext(AuthContext);
+  const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+
   return (
     <Routes>
       <Route
@@ -94,7 +98,7 @@ export function AppRoutes() {
       />
       {!isSignedIn && (
         <>
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={isMobile ? <LoginCelular /> : <Login />} />
           <Route path="/Altera-perfil" element={<PerfilUsuario />} />
           <Route path="/Redefinir-senha" element={<RedefinirSenha />} />
           <Route
