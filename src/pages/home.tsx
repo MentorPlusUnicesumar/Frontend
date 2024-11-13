@@ -133,10 +133,10 @@ export function Home() {
                       mt="5px"
                       w={'550px'}
                       name="idAluno"
-                      value={values.idAluno}  
+                      value={values.idAluno}
                       onChange={(value) => {
                         handleChange("idAluno")(value);
-                      }}                   
+                      }}
                       h={'35px'}
                       placeholder="Selecione o aluno"
                       boxShadow="0px 4px 8px rgba(0, 0, 0, 0.2)"
@@ -235,21 +235,23 @@ export function Home() {
             ))}
         </Flex>
 
-        <Button
-          w="150px"
-          h="40px"
-          bgGradient="linear(to-r, #000024 10%, #0D0D42 100%)"
-          color="white"
-          position="absolute"
-          bottom="30px"
-          right="30px"
-          boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)"
-          transition="bottom 0.3s ease-in-out"
-          onClick={() => onOpen()}
-          _hover={{ transform: "scale(1.1)", transition: '0.3s', bgGradient: 'linear(to-r, #000024 10%, #0D0D42 100%)' }}
-        >
-          Nova Mentoria
-        </Button>
+        {user?.typeUser === 'Mentor' ?
+          <Button
+            w="150px"
+            h="40px"
+            bgGradient="linear(to-r, #000024 10%, #0D0D42 100%)"
+            color="white"
+            position="absolute"
+            bottom="30px"
+            right="30px"
+            boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)"
+            transition="bottom 0.3s ease-in-out"
+            onClick={() => onOpen()}
+            _hover={{ transform: "scale(1.1)", transition: '0.3s', bgGradient: 'linear(to-r, #000024 10%, #0D0D42 100%)' }}
+          >
+            Nova Mentoria
+          </Button>
+          : null}
       </Flex>
     </Flex>
   );
