@@ -1,4 +1,5 @@
 import api from "../api";
+import { MentoriaInterface } from "./useMentorias";
 
 type TrabDestaqueDto = {
     foto: string;
@@ -21,7 +22,7 @@ export interface UserInterface {
     cidade: string;
     uf: string;
     cpf: string;
-    mentoriasAtivas: string[];
+    mentoriasAtivas: MentoriaInterface[];
     fotos: string;
     areas: areas[];
     sobre: string;
@@ -33,6 +34,7 @@ export interface UserInterface {
     linkedin: string;
     disponivel: boolean;
     estrela: number[];
+    motivoCadastro: string;
 }
 
 export type filtroType = {

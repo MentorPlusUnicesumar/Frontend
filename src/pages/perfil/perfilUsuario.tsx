@@ -147,7 +147,6 @@ export function PerfilUsuario() {
       </Modal>
 
       <MenuUsuario />
-      {/* Cabeçalho */}
 
       <Text
         mt="30px"

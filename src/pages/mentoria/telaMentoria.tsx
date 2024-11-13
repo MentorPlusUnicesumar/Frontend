@@ -12,6 +12,7 @@ import { UseMentorias } from "../../utils/useMentorias";
 import { ModalAgendarAula } from "./modalAgendarAula";
 import { ModalEditarAula } from "./modalEditarAula";
 import { AuthContext } from "../../context/authContext";
+import { MenuAdmin } from "../../components/menuAdmin";
 
 export type Aula = {
   resumo: string,
@@ -42,8 +43,8 @@ export function TelaMentoria() {
 
   return (
     <Flex w={"full"} h={"full"} flexDir={"column"}>
-      <MenuUsuario />
-
+      {user?.typeUser === 'Admin' ? <MenuAdmin /> : <MenuUsuario />}
+      
       <ModalAgendarAula id={id} OpenModalAgendamento={openModalAgendamento} setOpenModalAgendamento={setOpenModalAgendamento} />
 
       {

@@ -1,16 +1,52 @@
-import { Box, Button, Flex, Icon, Img, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, HStack, Icon, Img, Link, Text, useToast } from "@chakra-ui/react";
+import { AiFillInstagram, AiFillLinkedin, AiFillYoutube } from "react-icons/ai";
+import { FaMapPin, FaEnvelope } from "react-icons/fa";
+import { useQuery } from "react-query";
+import { useNavigate, useParams } from "react-router-dom";
 import { MenuUsuario } from "../../components/menu";
-import { FaMapPin } from "react-icons/fa";
-import pedro from "../../imgs/pedro.jpg";
-import { AiFillInstagram } from "react-icons/ai";
-import { AiFillLinkedin } from "react-icons/ai";
 import myTheme from "../../mytheme";
+import { UseAdmin } from "../../utils/useAdmin";
+import { AiFillPhone } from "react-icons/ai";
+import { MenuAdmin } from "../../components/menuAdmin";
+
 
 export function NovoUsuario() {
+  const { getUsuariosById, statusUsuaruio } = UseAdmin();
+  const { id } = useParams();
+  const toast = useToast();
+  const nav = useNavigate();
+
+  const { data } = useQuery({
+    queryKey: ['users', id],
+    queryFn: async () => getUsuariosById(id!)
+  })
+
+  async function aprovaUsuario(acao: "Aprovado" | "Recusado") {
+    try {
+      await statusUsuaruio(id!, acao)
+
+      nav("/gerenciamento-usuarios")
+
+      return toast({
+        title: acao === 'Aprovado' ? "Usuário aprovado" : "Usuário Recusado",
+        status: "success",
+        duration: 2000,
+        isClosable: false,
+      });
+    } catch (error) {
+      return toast({
+        title: acao === 'Aprovado' ? "Erro ao aprovar usuário" : "Erro ao reprovar usuário",
+        status: "error",
+        duration: 2000,
+        isClosable: false,
+      });
+    }
+  }
+
   return (
     <Flex w={"full"} h={"full"} flexDir={"column"}>
-      <MenuUsuario />
-
+      <MenuAdmin />
+      
       <Box
         display={"flex"}
         flexDir={"row"}
@@ -19,90 +55,90 @@ export function NovoUsuario() {
         gap={4}
         py={"30px"}
       >
-        <Img w={"170px"} h={"170px"} borderRadius={"full"} src={pedro} />
+        <Img w={"170px"} h={"170px"} borderRadius={"full"} src={data?.fotos} />
         <Box>
           <Text
             fontWeight={"bold"}
             fontSize={"2xl"}
             color={myTheme.colors.azul}
           >
-            Pedro Mazzurana
+            {data?.nome}
           </Text>
           <Box display={"flex"} flexDir={"row"} alignItems={"center"} gap={2}>
             <Icon as={FaMapPin} />
-            <Text>Maringá - PR</Text>
+            <Text>{data?.cidade} - {data?.uf}</Text>
           </Box>
+          {
+            data?.typeUser === 'Mentor' ? null :
+              <>
+                <Box display={"flex"} flexDir={"row"} alignItems={"center"} gap={2}>
+                  <Icon as={AiFillPhone} />
+                  <Text>{data?.telefone}</Text>
+                </Box>
+                <Box display={"flex"} flexDir={"row"} alignItems={"center"} gap={2}>
+                  <Icon as={FaEnvelope} />
+                  <Text>{data?.email}</Text>
+                </Box>
+              </>
+          }
         </Box>
       </Box>
 
-      <Flex justifyContent={"space-between"} my={"30px"} px={"150px"}>
-        <Box>
-          <Text fontSize={"lg"} fontWeight={"bold"} color={myTheme.colors.azul}>
-            Contatos:
-          </Text>
-          <Text fontSize={"md"}>(44) 998696460</Text>
-          <Text fontSize={"md"}>pedroMazzurana@gmail.com</Text>
-        </Box>
-        <Box>
-          <Text fontSize={"lg"} fontWeight={"bold"} color={myTheme.colors.azul}>
-            Formações:
-          </Text>
-          <Text fontSize={"md"}>Engenharia de Software - Unicesumar</Text>
-          <Text fontSize={"md"}>Mestrado em Inteligência Artifical - USP</Text>
-        </Box>
-        <Box>
-          <Text fontSize={"lg"} fontWeight={"bold"} color={myTheme.colors.azul}>
-            Redes Sociais:
-          </Text>
-          <Box
-            display={"flex"}
-            flexDir={"row"}
-            // justifyContent={"center"}
-            alignItems={"center"}
-            gap={2}
-          >
-            <Icon as={AiFillInstagram} boxSize={"20px"} />
-            <Text fontSize={"md"}>mazzuranapmc</Text>
+      {data?.typeUser === 'Mentor' ?
+        <Flex justifyContent={"space-between"} my={"30px"} px={"150px"}>
+          <Box>
+            <Text fontSize={"lg"} fontWeight={"bold"} color={myTheme.colors.azul}>
+              Contatos:
+            </Text>
+            <Box display={"flex"} flexDir={"row"} alignItems={"center"} gap={2}>
+              <Icon as={AiFillPhone} />
+              <Text>{data?.telefone}</Text>
+            </Box>
+            <Box display={"flex"} flexDir={"row"} alignItems={"center"} gap={2}>
+              <Icon as={FaEnvelope} />
+              <Text>{data?.email}</Text>
+            </Box>
           </Box>
-          <Box
-            display={"flex"}
-            flexDir={"row"}
-            // justifyContent={"center"}
-            alignItems={"center"}
-            gap={2}
-          >
-            <Icon as={AiFillLinkedin} boxSize={"20px"} />
-            <Text fontSize={"md"}>Pedro Mazzurana</Text>
+          <Box>
+            <Text fontSize={"lg"} fontWeight={"bold"} color={myTheme.colors.azul}>
+              Formações:
+            </Text>
+            {data?.experiencias.map((exp) => (
+              <Text fontSize={"md"}>{exp}</Text>
+            ))}
           </Box>
-        </Box>
-      </Flex>
+          <Box>
+            <Text fontSize={"lg"} fontWeight={"bold"} color={myTheme.colors.azul}>
+              Redes Sociais:
+            </Text>
 
-      <Box px={"150px"}>
-        <Text fontSize={"lg"} fontWeight={"bold"} color={myTheme.colors.azul}>
-          Sobre mim:
-        </Text>
-        <Text>
-          Programador especializado em Inteligência Artificial, com uma paixão
-          por transformar dados em soluções inteligentes. Com uma vasta
-          experiência em criar e treinar modelos de IA, tenho trabalhado em todo
-          o ciclo de desenvolvimento, desde a concepção de algoritmos até a
-          implementação de sistemas robustos. Meu dia a dia envolve a criação de
-          soluções que combinam a força da IA com uma arquitetura bem planejada,
-          usando estruturas de dados otimizadas e uma base sólida de programação
-          orientada a objetos.
-        </Text>
-      </Box>
+            <HStack>
+              {data?.instagram ? <Link href={data?.instagram} target="_blank"><Icon as={AiFillInstagram} boxSize={"30px"} /></Link> : undefined}
+              {data?.linkedin ? <Link href={data?.linkedin} target="_blank"><Icon as={AiFillLinkedin} boxSize={"30px"} /></Link> : undefined}
+              {data?.youtube ? <Link href={data?.youtube} target="_blank"><Icon as={AiFillYoutube} boxSize={"30px"} /></Link> : undefined}
+            </HStack>
+
+          </Box>
+        </Flex>
+        : null}
+
+      {data?.typeUser === 'Mentor' ?
+        <Box px={"150px"}>
+          <Text fontSize={"lg"} fontWeight={"bold"} color={myTheme.colors.azul}>
+            Sobre mim:
+          </Text>
+          <Text>
+            {data?.sobre}
+          </Text>
+        </Box>
+        : null}
+
       <Box px={"150px"} mt={"30px"}>
         <Text fontSize={"lg"} fontWeight={"bold"} color={myTheme.colors.azul}>
           Por quê desejo me cadastrar na plataforma?
         </Text>
         <Text>
-          Me cadastrar na plataforma de mentoria como mentor é uma oportunidade
-          de retribuir à comunidade tudo o que a área de TI me proporcionou. Ao
-          longo da minha jornada, tive a sorte de aprender com grandes
-          profissionais e sei o quanto isso foi crucial para o meu crescimento.
-          Agora, quero usar minha experiência para ajudar outros a trilhar o
-          mesmo caminho.
+          {data?.motivoCadastro}
         </Text>
 
         <Flex
@@ -115,17 +151,19 @@ export function NovoUsuario() {
             bg={"#860000"}
             w={"150px"}
             h={"35px"}
+            onClick={() => aprovaUsuario("Recusado")}
             borderRadius={"7px"}
             _hover={{ bg: "#860000" }}
           >
             <Text color={"white"} fontWeight={"bold"}>
-              Reprovar
+              Recusar
             </Text>
           </Button>
           <Button
             bg={"#005C19"}
             w={"150px"}
             h={"35px"}
+            onClick={() => aprovaUsuario("Aprovado")}
             borderRadius={"7px"}
             _hover={{ bg: "#005C19" }}
           >

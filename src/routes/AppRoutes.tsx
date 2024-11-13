@@ -14,19 +14,12 @@ import { BuscarMentores } from "../pages/mentor/buscarMentores";
 import { PerfilMentor } from "../pages/mentor/perfilMentor";
 import { TelaMentoria } from "../pages/mentoria/telaMentoria";
 import { PerfilUsuario } from "../pages/perfil/perfilUsuario";
+import { GerenciamentoMentorias } from "../pages/admin/gerenciamentoMentorias";
 
 export function AppRoutes() {
   const { isSignedIn } = useContext(AuthContext);
   return (
     <Routes>
-      <Route
-        path="/gerenciamento-usuarios"
-        element={
-          <PrivateRoute isSignedIn={isSignedIn}>
-            <GerenciamentoUsuarios />
-          </PrivateRoute>
-        }
-      />
       <Route
         path="/minhas-mentorias"
         element={
@@ -75,6 +68,30 @@ export function AppRoutes() {
           </PrivateRoute>
         }
       />
+      <Route
+        path="/gerenciamento-usuarios"
+        element={
+          <PrivateRoute isSignedIn={isSignedIn}>
+            <GerenciamentoUsuarios />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/gerenciamento-mentorias"
+        element={
+          <PrivateRoute isSignedIn={isSignedIn}>
+            <GerenciamentoMentorias />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/novo-usuario/:id"
+        element={
+          <PrivateRoute isSignedIn={isSignedIn}>
+            <NovoUsuario />
+          </PrivateRoute>
+        }
+      />
       {!isSignedIn && (
         <>
           <Route path="/login" element={<Login />} />
@@ -84,7 +101,6 @@ export function AppRoutes() {
             path="/Redefinir-senha-email"
             element={<RedefinirSenhaEmail />}
           />
-          <Route path="/novo-usuario" element={<NovoUsuario />} />
           <Route path="*" element={<Navigate to="/login" />} />
           <Route path="/cadastro" element={<CadastroUsuario />} />
         </>

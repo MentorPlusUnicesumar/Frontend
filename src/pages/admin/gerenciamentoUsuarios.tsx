@@ -8,78 +8,35 @@ import {
   Tabs,
   Text,
 } from "@chakra-ui/react";
+import { useState } from "react";
+import { useQuery } from "react-query";
+import { MenuUsuario } from "../../components/menu";
 import { PainelUsuarios } from "../../components/painelUsuarios";
 import myTheme from "../../mytheme";
-import { MenuUsuario } from "../../components/menu";
-import { UseAdmin } from "../../utils/useAdmin";
+import { UseAdmin, filter } from "../../utils/useAdmin";
+import { MenuAdmin } from "../../components/menuAdmin";
 
 export function GerenciamentoUsuarios() {
   const { getUsuarios } = UseAdmin()
-  const mentores = [
-    {
-      nome: "Henrique tardivo",
-      email: "henriqueTardivo@gmail.com",
-      status: "ativo",
-    },
-    {
-      nome: "Renan Rocha",
-      email: "renanRocha@gmail.com",
-      status: "ativo",
-    },
-    {
-      nome: "Ana Paula Brencic",
-      email: "anaBrencic@gmail.com",
-      status: "Inativo",
-    },
-    {
-      nome: "Ana Paula Brencic",
-      email: "anaBrencic@gmail.com",
-      status: "Inativo",
-    },
-    {
-      nome: "Ana Paula Brencic",
-      email: "anaBrencic@gmail.com",
-      status: "Inativo",
-    },
-    {
-      nome: "Ana Paula Brencic",
-      email: "anaBrencic@gmail.com",
-      status: "Inativo",
-    },
-  ];
-  const alunos = [
-    {
-      nome: "Guilherme Men Linhares Nairne",
-      email: "guilhermeNairne@gmail.com",
-      status: "Inativo",
-    },
-    {
-      nome: "Lucas Seije Tokuda",
-      email: "lucasTokuda@gmail.com",
-      status: "Ativo",
-    },
-    {
-      nome: "Karine Lima Corsini",
-      email: "karineCorsini@gmail.com",
-      status: "Ativo",
-    },
-  ];
-  const novosCadastros = [
-    {
-      nome: "Pedro Mazzurana",
-      email: "pedroMazzurana@gmail.com",
-      tipo: "Mentor",
-    },
-    {
-      nome: "Erich Mantai",
-      email: "erichMantai@gmail.com",
-      tipo: "Aluno",
-    },
-  ];
+  const [filter, setFilter] = useState<filter>()
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["users", filter],
+    queryFn: async () => getUsuarios(filter),
+  })
+
+  function handleFilter(filter: filter) {
+    setFilter(filter)
+  }
+
+  const mentores = data?.filter((user) => user.typeUser === 'Mentor' && user.status !== 'Analisando')
+  const alunos = data?.filter((user) => user.typeUser === 'Aluno' && user.status !== 'Analisando')
+  const novosCadastros = data?.filter((user) => user.status === 'Analisando')
 
   return (
     <Flex w={"full"} h={"full"} flexDir={"column"} overflow={'hidden'}>
-      <MenuUsuario />
+      <MenuAdmin />
+      
       <Box w={"full"} h={"full"} p={"30px"}>
         <Flex
           w={"full"}
@@ -90,7 +47,7 @@ export function GerenciamentoUsuarios() {
           borderColor={myTheme.colors.cinza_hover}
           borderRadius={"10px"}
         >
-          <Tabs w={'full'}>
+          <Tabs w={'full'} onChange={() => setFilter({})}>
             <TabList>
               <Tab>
                 <Text fontSize={"lg"} fontWeight={"bold"}>
@@ -109,17 +66,20 @@ export function GerenciamentoUsuarios() {
               </Tab>
             </TabList>
 
-            <TabPanels>
-              <TabPanel>
-                <PainelUsuarios listaUsuarios={mentores} />
-              </TabPanel>
-              <TabPanel>
-                <PainelUsuarios listaUsuarios={alunos} />
-              </TabPanel>
-              <TabPanel>
-                <PainelUsuarios listaUsuarios={novosCadastros} />
-              </TabPanel>
-            </TabPanels>
+            {isLoading ? <Text>Buscando usuários</Text> :
+              <TabPanels>
+                <TabPanel>
+                  <PainelUsuarios listaUsuarios={mentores || []} filterFunction={(filter) => handleFilter(filter)}/>
+                </TabPanel>
+                <TabPanel>
+                  <PainelUsuarios listaUsuarios={alunos || []} filterFunction={(filter) => handleFilter(filter)}/>
+                </TabPanel>
+                <TabPanel>
+                  <PainelUsuarios listaUsuarios={novosCadastros || []} filterFunction={(filter) => handleFilter(filter)}/>
+                </TabPanel>
+              </TabPanels>
+            }
+
           </Tabs>
         </Flex>
       </Box>

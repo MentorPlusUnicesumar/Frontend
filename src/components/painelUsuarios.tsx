@@ -2,44 +2,48 @@ import {
   Box,
   Button,
   Flex,
-  Img,
   Input,
   Link,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  Select,
-  Text,
-  useDisclosure,
+  Text
 } from "@chakra-ui/react";
-import myTheme from "../mytheme";
+import { Formik } from "formik";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import tardivo from "../imgs/tardivo.png";
+import myTheme from "../mytheme";
+import { ModalPerfilUsuario } from "../pages/admin/modalPerfilUsuario";
+import { filter } from "../utils/useAdmin";
+import { UserInterface } from "../utils/useMentor";
 import './styles.css';
 
-type ListaUsuarios = {
-  nome: string;
-  email: string;
-  status?: string;
-  tipo?: string;
-}[];
-
 type Props = {
-  listaUsuarios: ListaUsuarios;
+  listaUsuarios: UserInterface[],
+  filterFunction: (prosp: filter) => void
 };
 
-export function PainelUsuarios({ listaUsuarios }: Props) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+export function PainelUsuarios({ listaUsuarios, filterFunction }: Props) {
+  const [openModalUser, setOpenModalUser] = useState(false)
+  const [idUser, setIdUser] = useState<string>();
+
   const navigate = useNavigate();
 
-  function handleClick(tipo: "existente" | "novo") {
+  const inicialValues = {
+    nome: ""
+  }
+
+  function handleFilter(props: filter) {
+    filterFunction({
+      nome: props.nome,
+      typeUser: listaUsuarios[0].typeUser === 'Mentor' ? "Mentor" : "Aluno"
+    })
+  }
+
+  function handleClick(tipo: "existente" | "novo", id: string) {
     if (tipo === "existente") {
-      onOpen();
+      setIdUser(id)
+      setOpenModalUser(true)
     } else {
-      navigate("/novo-usuario");
+      setIdUser(id)
+      navigate(`/novo-usuario/${id}`);
     }
   }
 
@@ -49,110 +53,46 @@ export function PainelUsuarios({ listaUsuarios }: Props) {
 
   return (
     <>
-      <Modal size={"2xl"} isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>
-            <Text textAlign={"center"} fontSize={"2xl"} fontWeight={"bold"}>
-              Perfil do usuário
-            </Text>
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Flex
-              flexDir={"column"}
-              gap={3}
-              mt={"20px"}
-              alignItems={"center"}
-              justifyContent={"center"}
-            >
-              <Box
-                display={"flex"}
-                flexDir={"row"}
-                gap={3}
-                justifyContent={"center"}
-                alignItems={"center"}
-              >
-                <Img
-                  w="100px"
-                  h={"100px"}
-                  borderRadius={"full"}
-                  src={tardivo}
-                />
-                <Box>
-                  <Text fontWeight={"bold"}>Henrique Tardivo</Text>
-                  <Text>henriqueTardivo@gmail.com</Text>
-                  <Text color={"green"}>Disponível para mentorias</Text>
-                </Box>
-              </Box>
+      <ModalPerfilUsuario OpenModalUser={openModalUser} setOpenModalUser={setOpenModalUser} id={idUser!} />
 
-              <Box mt={"20px"} display={"flex"} flexDir={"row"} gap={"100px"}>
-                <Flex>
-                  <Box>
-                    <Text fontWeight={"bold"}>Áreas de especialidade</Text>
-                    <Text>Engenharia de Software</Text>
-                    <Text>Análise de dados</Text>
-                    <Text>Team leader</Text>
-                  </Box>
-                </Flex>
-                <Flex>
-                  <Box>
-                    <Text fontWeight={"bold"}>Mentorias ativas</Text>
-                    <Text>Gestão ágil com Scrum</Text>
-                  </Box>
-                </Flex>
-              </Box>
-              <Button
-                mt={"50px"}
-                mb={"20px"}
-                w={"200px"}
-                h={"40px"}
-                borderRadius={"10px"}
-                bg={myTheme.colors.azul}
-              >
-                <Text fontWeight={"bold"} color={"white"}>
-                  Desativar perfil
-                </Text>
-              </Button>
-            </Flex>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-
-      {listaUsuarios[0].status ? (
-        <>
-          <Text fontSize={"lg"} fontWeight={"bold"}>
-            Filtrar por:
-          </Text>
+      <Text fontSize={"lg"} fontWeight={"bold"}>
+        Buscar por:
+      </Text>
+      <Formik initialValues={inicialValues} onSubmit={handleFilter}>
+        {({ handleSubmit, handleChange, values }) => (
           <Flex mt={"10px"} gap={5}>
             <Input
               boxShadow="0px 4px 8px rgba(0, 0, 0, 0.1)"
               w={"250px"}
-              placeholder="Nome"
+              placeholder="nome"
+              // value={values.nome}
+              onChange={(value) => {
+                handleChange("nome")(value);
+              }}
               borderRadius={"10px"}
             />
-            <Select
-              boxShadow="0px 4px 8px rgba(0, 0, 0, 0.1)"
-              w={"150px"}
-              placeholder="Status"
-            >
-              <option value="ativos">Ativos</option>
-              <option value="inativos">Inativos</option>
-            </Select>
-
-            <Button
-              _hover={{ bg: myTheme.colors.azul }}
-              w={"150px"}
-              bg={myTheme.colors.azul}
-              h={"40px"}
-            >
-              <Text fontWeight={"bold"} color={"white"}>
-                Filtrar
-              </Text>
-            </Button>
+            <Box display={'flex'} flexDir={'row'} alignItems={'center'} gap={5}>
+              <Button
+                _hover={{ bg: myTheme.colors.azul }}
+                w={"150px"}
+                bg={myTheme.colors.azul}
+                h={"40px"}
+                onClick={() => handleSubmit()}
+              >
+                <Text fontWeight={"bold"} color={"white"}>
+                  Filtrar
+                </Text>
+              </Button>
+              <Link onClick={() => filterFunction({
+                nome: "",
+                typeUser: ""
+              })}>
+                <Text>Limpar</Text>
+              </Link>
+            </Box>
           </Flex>
-        </>
-      ) : null}
+        )}
+      </Formik>
 
       <Flex mt={"30px"} gap={5} p={"10px"}>
         <Text
@@ -182,7 +122,7 @@ export function PainelUsuarios({ listaUsuarios }: Props) {
       </Flex>
 
       <Flex overflowY="scroll" w={'full'} h={'250px'} flexDir={'column'} className="scrollable">
-        {listaUsuarios.map((usuario) => (
+        {listaUsuarios?.map((usuario) => (
           <Flex
             mt={"15px"}
             gap={5}
@@ -201,10 +141,10 @@ export function PainelUsuarios({ listaUsuarios }: Props) {
               {usuario.email}
             </Text>
             <Text fontSize={"lg"} color={"gray"} w={widthStatus}>
-              {usuario.status ?? usuario.tipo}
+              {usuario.status}
             </Text>
             <Link
-              onClick={() => handleClick(usuario.status ? "existente" : "novo")}
+              onClick={() => handleClick(usuario.status === 'Analisando' ? "novo" : "existente", usuario._id)}
             >
               <Text
                 fontSize={"lg"}

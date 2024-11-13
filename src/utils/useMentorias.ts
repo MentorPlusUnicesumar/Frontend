@@ -1,5 +1,6 @@
 import { async } from "q";
 import api from "../api";
+import { type } from "os";
 
 type Cards = {
   id: string;
@@ -24,7 +25,8 @@ type EnumStatusMentoria = 'Ativa' | 'Recusada' | 'Pendente' | 'Finalizada';
 
 type typeUser = { _id: string, nome: string }
 
-type MentoriaInterface = {
+export type MentoriaInterface = {
+  _id: string;
   nome: string;
   idMentor: typeUser;
   idAluno: typeUser;
@@ -48,6 +50,19 @@ export type CreateReuniao = {
   diaReuniao: string | undefined;
   resumo: string;
   materialAnexado?: string[]
+}
+
+type Aluno = {
+  _id: string,
+  nome: string
+}
+
+export type createMentoriaType = {
+  nome: string,
+  idAluno: string,
+  descricao: string,
+  qtdtotal: number,
+  idMentor?: string
 }
 
 export function UseMentorias() {
@@ -75,5 +90,21 @@ export function UseMentorias() {
     return data
   }
 
-  return { getMentorias, getMentoriaById, agendarEncontro, atualizarEncontro };
+  async function getAlunos() {
+    const {data} = await api.get<Aluno[]>('users/alunos')
+
+    return data;
+  }
+
+  async function createMentoria(mentoria: createMentoriaType) {
+    console.log('aqui', mentoria)
+    const {data} = await api.post("mentorias", mentoria);
+
+    console.log('data', data)
+    return data
+
+    
+  }
+
+  return { getMentorias, getMentoriaById, agendarEncontro, atualizarEncontro, getAlunos, createMentoria };
 }
