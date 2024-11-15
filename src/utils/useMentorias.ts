@@ -121,6 +121,14 @@ export function UseMentorias() {
     return data;
   }
 
+  async function aceitarMentoria(param: string) {
+    const { data } = await api.post("mentoria/aceitar", {
+      param: { param },
+    });
+
+    return data;
+  }
+
   return {
     getMentorias,
     getMentoriaById,
@@ -129,5 +137,6 @@ export function UseMentorias() {
     getAlunos,
     createMentoria,
     getMentoriasPendentes,
+    aceitarMentoria,
   };
 }

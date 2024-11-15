@@ -10,11 +10,13 @@ import {
   ModalHeader,
   ModalOverlay,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { UseMentorias } from "../utils/useMentorias";
 import { useQuery } from "react-query";
 import myTheme from "../mytheme";
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   OpenModal: boolean;
@@ -22,14 +24,47 @@ type Props = {
 };
 
 export function ModalNotificacoes({ OpenModal, setOpenModal }: Props) {
-  const { getMentoriasPendentes } = UseMentorias();
+  const { getMentoriasPendentes, aceitarMentoria } = UseMentorias();
+  const toast = useToast();
+  const nav = useNavigate();
 
   const { data } = useQuery({
     queryKey: ["mentorias"],
     queryFn: async () => getMentoriasPendentes(),
   });
 
-  console.log(data);
+  async function handleClick(param: "aceitar" | "recusar") {
+    try {
+      await aceitarMentoria(param);
+
+      setOpenModal(false);
+
+      if (param === "aceitar") {
+        toast({
+          title: "Mentoria aceita com sucesso!",
+          status: "success",
+          duration: 2000,
+          isClosable: false,
+        });
+      } else {
+        toast({
+          title: "Mentoria recusada!",
+          status: "success",
+          duration: 2000,
+          isClosable: false,
+        });
+      }
+
+      return nav("/minhas-mentorias");
+    } catch (error) {
+      return toast({
+        title: "Erro ao aceitar mentoria",
+        status: "error",
+        duration: 2000,
+        isClosable: false,
+      });
+    }
+  }
 
   return (
     <Modal size={"2xl"} isOpen={OpenModal} onClose={() => setOpenModal(false)}>
@@ -62,8 +97,18 @@ export function ModalNotificacoes({ OpenModal, setOpenModal }: Props) {
                     alignItems={"center"}
                     mr={"5px"}
                   >
-                    <CloseIcon color={"red"} w={4} h={4} />
-                    <CheckIcon color={"green"} w={5} h={5} />
+                    <CloseIcon
+                      onClick={() => handleClick("aceitar")}
+                      color={"red"}
+                      w={4}
+                      h={4}
+                    />
+                    <CheckIcon
+                      onClick={() => handleClick("aceitar")}
+                      color={"green"}
+                      w={5}
+                      h={5}
+                    />
                   </Box>
                 </HStack>
 
