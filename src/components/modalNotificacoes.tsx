@@ -83,52 +83,58 @@ export function ModalNotificacoes({ OpenModal, setOpenModal }: Props) {
             flexDir={"column"}
             gap={5}
           >
-            {data?.map((mentoria) => (
-              <Flex
-                w={"full"}
-                flexDir={"column"}
-                bg={myTheme.colors.cinza_hover}
-                p={"10px"}
-                borderRadius={"10px"}
-              >
-                <HStack display={"flex"} justifyContent={"space-between"}>
-                  <Text fontSize={"lg"} fontWeight={"bold"}>
-                    Novo convite de mentoria
-                  </Text>
+            {data?.length === 0 ? (
+              <Text textAlign={"center"} fontWeight={"bold"} fontSize={"lg"}>
+                Você não possui nenhuma notificação
+              </Text>
+            ) : (
+              data?.map((mentoria) => (
+                <Flex
+                  w={"full"}
+                  flexDir={"column"}
+                  bg={myTheme.colors.cinza_hover}
+                  p={"10px"}
+                  borderRadius={"10px"}
+                >
+                  <HStack display={"flex"} justifyContent={"space-between"}>
+                    <Text fontSize={"lg"} fontWeight={"bold"}>
+                      Novo convite de mentoria
+                    </Text>
 
-                  <Box
-                    display={"flex"}
-                    gap={6}
-                    alignItems={"center"}
-                    mr={"5px"}
-                  >
-                    <CloseIcon
-                      onClick={() => handleClick(mentoria._id, "recusar")}
-                      color={"red"}
-                      w={4}
-                      h={4}
-                    />
-                    <CheckIcon
-                      onClick={() => handleClick(mentoria._id, "aceitar")}
-                      color={"green"}
-                      w={5}
-                      h={5}
-                    />
-                  </Box>
-                </HStack>
+                    <Box
+                      display={"flex"}
+                      gap={6}
+                      alignItems={"center"}
+                      mr={"5px"}
+                    >
+                      <CloseIcon
+                        onClick={() => handleClick(mentoria._id, "recusar")}
+                        color={"red"}
+                        w={4}
+                        h={4}
+                      />
+                      <CheckIcon
+                        onClick={() => handleClick(mentoria._id, "aceitar")}
+                        color={"green"}
+                        w={5}
+                        h={5}
+                      />
+                    </Box>
+                  </HStack>
 
-                <Flex flexDir={"column"} mt={"20px"}>
-                  <HStack>
-                    <Text fontWeight={"bold"}>Mentoria:</Text>
-                    <Text>{mentoria.nome}</Text>
-                  </HStack>
-                  <HStack>
-                    <Text fontWeight={"bold"}>Mentor:</Text>
-                    <Text>{mentoria.idMentor.nome}</Text>
-                  </HStack>
+                  <Flex flexDir={"column"} mt={"20px"}>
+                    <HStack>
+                      <Text fontWeight={"bold"}>Mentoria:</Text>
+                      <Text>{mentoria.nome}</Text>
+                    </HStack>
+                    <HStack>
+                      <Text fontWeight={"bold"}>Mentor:</Text>
+                      <Text>{mentoria.idMentor.nome}</Text>
+                    </HStack>
+                  </Flex>
                 </Flex>
-              </Flex>
-            ))}
+              ))
+            )}
           </Flex>
         </ModalBody>
       </ModalContent>

@@ -74,7 +74,7 @@ export function MenuUsuario() {
     },
     {
       name: "Notificações",
-      qnt: 5,
+      qnt: mentorias?.length,
       link: "/notificacoes",
     },
     {
