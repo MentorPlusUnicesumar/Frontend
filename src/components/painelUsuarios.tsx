@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Input,
-  Link,
-  Text
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Input, Link, Text } from "@chakra-ui/react";
 import { Formik } from "formik";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -13,47 +6,51 @@ import myTheme from "../mytheme";
 import { ModalPerfilUsuario } from "../pages/admin/modalPerfilUsuario";
 import { filter } from "../utils/useAdmin";
 import { UserInterface } from "../utils/useMentor";
-import './styles.css';
+import "./styles.css";
 
 type Props = {
-  listaUsuarios: UserInterface[],
-  filterFunction: (prosp: filter) => void
+  listaUsuarios: UserInterface[];
+  filterFunction: (prosp: filter) => void;
 };
 
 export function PainelUsuarios({ listaUsuarios, filterFunction }: Props) {
-  const [openModalUser, setOpenModalUser] = useState(false)
+  const [openModalUser, setOpenModalUser] = useState(false);
   const [idUser, setIdUser] = useState<string>();
 
   const navigate = useNavigate();
 
   const inicialValues = {
-    nome: ""
-  }
+    nome: "",
+  };
 
   function handleFilter(props: filter) {
     filterFunction({
       nome: props.nome,
-      typeUser: listaUsuarios[0].typeUser === 'Mentor' ? "Mentor" : "Aluno"
-    })
+      typeUser: listaUsuarios[0].typeUser === "Mentor" ? "Mentor" : "Aluno",
+    });
   }
 
   function handleClick(tipo: "existente" | "novo", id: string) {
     if (tipo === "existente") {
-      setIdUser(id)
-      setOpenModalUser(true)
+      setIdUser(id);
+      setOpenModalUser(true);
     } else {
-      setIdUser(id)
+      setIdUser(id);
       navigate(`/novo-usuario/${id}`);
     }
   }
 
-  const widthNome = '35%'
-  const widthEmail = '35%'
-  const widthStatus = '15%'
+  const widthNome = "35%";
+  const widthEmail = "35%";
+  const widthStatus = "15%";
 
   return (
     <>
-      <ModalPerfilUsuario OpenModalUser={openModalUser} setOpenModalUser={setOpenModalUser} id={idUser!} />
+      <ModalPerfilUsuario
+        OpenModalUser={openModalUser}
+        setOpenModalUser={setOpenModalUser}
+        id={idUser!}
+      />
 
       <Text fontSize={"lg"} fontWeight={"bold"}>
         Buscar por:
@@ -65,13 +62,14 @@ export function PainelUsuarios({ listaUsuarios, filterFunction }: Props) {
               boxShadow="0px 4px 8px rgba(0, 0, 0, 0.1)"
               w={"250px"}
               placeholder="nome"
-              // value={values.nome}
+              name="nome"
+              value={values.nome}
               onChange={(value) => {
                 handleChange("nome")(value);
               }}
               borderRadius={"10px"}
             />
-            <Box display={'flex'} flexDir={'row'} alignItems={'center'} gap={5}>
+            <Box display={"flex"} flexDir={"row"} alignItems={"center"} gap={5}>
               <Button
                 w={"150px"}
                 bg={"linear-gradient(to right, #000024 60%, #000030 100%)"}
@@ -86,10 +84,15 @@ export function PainelUsuarios({ listaUsuarios, filterFunction }: Props) {
                   Filtrar
                 </Text>
               </Button>
-              <Link onClick={() => filterFunction({
-                nome: "",
-                typeUser: ""
-              })}>
+              <Link
+                onClick={() => {
+                  filterFunction({
+                    nome: "",
+                    typeUser: "",
+                  });
+                  handleChange("nome")("");
+                }}
+              >
                 <Text>Limpar</Text>
               </Link>
             </Box>
@@ -124,7 +127,13 @@ export function PainelUsuarios({ listaUsuarios, filterFunction }: Props) {
         </Text>
       </Flex>
 
-      <Flex overflowY="scroll" w={'full'} h={'250px'} flexDir={'column'} className="scrollable">
+      <Flex
+        overflowY="scroll"
+        w={"full"}
+        h={"250px"}
+        flexDir={"column"}
+        className="scrollable"
+      >
         {listaUsuarios?.map((usuario) => (
           <Flex
             mt={"15px"}
@@ -147,12 +156,16 @@ export function PainelUsuarios({ listaUsuarios, filterFunction }: Props) {
               {usuario.status}
             </Text>
             <Link
-              onClick={() => handleClick(usuario.status === 'Analisando' ? "novo" : "existente", usuario._id)}
+              onClick={() =>
+                handleClick(
+                  usuario.status === "Analisando" ? "novo" : "existente",
+                  usuario._id
+                )
+              }
             >
               <Text
                 fontSize={"lg"}
                 color={myTheme.colors.azul}
-
                 w={"100px"}
                 fontWeight={"bold"}
               >

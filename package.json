@@ -19,6 +19,7 @@
     "axios": "^1.7.7",
     "formik": "^2.4.6",
     "framer-motion": "^11.3.30",
+    "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
     "react": "^18.3.1",
     "react-datepicker": "^7.5.0",
@@ -55,5 +56,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/js-cookie": "^3.0.6"
   }
 }

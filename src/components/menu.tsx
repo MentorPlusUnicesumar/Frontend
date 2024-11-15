@@ -10,6 +10,7 @@ import {
   MenuItem,
   MenuList,
   Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -19,7 +20,7 @@ import logo from "../imgs/logoComIcone.png";
 import { UseMentorias } from "../utils/useMentorias";
 import { useQuery } from "react-query";
 import { useChat } from "../utils/useChat";
-
+import { ModalNotificacoes } from "./modalNotificacoes";
 
 export function MenuUsuario() {
   const { getChats } = useChat();
@@ -79,12 +80,12 @@ export function MenuUsuario() {
   ];
 
   const { getMentorias } = UseMentorias();
-
   const { user, signOut } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
   const [linkSelecionado, setLinkSelecionado] = useState("minhas-mentorias");
   const nomeUsuario = user?.nome.split(" ")[0];
+  const [modal, setModal] = useState(false);
 
   useEffect(() => {
     setLinkSelecionado(location.pathname);
@@ -98,7 +99,7 @@ export function MenuUsuario() {
     }
   }
 
-  const links = user?.typeUser === 'Mentor' ? linksMentor : linksAluno
+  const links = user?.typeUser === "Mentor" ? linksMentor : linksAluno;
 
   return (
     <Flex
@@ -110,13 +111,28 @@ export function MenuUsuario() {
       bg={"linear-gradient(to right, #000024 60%, #000030 100%)"}
       justifyContent={"space-between"}
     >
-      <Img src={logo} w={'150px'} h={'40px'} onClick={() => navigate("/minhas-mentorias")} />
+      <ModalNotificacoes OpenModal={modal} setOpenModal={setModal} />
+
+      <Img
+        src={logo}
+        w={"150px"}
+        h={"40px"}
+        onClick={() => navigate("/minhas-mentorias")}
+      />
 
       <Flex justifyContent={"center"} alignItems={"center"} gap={6}>
-        { links.map((link) => {
+        {links.map((link) => {
           return (
             <Flex flexDir={"row"} gap={2}>
-              <Link onClick={() => navigate(`${link.link}`)}>
+              <Link
+                onClick={() => {
+                  if (link.name === "Notificações") {
+                    setModal(true);
+                  } else {
+                    navigate(`${link.link}`);
+                  }
+                }}
+              >
                 <Text
                   textDecorationLine={
                     link.link === linkSelecionado ? "underline" : "none"

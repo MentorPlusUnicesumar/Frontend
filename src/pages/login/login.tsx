@@ -30,6 +30,17 @@ export function Login() {
   const toast = useToast();
   const { login, isSignedIn, user } = useContext(AuthContext);
 
+    // Redirecionar usuário autenticado
+    console.log(isSignedIn, user);
+    
+    if (isSignedIn && user) {
+      if (user.typeUser === "Admin") {
+        navigate("/gerenciamento-usuarios");
+      } else {
+        navigate("/minhas-mentorias");
+      }
+    }
+
   const inicialValues = {
     email: "",
     senha: "",
@@ -38,7 +49,7 @@ export function Login() {
   async function handleLogin({ email, senha }: LoginProps) {
     try {
       const data = await login({ email, senha });
-
+      console.log(data);
       if (data?.typeUser === "Admin") {
         navigate("/gerenciamento-usuarios");
       } else {

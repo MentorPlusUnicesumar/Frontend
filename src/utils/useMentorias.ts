@@ -11,19 +11,19 @@ type Cards = {
 };
 
 type Reuniao = {
-  _id: string,
-  idMentoria: string,
-  diaReuniao: Date,
-  status: string,
-  feedback: string,
-  materialAnexado: string[],
-  link: string,
-  resumo: string
-}
+  _id: string;
+  idMentoria: string;
+  diaReuniao: Date;
+  status: string;
+  feedback: string;
+  materialAnexado: string[];
+  link: string;
+  resumo: string;
+};
 
-type EnumStatusMentoria = 'Ativa' | 'Recusada' | 'Pendente' | 'Finalizada';
+type EnumStatusMentoria = "Ativa" | "Recusada" | "Pendente" | "Finalizada";
 
-type typeUser = { _id: string, nome: string }
+type typeUser = { _id: string; nome: string };
 
 export type MentoriaInterface = {
   _id: string;
@@ -37,33 +37,41 @@ export type MentoriaInterface = {
   descricao: string;
   qtdtotal: number;
   proximoEncontro: string;
-}
+};
 
 export type BodyEnvioAtualizaEncontro = {
-  resumo?: string,
-  materialAnexado?: string[],
-  feedback?: string
-}
+  resumo?: string;
+  materialAnexado?: string[];
+  feedback?: string;
+};
 
 export type CreateReuniao = {
   idMentoria: string;
   diaReuniao: string | undefined;
   resumo: string;
-  materialAnexado?: string[]
-}
+  materialAnexado?: string[];
+};
 
 type Aluno = {
-  _id: string,
-  nome: string
-}
+  _id: string;
+  nome: string;
+};
 
 export type createMentoriaType = {
-  nome: string,
-  idAluno: string,
-  descricao: string,
-  qtdtotal: number,
-  idMentor?: string
-}
+  nome: string;
+  idAluno: string;
+  descricao: string;
+  qtdtotal: number;
+  idMentor?: string;
+};
+
+type mentoriasPendentesType = {
+  _id: string;
+  idMentor: {
+    nome: string;
+  };
+  nome: string;
+};
 
 export function UseMentorias() {
   async function getMentorias(id: string) {
@@ -84,25 +92,51 @@ export function UseMentorias() {
     return data;
   }
 
-  async function atualizarEncontro(idEncontro: string, body: BodyEnvioAtualizaEncontro) {
+  async function atualizarEncontro(
+    idEncontro: string,
+    body: BodyEnvioAtualizaEncontro
+  ) {
     const { data } = await api.patch(`reuniao/${idEncontro}`, body);
 
-    return data
+    return data;
   }
 
   async function getAlunos() {
-    const {data} = await api.get<Aluno[]>('users/alunos')
+    const { data } = await api.get<Aluno[]>("users/alunos");
 
     return data;
   }
 
   async function createMentoria(mentoria: createMentoriaType) {
-    const {data} = await api.post("mentorias", mentoria);
+    const { data } = await api.post("mentorias", mentoria);
 
-    return data
-
-    
+    return data;
   }
 
-  return { getMentorias, getMentoriaById, agendarEncontro, atualizarEncontro, getAlunos, createMentoria };
+  async function getMentoriasPendentes() {
+    const { data } = await api.get<mentoriasPendentesType[]>(
+      "mentorias/pendentes"
+    );
+
+    return data;
+  }
+
+  async function aceitarMentoria(param: string) {
+    const { data } = await api.post("mentoria/aceitar", {
+      param: { param },
+    });
+
+    return data;
+  }
+
+  return {
+    getMentorias,
+    getMentoriaById,
+    agendarEncontro,
+    atualizarEncontro,
+    getAlunos,
+    createMentoria,
+    getMentoriasPendentes,
+    aceitarMentoria,
+  };
 }
