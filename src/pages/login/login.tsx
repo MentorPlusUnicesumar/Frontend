@@ -2,12 +2,13 @@ import {
   Box,
   Button,
   Flex,
+  HStack,
   Input,
   InputGroup,
   InputRightElement,
   Link,
   Text,
-  useToast
+  useToast,
 } from "@chakra-ui/react";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -36,9 +37,9 @@ export function Login() {
 
   async function handleLogin({ email, senha }: LoginProps) {
     try {
-     const data = await login({ email, senha });
+      const data = await login({ email, senha });
 
-      if (data?.typeUser === 'Admin') {
+      if (data?.typeUser === "Admin") {
         navigate("/gerenciamento-usuarios");
       } else {
         navigate("/minhas-mentorias");
@@ -74,7 +75,7 @@ export function Login() {
             flexDir={"column"}
           >
             <Text
-              mt={"50px"}
+              mt={"10%"}
               fontSize={"3xl"}
               fontWeight={"bold"}
               color={"#05234E"}
@@ -82,7 +83,7 @@ export function Login() {
               Login
             </Text>
 
-            <Box w={"400px"} mt={"80px"}>
+            <Box w={"50%"} mt={"80px"}>
               <Text
                 mb={"10px"}
                 fontSize={"lg"}
@@ -92,7 +93,6 @@ export function Login() {
                 Endereço de E-mail
               </Text>
               <Input
-                w={"400px"}
                 borderWidth={"2px"}
                 borderColor={"#ECECEC"}
                 borderRadius={"10px"}
@@ -110,7 +110,7 @@ export function Login() {
                 }}
               />
             </Box>
-            <Box display={"flex"} flexDir={"column"} w={"400px"} mt={"20px"}>
+            <Box display={"flex"} flexDir={"column"} w={"50%"} mt={"20px"}>
               <Text
                 mb={"10px"}
                 fontSize={"lg"}
@@ -121,7 +121,6 @@ export function Login() {
               </Text>
               <InputGroup>
                 <Input
-                  w={"400px"}
                   borderWidth={"2px"}
                   borderColor={"#ECECEC"}
                   borderRadius={"10px"}
@@ -159,32 +158,14 @@ export function Login() {
               </InputGroup>
             </Box>
 
-            <Flex w="400px" mt={"10px"} justifyContent={"flex-end"}>
-              <Link>
-                <Text color={"#05234E"} fontSize={"sm"} fontWeight={"light"}>
-                  Esqueceu sua senha?
-                </Text>
-              </Link>
-            </Flex>
-            <Flex w={"400px"} mt={"50px"} justifyContent={"space-between"}>
+            <Flex
+              w={"50%"}
+              mt={"50px"}
+              flexDir={"column"}
+              alignItems={"center"}
+            >
               <Button
-                w={"170px"}
-                borderRadius={"10px"}
-                boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)"
-                onClick={() => navigate("/cadastro")}
-                _hover={{
-                  transform: "scale(1.05)",
-                  boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.5)",
-                  transition: "transform 0.2s ease-in-out",
-                }}
-                bg={"#F6F6F6"}
-              >
-                <Text color={myTheme.colors.azul} fontSize={"sm"} fontWeight={"bold"}>
-                  Fazer Cadastro
-                </Text>
-              </Button>
-              <Button
-                w={"170px"}
+                w={"full"}
                 borderRadius={"10px"}
                 boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)"
                 onClick={() => handleSubmit()}
@@ -199,6 +180,10 @@ export function Login() {
                   Login
                 </Text>
               </Button>
+              <HStack mt={"15px"} onClick={() => navigate("/cadastro")}>
+                <Text>Não possui uma conta?</Text>
+                <Text fontWeight={"bold"}>Cadastre-se</Text>
+              </HStack>
             </Flex>
           </Flex>
         )}
