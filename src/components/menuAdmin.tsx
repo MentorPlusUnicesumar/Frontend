@@ -15,9 +15,6 @@ import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
 import userIcon from "../imgs/userIcon.png";
-import { UseMentorias } from "../utils/useMentorias";
-import { useQuery } from "react-query";
-import { useChat } from "../utils/useChat";
 
 export function MenuAdmin() {
     const links = [
@@ -28,6 +25,10 @@ export function MenuAdmin() {
         {
             name: "Mentorias",
             link: "/gerenciamento-mentorias",
+        },
+        {
+            name: "Áreas",
+            link: "/gerenciamento-areas",
         }
     ];
 

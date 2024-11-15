@@ -17,6 +17,7 @@ import { PerfilUsuario } from "../pages/perfil/perfilUsuario";
 import { GerenciamentoMentorias } from "../pages/admin/gerenciamentoMentorias";
 import { useMediaQuery } from 'react-responsive';
 import { LoginCelular } from "../pages/login/loginCelular";
+import { GerenciamentoAreas } from "../pages/admin/gerenciamentoAreas";
 
 export function AppRoutes() {
   const { isSignedIn } = useContext(AuthContext);
@@ -85,6 +86,14 @@ export function AppRoutes() {
         element={
           <PrivateRoute isSignedIn={isSignedIn}>
             <GerenciamentoMentorias />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/gerenciamento-areas"
+        element={
+          <PrivateRoute isSignedIn={isSignedIn}>
+            <GerenciamentoAreas />
           </PrivateRoute>
         }
       />

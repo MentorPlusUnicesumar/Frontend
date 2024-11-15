@@ -103,8 +103,12 @@ export function ModalPerfilUsuario({ OpenModalUser, setOpenModalUser, id }: Prop
                             w={"200px"}
                             h={"40px"}
                             borderRadius={"10px"}
-                            bg={myTheme.colors.azul}
-                            _hover={{ bg: myTheme.colors.azul }}
+                            bg={"linear-gradient(to right, #000024 60%, #000030 100%)"}
+                            _hover={{
+                                transform: "scale(1.05)",
+                                boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.5)",
+                                transition: "transform 0.2s ease-in-out",
+                              }}
                         >
                             <Text fontWeight={"bold"} color={"white"}>
                                 {data?.status === 'Inativo' ? "Ativar perfil" : "Desativar perfil"}

@@ -1,26 +1,22 @@
 import {
   Box,
   Button,
-  Checkbox,
   Flex,
-  Img,
   Input,
   InputGroup,
   InputRightElement,
   Link,
   Text,
-  Toast,
-  useToast,
+  useToast
 } from "@chakra-ui/react";
-import { useContext, useState } from "react";
-import { TextInput } from "../../components/textInput";
-import { AuthContext } from "../../context/authContext";
-import logo from "../../imgs/logo.png";
-import { Formik } from "formik";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Formik } from "formik";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { TelaPadraoLogin } from "../../components/TelaPadraoLogin";
+import { AuthContext } from "../../context/authContext";
+import myTheme from "../../mytheme";
 
 type LoginProps = {
   email: string;
@@ -45,7 +41,6 @@ export function Login() {
       if (data?.typeUser === 'Admin') {
         navigate("/gerenciamento-usuarios");
       } else {
-        console.log('Naveganndo')
         navigate("/minhas-mentorias");
       }
 
@@ -184,7 +179,7 @@ export function Login() {
                 }}
                 bg={"#F6F6F6"}
               >
-                <Text color={"#05234E"} fontSize={"sm"} fontWeight={"bold"}>
+                <Text color={myTheme.colors.azul} fontSize={"sm"} fontWeight={"bold"}>
                   Fazer Cadastro
                 </Text>
               </Button>
@@ -198,7 +193,7 @@ export function Login() {
                   boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.5)",
                   transition: "transform 0.2s ease-in-out",
                 }}
-                bg={"#1D428A"}
+                bg={"linear-gradient(to right, #000024 60%, #000030 100%)"}
               >
                 <Text color={"white"} fontSize={"sm"} fontWeight={"bold"}>
                   Login

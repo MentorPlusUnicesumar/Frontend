@@ -15,9 +15,11 @@ import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
 import userIcon from "../imgs/userIcon.png";
+import logo from "../imgs/logoComIcone.png";
 import { UseMentorias } from "../utils/useMentorias";
 import { useQuery } from "react-query";
 import { useChat } from "../utils/useChat";
+
 
 export function MenuUsuario() {
   const { getChats } = useChat();
@@ -35,7 +37,7 @@ export function MenuUsuario() {
 
   const newMessagens = chats?.filter((chat) => chat.hasNewMessages);
 
-  const links = [
+  const linksAluno = [
     {
       name: "Minhas mentorias",
       qnt: data?.length,
@@ -45,6 +47,24 @@ export function MenuUsuario() {
       name: "Buscar mentores",
       qnt: null,
       link: "/buscar-mentores",
+    },
+    {
+      name: "Notificações",
+      qnt: 5,
+      link: "/notificacoes",
+    },
+    {
+      name: "Chat",
+      qnt: newMessagens?.length,
+      link: "/chat",
+    },
+  ];
+
+  const linksMentor = [
+    {
+      name: "Minhas mentorias",
+      qnt: data?.length,
+      link: "/minhas-mentorias",
     },
     {
       name: "Notificações",
@@ -78,6 +98,8 @@ export function MenuUsuario() {
     }
   }
 
+  const links = user?.typeUser === 'Mentor' ? linksMentor : linksAluno
+
   return (
     <Flex
       px={"150px"}
@@ -88,17 +110,10 @@ export function MenuUsuario() {
       bg={"linear-gradient(to right, #000024 60%, #000030 100%)"}
       justifyContent={"space-between"}
     >
-      <Text
-        color={"white"}
-        fontSize={"2xl"}
-        fontWeight={"bold"}
-        onClick={() => navigate("/minhas-mentorias")}
-      >
-        Mentor +
-      </Text>
+      <Img src={logo} w={'150px'} h={'40px'} onClick={() => navigate("/minhas-mentorias")} />
 
       <Flex justifyContent={"center"} alignItems={"center"} gap={6}>
-        {links.map((link) => {
+        { links.map((link) => {
           return (
             <Flex flexDir={"row"} gap={2}>
               <Link onClick={() => navigate(`${link.link}`)}>

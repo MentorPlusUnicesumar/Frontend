@@ -48,7 +48,6 @@ export function LoginCelular() {
             if (data?.typeUser === 'Admin') {
                 navigate("/gerenciamento-usuarios");
             } else {
-                console.log('Naveganndo')
                 navigate("/minhas-mentorias");
             }
 
@@ -70,10 +69,6 @@ export function LoginCelular() {
 
     return (
         <Flex w={"100%"} h={"100%"} flexDir={"row"} alignItems={'center'} flexDirection={'column'}>
-            {/* <Text color={myTheme.colors.azul} fontSize={"lg"} mt={"50px"} fontWeight={"bold"}>
-                Bem-vindo ao
-            </Text> */}
-
             <Img src={logo} w={"300px"} h={"120px"} mt={"50px"} />
 
             <Formik initialValues={inicialValues} onSubmit={handleLogin}>
@@ -85,14 +80,6 @@ export function LoginCelular() {
                         alignItems={"center"}
                         flexDir={"column"}
                     >
-                        {/* <Text
-                            mt={"20px"}
-                            fontSize={"md"}
-                            fontWeight={"bold"}
-                            color={"#05234E"}
-                        >
-                            Login
-                        </Text> */}
 
                         <Box mt={"50px"}>
                             <Text
@@ -189,7 +176,7 @@ export function LoginCelular() {
                                     boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.5)",
                                     transition: "transform 0.2s ease-in-out",
                                 }}
-                                bg={"#1D428A"}
+                                bg={"linear-gradient(to right, #000024 60%, #000030 100%)"}
                             >
                                 <Text color={"white"} fontSize={"sm"} fontWeight={"bold"}>
                                     Login
