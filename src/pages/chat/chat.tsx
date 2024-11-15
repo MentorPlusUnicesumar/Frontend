@@ -1,11 +1,11 @@
-import { useContext, useEffect, useRef, useState } from 'react';
-import { Box, Button, Flex, Img, Input, Link, Text } from '@chakra-ui/react';
-import { AuthContext } from '../../context/authContext';
-import { Message, useChat } from '../../utils/useChat';
-import { useQuery } from 'react-query';
-import { MenuUsuario } from '../../components/menu';
-import './styles.css';
-import { useLocation, useParams } from 'react-router-dom';
+import { Box, Button, Flex, Img, Input, Link, Text } from "@chakra-ui/react";
+import { useContext, useEffect, useRef, useState } from "react";
+import { useQuery } from "react-query";
+import { useLocation } from "react-router-dom";
+import { MenuUsuario } from "../../components/menu";
+import { AuthContext } from "../../context/authContext";
+import { Message, useChat } from "../../utils/useChat";
+import "./styles.css";
 
 type ChatSelecionado = {
   id: string;
@@ -15,8 +15,10 @@ type ChatSelecionado = {
 export function Chat() {
   const { socket, user } = useContext(AuthContext);
   const [messages, setMessages] = useState<Message[]>([]);
-  const [msg, setMessage] = useState<string>('');
-  const [chatSelecionado, setChatSelecionado] = useState<ChatSelecionado | undefined>();
+  const [msg, setMessage] = useState<string>("");
+  const [chatSelecionado, setChatSelecionado] = useState<
+    ChatSelecionado | undefined
+  >();
   const { getChats, getMessagesByChat, markerMessageRead } = useChat();
   const location = useLocation();
 
@@ -25,13 +27,13 @@ export function Chat() {
     queryFn: async () => getChats(),
   });
 
- useEffect(() => {
-  const { chat } = location.state || {};
+  useEffect(() => {
+    const { chat } = location.state || {};
 
-  if(chat) {
-    setChatSelecionado(chat)
-  }
-},[])
+    if (chat) {
+      setChatSelecionado(chat);
+    }
+  }, []);
 
   const { data: messagensByChat } = useQuery({
     queryKey: ["messagensByChat", chatSelecionado],
@@ -42,7 +44,6 @@ export function Chat() {
       return [];
     },
   });
-
 
   useEffect(() => {
     if (messagensByChat) {
@@ -55,17 +56,17 @@ export function Chat() {
     const handleNewMessage = (message: Message) => {
       if (message.chatId === chatSelecionado?.id) {
         setMessages((prevMessages) => [...prevMessages, message]);
-        markerMessageRead(chatSelecionado?.id)
+        markerMessageRead(chatSelecionado?.id);
       }
     };
 
     if (socket) {
-      socket.on('newMessage', handleNewMessage);
+      socket.on("newMessage", handleNewMessage);
     }
 
     return () => {
       if (socket) {
-        socket.off('newMessage', handleNewMessage);
+        socket.off("newMessage", handleNewMessage);
       }
     };
   }, [chatSelecionado]);
@@ -74,7 +75,7 @@ export function Chat() {
 
   useEffect(() => {
     if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
 
@@ -85,17 +86,17 @@ export function Chat() {
       content: msg,
     };
 
-    socket?.emit('sendMessage', newMessage);
-    setMessage('');    
+    socket?.emit("sendMessage", newMessage);
+    setMessage("");
   }
 
   function formatDate(date?: string): string {
     const parsedDate = new Date(date || "");
-    const hours = String(parsedDate.getHours()).padStart(2, '0');
-    const minutes = String(parsedDate.getMinutes()).padStart(2, '0');
+    const hours = String(parsedDate.getHours()).padStart(2, "0");
+    const minutes = String(parsedDate.getMinutes()).padStart(2, "0");
 
     return `${hours}:${minutes}`;
-}
+  }
 
   return (
     <Flex w="full" h="full" flexDir="column">
@@ -103,17 +104,22 @@ export function Chat() {
 
       <Flex w="full" h="calc(100% - 100px)" flexDir="row" pt="25px">
         <Flex w="25%" h="full" flexDir="column" px="20px">
-          <Text fontWeight="bold" mb="30px" color="#6A6A6A">Conversas</Text>
+          <Text fontWeight="bold" mb="30px" color="#6A6A6A">
+            Conversas
+          </Text>
           {chats?.map((chat) => {
-            const User = user?.typeUser === 'Aluno' ? chat.idMentor.nome : chat.idAluno.nome;
+            const User =
+              user?.typeUser === "Aluno"
+                ? chat.idMentor.nome
+                : chat.idAluno.nome;
 
             return (
               <Link
                 key={chat._id}
                 onClick={() => setChatSelecionado({ id: chat._id, nome: User })}
-                _hover={{ textDecoration: 'none', bg: "#E4E4E4" }}
+                _hover={{ textDecoration: "none", bg: "#E4E4E4" }}
                 borderRadius="10px"
-                bg={chatSelecionado?.id === chat._id ? '#E1E1E1' : 'white'}
+                bg={chatSelecionado?.id === chat._id ? "#E1E1E1" : "white"}
                 w="90%"
                 h="55px"
                 display="flex"
@@ -122,10 +128,27 @@ export function Chat() {
                 mb="20px"
               >
                 <Box display="flex" flexDir="row" gap={2}>
-                  <Img w="40px" h="40px" borderRadius="full" src={user?.typeUser === 'Aluno' ? chat.idMentor.fotos : chat.idAluno.fotos} />
+                  <Img
+                    w="40px"
+                    h="40px"
+                    borderRadius="full"
+                    src={
+                      user?.typeUser === "Aluno"
+                        ? chat.idMentor.fotos
+                        : chat.idAluno.fotos
+                    }
+                  />
                   <Box>
                     <Text fontWeight="bold">{User}</Text>
-                    <Text isTruncated maxW="120px" mt="-5px" color="#6A6A6A" fontSize="sm">{chat?.lastMessage?.content || ""}</Text>
+                    <Text
+                      isTruncated
+                      maxW="120px"
+                      mt="-5px"
+                      color="#6A6A6A"
+                      fontSize="sm"
+                    >
+                      {chat?.lastMessage?.content || ""}
+                    </Text>
                   </Box>
                 </Box>
               </Link>
@@ -137,13 +160,33 @@ export function Chat() {
           <Box display="flex" flexDir="row" gap={1} minH="25px">
             {chatSelecionado && (
               <>
-                <Text fontWeight="light" color="#7A7A7A">Chat com</Text>
-                <Text color="#7A7A7A" fontWeight="bold">{chatSelecionado.nome}</Text>
+                <Text fontWeight="light" color="#7A7A7A">
+                  Chat com
+                </Text>
+                <Text color="#7A7A7A" fontWeight="bold">
+                  {chatSelecionado.nome}
+                </Text>
               </>
             )}
           </Box>
-          <Flex flexDir="column" w="100%" h="100%" borderWidth="1px" borderColor="#D9D9D9" borderRadius="10px" justifyContent={'space-around'}>
-            <Flex w="full" h="80%" flexDir="column" gap={5} p="20px" overflowY="scroll" className="scrollable">
+          <Flex
+            flexDir="column"
+            w="100%"
+            h="100%"
+            borderWidth="1px"
+            borderColor="#D9D9D9"
+            borderRadius="10px"
+            justifyContent={"space-around"}
+          >
+            <Flex
+              w="full"
+              h="80%"
+              flexDir="column"
+              gap={5}
+              p="20px"
+              overflowY="scroll"
+              className="scrollable"
+            >
               {messages.map((msg, index) => (
                 <Box
                   key={index}
@@ -151,16 +194,18 @@ export function Chat() {
                   borderRadius="8px"
                   px="10px"
                   py="5px"
-                  alignSelf={user?._id === msg.senderId ? 'end' : 'start'}
+                  alignSelf={user?._id === msg.senderId ? "end" : "start"}
                   minW="100px"
                   maxW="60%"
                   display="flex"
-                  justifyContent={'space-between'}
-                  bg={user?._id === msg.senderId ? '#007AFF' : '#F2F2F7'}
-                  color={user?._id === msg.senderId ? 'white' : 'black'}
+                  justifyContent={"space-between"}
+                  bg={user?._id === msg.senderId ? "#007AFF" : "#F2F2F7"}
+                  color={user?._id === msg.senderId ? "white" : "black"}
                 >
                   <Text fontWeight={500}>{msg.content}</Text>
-                  <Text mt={'22px'} fontSize={'10px'} alignSelf={'flex-end'}>{formatDate(msg.createdAt)}</Text>
+                  <Text mt={"22px"} fontSize={"10px"} alignSelf={"flex-end"}>
+                    {formatDate(msg.createdAt)}
+                  </Text>
                 </Box>
               ))}
               <div ref={messagesEndRef} />
@@ -171,16 +216,21 @@ export function Chat() {
                 isDisabled={!chatSelecionado}
                 w="90%"
                 h="40px"
-                placeholder='Mensagem'
+                placeholder="Mensagem"
                 value={msg}
                 onChange={(e) => setMessage(e.target.value)}
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
+                  if (e.key === "Enter") {
                     sendMessage(msg);
                   }
                 }}
               />
-              <Button isDisabled={!chatSelecionado} onClick={() => sendMessage(msg)}>Enviar</Button>
+              <Button
+                isDisabled={!chatSelecionado}
+                onClick={() => sendMessage(msg)}
+              >
+                Enviar
+              </Button>
             </Flex>
           </Flex>
         </Flex>

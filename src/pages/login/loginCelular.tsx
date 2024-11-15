@@ -1,29 +1,22 @@
 import {
   Box,
   Button,
-  Checkbox,
   Flex,
   HStack,
   Img,
   Input,
   InputGroup,
   InputRightElement,
-  Link,
   Text,
-  Toast,
-  theme,
   useToast,
 } from "@chakra-ui/react";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Formik } from "formik";
 import { useContext, useState } from "react";
-import { TextInput } from "../../components/textInput";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
 import logo from "../../imgs/logo2.png";
-import { Formik } from "formik";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
-import { TelaPadraoLogin } from "../../components/TelaPadraoLogin";
-import myTheme from "../../mytheme";
 
 type LoginProps = {
   email: string;

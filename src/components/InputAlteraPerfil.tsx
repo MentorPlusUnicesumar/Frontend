@@ -1,5 +1,4 @@
-import { Box, Text, Input } from "@chakra-ui/react";
-import { ChangeEvent } from "react";
+import { Box, Input, Text } from "@chakra-ui/react";
 
 interface InputAlteraPerfilProps {
   label?: string;

@@ -1,6 +1,4 @@
-import { async } from "q";
 import api from "../api";
-import { type } from "os";
 
 type Cards = {
   id: string;
@@ -74,7 +72,8 @@ type mentoriasPendentesType = {
 };
 
 export function UseMentorias() {
-  async function getMentorias(id: string) {
+  async function getMentoriasCards() {
+    console.log("aqui");
     const { data } = await api.get<Cards[]>("mentorias/cards");
 
     return data;
@@ -121,16 +120,16 @@ export function UseMentorias() {
     return data;
   }
 
-  async function aceitarMentoria(param: string) {
-    const { data } = await api.post("mentoria/aceitar", {
-      param: { param },
-    });
+  async function aceitarMentoria(_id: string, action: string) {
+    console.log("id", _id);
+    console.log("action", action);
+
+    const { data } = await api.patch(`mentorias/aceitar/${_id}`, { action });
 
     return data;
   }
 
   return {
-    getMentorias,
     getMentoriaById,
     agendarEncontro,
     atualizarEncontro,
@@ -138,5 +137,6 @@ export function UseMentorias() {
     createMentoria,
     getMentoriasPendentes,
     aceitarMentoria,
+    getMentoriasCards,
   };
 }

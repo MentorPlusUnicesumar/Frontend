@@ -1,5 +1,4 @@
 import { Box, Input, Text } from "@chakra-ui/react";
-import { ChangeEvent } from "react";
 
 interface Props {
   name?: string;
