@@ -21,7 +21,7 @@ export function GerenciamentoMentorias() {
 
     function handleClick(id: string) {
         nav(`/mentoria/${id}`)
-     }
+    }
 
     const widthMentoria = '20%'
     const widthMentor = '20%'
@@ -94,9 +94,12 @@ export function GerenciamentoMentorias() {
 
                                             <Box display={'flex'} flexDir={'row'} alignItems={'center'} gap={5}>
                                                 <Button
-                                                    _hover={{ bg: myTheme.colors.azul }}
                                                     w={"150px"}
-                                                    bg={myTheme.colors.azul}
+                                                    _hover={{
+                                                        transform: "scale(1.05)",
+                                                        transition: "transform 0.2s ease-in-out",
+                                                    }}
+                                                    bg={"linear-gradient(to right, #000024 60%, #000030 100%)"}
                                                     h={"40px"}
                                                     onClick={() => handleSubmit()}
                                                 >

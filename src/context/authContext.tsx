@@ -55,7 +55,7 @@ interface AuthContextData {
   
       api.defaults.headers.common["Authorization"] = `Bearer ${data.access_token}`;
 
-      const socket = io(baseURL, {
+      const socket = io("https://mentorplus.dev.br:8080", {
         auth: {
           token: data.access_token 
         }
@@ -115,7 +115,6 @@ interface AuthContextData {
   
     const setAuth = async (auth: UserData) => {
       const { email, _id, cidade, cpf, fotos, mentoriasAtivas, nome, status, telefone, typeUser, uf } = auth;
-      console.log('admin', typeUser)
       setUser({  email, _id, cidade, cpf, fotos, mentoriasAtivas, nome, status, telefone, typeUser, uf });
     };
   

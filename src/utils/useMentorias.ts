@@ -97,10 +97,8 @@ export function UseMentorias() {
   }
 
   async function createMentoria(mentoria: createMentoriaType) {
-    console.log('aqui', mentoria)
     const {data} = await api.post("mentorias", mentoria);
 
-    console.log('data', data)
     return data
 
     

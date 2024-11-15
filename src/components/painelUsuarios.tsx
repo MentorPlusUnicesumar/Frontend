@@ -73,9 +73,12 @@ export function PainelUsuarios({ listaUsuarios, filterFunction }: Props) {
             />
             <Box display={'flex'} flexDir={'row'} alignItems={'center'} gap={5}>
               <Button
-                _hover={{ bg: myTheme.colors.azul }}
                 w={"150px"}
-                bg={myTheme.colors.azul}
+                bg={"linear-gradient(to right, #000024 60%, #000030 100%)"}
+                _hover={{
+                  transform: "scale(1.05)",
+                  transition: "transform 0.2s ease-in-out",
+                }}
                 h={"40px"}
                 onClick={() => handleSubmit()}
               >
