@@ -1,7 +1,7 @@
-import { Box, HStack, Input, Select, Text, VStack } from "@chakra-ui/react";
+import { Box, Select, Text, VStack } from "@chakra-ui/react";
 import { useContext } from "react";
-import { AuthContext } from "../../context/authContext";
 import { InputPerfil } from "../../components/InputAlteraPerfil";
+import { AuthContext } from "../../context/authContext";
 
 export function PainelDadosCadastro() {
   const { user } = useContext(AuthContext);

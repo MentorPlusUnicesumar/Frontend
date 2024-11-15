@@ -57,24 +57,6 @@ const initialValues = {
   email: "renanRocha@gmail.com",
 };
 
-// Trabalhos de Destaque
-const initialWorks = [
-  {
-    id: 1,
-    title: "Contribuição no desenvolvimento do frontend do aplicativo Aiqfome",
-    image: trabalho1,
-  },
-  {
-    id: 2,
-    title: "Palestra sobre como gerenciar e organizar grandes projetos",
-    image: trabalho2,
-  },
-  {
-    id: 3,
-    title: "trabias sobre Inteligência Artificial e suas aplicações",
-    image: trabalho3,
-  },
-];
 //Areas de ensino
 const predefinedAreas = [
   "Administração",
@@ -119,8 +101,7 @@ export function PerfilUsuario() {
     setSelectedAreas(selectedAreas.filter((a) => a !== area));
   };
 
-  function handleSave(values: any) {
-  }
+  function handleSave(values: any) {}
 
   return (
     <Flex w={"full"} h={"full"} flexDir={"column"} alignItems={"center"}>

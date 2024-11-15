@@ -6,7 +6,6 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-  Link,
   Text,
   useToast,
 } from "@chakra-ui/react";
@@ -17,7 +16,6 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { TelaPadraoLogin } from "../../components/TelaPadraoLogin";
 import { AuthContext } from "../../context/authContext";
-import myTheme from "../../mytheme";
 
 type LoginProps = {
   email: string;
@@ -30,16 +28,16 @@ export function Login() {
   const toast = useToast();
   const { login, isSignedIn, user } = useContext(AuthContext);
 
-    // Redirecionar usuário autenticado
-    console.log(isSignedIn, user);
-    
-    if (isSignedIn && user) {
-      if (user.typeUser === "Admin") {
-        navigate("/gerenciamento-usuarios");
-      } else {
-        navigate("/minhas-mentorias");
-      }
+  // Redirecionar usuário autenticado
+  console.log(isSignedIn, user);
+
+  if (isSignedIn && user) {
+    if (user.typeUser === "Admin") {
+      navigate("/gerenciamento-usuarios");
+    } else {
+      navigate("/minhas-mentorias");
     }
+  }
 
   const inicialValues = {
     email: "",

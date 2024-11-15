@@ -29,17 +29,17 @@ import { UseMentorias, createMentoriaType } from "../utils/useMentorias";
 export function Home() {
   const { user } = useContext(AuthContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { getMentorias, getAlunos, createMentoria } = UseMentorias();
+  const { getMentoriasCards, getAlunos, createMentoria } = UseMentorias();
   const toast = useToast();
-
-  const { data } = useQuery({
-    queryKey: ["mentorias"],
-    queryFn: async () => getMentorias(user!._id),
-  });
 
   const { data: Alunos } = useQuery({
     queryKey: ["alunos"],
     queryFn: async () => getAlunos(),
+  });
+
+  const { data: mentorias } = useQuery({
+    queryKey: ["mentoriasCards"],
+    queryFn: async () => getMentoriasCards(),
   });
 
   async function handleCreate(mentoria: createMentoriaType) {
@@ -238,9 +238,9 @@ export function Home() {
           Mentorias
         </Text>
         <Flex gap={10} mt={"50px"} px={"100px"} w={"full"}>
-          {data && data.length > 0 ? (
+          {mentorias && mentorias.length > 0 ? (
             user?.typeUser === "Aluno" ? (
-              data?.map((mentoria, index) => (
+              mentorias?.map((mentoria, index) => (
                 <CardMentoriaAluno
                   date={
                     mentoria.proximoEncontro
@@ -254,7 +254,7 @@ export function Home() {
                 />
               ))
             ) : (
-              data?.map((mentoria, index) => (
+              mentorias?.map((mentoria, index) => (
                 <CardMentoriaMentor
                   date={
                     mentoria.proximoEncontro

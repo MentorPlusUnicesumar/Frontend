@@ -24,7 +24,6 @@ import {
   TabPanels,
   Tabs,
   Text,
-  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import { Formik } from "formik";

@@ -1,8 +1,8 @@
+import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 import {
   Box,
   Flex,
   HStack,
-  Icon,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -12,11 +12,10 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import { UseMentorias } from "../utils/useMentorias";
 import { useQuery } from "react-query";
-import myTheme from "../mytheme";
-import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
+import myTheme from "../mytheme";
+import { UseMentorias } from "../utils/useMentorias";
 
 type Props = {
   OpenModal: boolean;
@@ -33,9 +32,9 @@ export function ModalNotificacoes({ OpenModal, setOpenModal }: Props) {
     queryFn: async () => getMentoriasPendentes(),
   });
 
-  async function handleClick(param: "aceitar" | "recusar") {
+  async function handleClick(_id: string, param: "aceitar" | "recusar") {
     try {
-      await aceitarMentoria(param);
+      await aceitarMentoria(_id, param);
 
       setOpenModal(false);
 
@@ -77,7 +76,13 @@ export function ModalNotificacoes({ OpenModal, setOpenModal }: Props) {
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Flex w={"full"} h={"full"} overflow={"auto"}>
+          <Flex
+            w={"full"}
+            h={"full"}
+            overflow={"auto"}
+            flexDir={"column"}
+            gap={5}
+          >
             {data?.map((mentoria) => (
               <Flex
                 w={"full"}
@@ -98,13 +103,13 @@ export function ModalNotificacoes({ OpenModal, setOpenModal }: Props) {
                     mr={"5px"}
                   >
                     <CloseIcon
-                      onClick={() => handleClick("aceitar")}
+                      onClick={() => handleClick(mentoria._id, "recusar")}
                       color={"red"}
                       w={4}
                       h={4}
                     />
                     <CheckIcon
-                      onClick={() => handleClick("aceitar")}
+                      onClick={() => handleClick(mentoria._id, "aceitar")}
                       color={"green"}
                       w={5}
                       h={5}

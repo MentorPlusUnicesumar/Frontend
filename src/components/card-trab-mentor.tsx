@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Image,
-  Text,
-  VStack,
-  List,
-  ListItem,
-} from "@chakra-ui/react";
+import { Box, Image, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 
 interface TrabCard {

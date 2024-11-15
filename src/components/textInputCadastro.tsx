@@ -1,5 +1,4 @@
 import { Box, Input, Text } from "@chakra-ui/react";
-import { ChangeEvent } from "react";
 
 interface Props {
   name?: string;
@@ -10,7 +9,14 @@ interface Props {
   onChange: (value: string) => void;
 }
 
-export function TextInputCadastro({ name, placeholder, mt, w, value, onChange }: Props) {
+export function TextInputCadastro({
+  name,
+  placeholder,
+  mt,
+  w,
+  value,
+  onChange,
+}: Props) {
   return (
     <Box w="400px" mt={mt}>
       {name && (
@@ -33,7 +39,7 @@ export function TextInputCadastro({ name, placeholder, mt, w, value, onChange }:
           "::placeholder": {
             fontSize: "14px",
             color: "#B0B0B0",
-            fontWeight: "bold"
+            fontWeight: "bold",
           },
         }}
       />

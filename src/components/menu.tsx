@@ -10,30 +10,35 @@ import {
   MenuItem,
   MenuList,
   Text,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
-import userIcon from "../imgs/userIcon.png";
 import logo from "../imgs/logoComIcone.png";
-import { UseMentorias } from "../utils/useMentorias";
-import { useQuery } from "react-query";
+import userIcon from "../imgs/userIcon.png";
 import { useChat } from "../utils/useChat";
+import { UseMentorias } from "../utils/useMentorias";
 import { ModalNotificacoes } from "./modalNotificacoes";
 
 export function MenuUsuario() {
   const { getChats } = useChat();
+  const { getMentoriasPendentes } = UseMentorias();
 
   const { data } = useQuery({
-    queryKey: ["mentorias"],
-    queryFn: async () => getMentorias(user!._id),
+    queryKey: ["mentoriasCards"],
+    queryFn: async () => getMentoriasCards(),
   });
 
   const { data: chats } = useQuery({
     queryKey: ["chats"],
     queryFn: async () => getChats(),
     refetchInterval: 5000,
+  });
+
+  const { data: mentorias } = useQuery({
+    queryKey: ["mentoriasPendentes"],
+    queryFn: async () => getMentoriasPendentes(),
   });
 
   const newMessagens = chats?.filter((chat) => chat.hasNewMessages);
@@ -51,7 +56,7 @@ export function MenuUsuario() {
     },
     {
       name: "Notificações",
-      qnt: 5,
+      qnt: mentorias?.length,
       link: "/notificacoes",
     },
     {
@@ -79,7 +84,7 @@ export function MenuUsuario() {
     },
   ];
 
-  const { getMentorias } = UseMentorias();
+  const { getMentoriasCards } = UseMentorias();
   const { user, signOut } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
