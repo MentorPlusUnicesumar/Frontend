@@ -44,7 +44,6 @@ export function LoginCelular() {
     async function handleLogin({ email, senha }: LoginProps) {
         try {
             const data = await login({ email, senha });
-
             if (data?.typeUser === 'Admin') {
                 navigate("/gerenciamento-usuarios");
             } else {

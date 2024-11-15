@@ -1,147 +1,128 @@
 import { createContext, useEffect, useState } from "react";
-import { AuthProviderProps, CachedUser, IToken, LoggedUser, LoginAccess, LoginResponse, UserData } from "./contestTypes";
-import api, { baseURL } from "../api";
-import { jwtDecode } from "jwt-decode";
-import { Socket, io } from 'socket.io-client';
+import Cookies from "js-cookie";
+import { Socket, io } from "socket.io-client";
+import { AuthProviderProps, CachedUser, LoginAccess, LoginResponse, UserData } from "./contestTypes";
+import api from "../api";
 
 interface AuthContextData {
-    // login: (credentials: LoginAccess) => Promise<LoginResponse>;
-    login: (credentials: LoginAccess) => any;
-    refreshToken: (token?: string) => Promise<LoginResponse>;
-    signOut: () => void;
-    user?: UserData | null;
-    isSignedIn: boolean;
-    cachedUser?: CachedUser | null;
-    manageSecrets: {
-      setSecret: (key: string, value: object) => Promise<void>;
-      deleteSecret: (key: string) => Promise<void>;
-    };
-    socket: Socket | null
-  }
-  
-  export const AuthContext = createContext({} as AuthContextData);
-  
-  export function AuthProvider({ children }: AuthProviderProps) {
-      const [user, setUser] = useState<UserData | null>(null);
-      const [socket, setSocket] = useState<Socket | null>(null);
-      const [cachedUser, setCachedUser] = useState<CachedUser | null>(null);
-      const isSignedIn = !!user;
-      api.interceptors.response.use(
-      (response: any) => response,
-      (error: any) => {
-        if (
-          error?.response?.status === 401 &&
-          error?.response?.data?.message === "Token inválido ou vencido" &&
-          error?.response?.data?.error === "Unauthorized"
-        ) {
-          signOut();
-        }
-  
-        throw error;
-      }
-    );
-  
-    async function login(body: LoginAccess) {
-      
-      const { data } = await api.post<LoginResponse>("auth/login", body);
-      
-      const userData = await api.get<UserData>(`users/id/${data._id}`, {
-        headers: {
-            'Authorization': `Bearer ${data.access_token}`
-        }
+  login: (credentials: LoginAccess) => any;
+  refreshToken: () => Promise<void>;
+  signOut: () => void;
+  user?: UserData | null;
+  isSignedIn: boolean;
+  cachedUser?: CachedUser | null;
+  manageSecrets: {
+    setSecret: (key: string, value: object) => void;
+    deleteSecret: (key: string) => void;
+  };
+  socket: Socket | null;
+}
+
+export const AuthContext = createContext({} as AuthContextData);
+
+export function AuthProvider({ children }: AuthProviderProps) {
+  const [user, setUser] = useState<UserData | null>(null);
+  const [socket, setSocket] = useState<Socket | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const isSignedIn = !!user;
+
+  async function login(body: LoginAccess) {
+    const { data } = await api.post<LoginResponse>("auth/login", body);
+
+    const userData = await api.get<UserData>(`users/id/${data._id}`, {
+      headers: {
+        Authorization: `Bearer ${data.access_token}`,
+      },
     });
 
-      await localStorage.setItem("access_token", data.access_token);
-  
-      api.defaults.headers.common["Authorization"] = `Bearer ${data.access_token}`;
+    Cookies.set("access_token", data.access_token, { expires: 7, path: "/" });
+    Cookies.set("refresh_token", data.refresh_token, { expires: 7, path: "/" });
+    Cookies.set("user", JSON.stringify(userData.data), { expires: 7, path: "/" });
 
-      const socket = io("https://mentorplus.dev.br:8080", {
-        auth: {
-          token: data.access_token 
-        }
-      });
+    api.defaults.headers.common["Authorization"] = `Bearer ${data.access_token}`;
 
-      setSocket(socket)
-     
-      setAuth(userData.data);
-
-      return userData.data;
-    }
-  
-    function signOut() {
-      setUser(null);
-    }
-  
-    async function retrieveCachedUser() {
-      const cachedUser = await localStorage.getItem("cachedUser");
-  
-      const handleCachedUser = (cachedUser: string | null) => {
-        if (cachedUser) {
-          const cached = JSON.parse(cachedUser) as CachedUser;
-  
-          const { exp } = jwtDecode<IToken>(cached.refresh_token);
-  
-          const expiration = new Date(exp * 1000);
-  
-          if (expiration < new Date()) {
-            manageSecrets.deleteSecret("cachedUser");
-            return null;
-          } else { 
-            return JSON.parse(cachedUser) as CachedUser;
-          }
-        }
-        return null;
-      };
-  
-      const result = handleCachedUser(cachedUser);
-  
-      setCachedUser(result);
-    }
-  
-    const manageSecrets = {
-      setSecret: async (key: string, value: object) => {
-        await localStorage.setItem(key, JSON.stringify(value));
-        await retrieveCachedUser();
+    const socket = io("https://mentorplus.dev.br:8080", {
+      auth: {
+        token: data.access_token,
       },
-      deleteSecret: async (key: string) => {
-        await localStorage.removeItem(key);
-        await retrieveCachedUser();
-      },
-    };
-  
-    useEffect(() => {
-      retrieveCachedUser();
-    }, []);
-  
-    const setAuth = async (auth: UserData) => {
-      const { email, _id, cidade, cpf, fotos, mentoriasAtivas, nome, status, telefone, typeUser, uf } = auth;
-      setUser({  email, _id, cidade, cpf, fotos, mentoriasAtivas, nome, status, telefone, typeUser, uf });
-    };
-  
-    async function refreshToken(token?: string): Promise<LoginResponse> {
-      const { data } = await api.post<LoginResponse>("auth/refresh", {
-        refresh_token: token,
-      });
-  
-      return data;
-    }
-  
-    return (
-      <AuthContext.Provider
-        value={{
-          login,
-          signOut,
-          isSignedIn,
-          user,
-          cachedUser,
-          manageSecrets,
-          refreshToken,
-          socket
-        }}
-      >
-        {children}
-      </AuthContext.Provider>
-    );
-  
+    });
+
+    setSocket(socket);
+    setUser(userData.data);
+
+    return userData.data;
   }
-  
+
+  async function handleTokenRefresh() {
+    const refreshToken = Cookies.get("refresh_token") ?? null;
+
+    if (!refreshToken) {
+      signOut();
+      return;
+    }
+
+    try {
+      const { data } = await api.post<LoginResponse>("auth/refresh", {
+        refresh_token: refreshToken,
+      });
+
+      Cookies.set("access_token", data.access_token, { expires: 7, path: "/" });
+      api.defaults.headers.common["Authorization"] = `Bearer ${data.access_token}`;
+    } catch (error) {
+      signOut();
+    }
+  }
+
+  function signOut() {
+    Cookies.remove("access_token", { path: "/" });
+    Cookies.remove("refresh_token", { path: "/" });
+    Cookies.remove("user", { path: "/" });
+    setUser(null);
+  }
+
+  useEffect(() => {
+    const accessToken = Cookies.get("access_token");
+    const user = Cookies.get("user");
+
+    if (accessToken && user) {
+      api.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+
+      try {
+        setUser(JSON.parse(user));
+      } catch (error) {
+        handleTokenRefresh();
+      }
+    } else {
+      handleTokenRefresh();
+    }
+    setIsLoading(false);
+  }, []);
+
+  if (isLoading) {
+    return <div>Carregando...</div>;
+  }
+
+  return (
+    <AuthContext.Provider
+      value={{
+        login,
+        signOut,
+        isSignedIn,
+        user,
+        cachedUser: null,
+        manageSecrets: {
+          setSecret: (key: string, value: object): void => {
+            Cookies.set(key, JSON.stringify(value), { expires: 7, path: "/" });
+          },
+          deleteSecret: (key: string): void => {
+            Cookies.remove(key, { path: "/" });
+          },
+        },
+        refreshToken: handleTokenRefresh,
+        socket,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+}
