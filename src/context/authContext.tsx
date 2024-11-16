@@ -1,7 +1,13 @@
 import { createContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { Socket, io } from "socket.io-client";
-import { AuthProviderProps, CachedUser, LoginAccess, LoginResponse, UserData } from "./contestTypes";
+import {
+  AuthProviderProps,
+  CachedUser,
+  LoginAccess,
+  LoginResponse,
+  UserData,
+} from "./contestTypes";
 import api from "../api";
 
 interface AuthContextData {
@@ -37,9 +43,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     Cookies.set("access_token", data.access_token, { expires: 7, path: "/" });
     Cookies.set("refresh_token", data.refresh_token, { expires: 7, path: "/" });
-    Cookies.set("user", JSON.stringify(userData.data), { expires: 7, path: "/" });
+    Cookies.set("user", JSON.stringify(userData.data), {
+      expires: 7,
+      path: "/",
+    });
 
-    api.defaults.headers.common["Authorization"] = `Bearer ${data.access_token}`;
+    api.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${data.access_token}`;
 
     const socket = io("https://mentorplus.dev.br:8080", {
       auth: {
@@ -67,7 +78,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
       });
 
       Cookies.set("access_token", data.access_token, { expires: 7, path: "/" });
-      api.defaults.headers.common["Authorization"] = `Bearer ${data.access_token}`;
+      api.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${data.access_token}`;
+
+      const socket = io("https://mentorplus.dev.br:8080", {
+        auth: {
+          token: data.access_token,
+        },
+      });
+
+      setSocket(socket);
     } catch (error) {
       signOut();
     }
@@ -86,6 +107,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     if (accessToken && user) {
       api.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+
+      const socket = io("https://mentorplus.dev.br:8080", {
+        auth: {
+          token: accessToken,
+        },
+      });
+
+      setSocket(socket);
 
       try {
         setUser(JSON.parse(user));
