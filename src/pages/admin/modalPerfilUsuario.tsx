@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { useQuery } from "react-query";
 import { UseAdmin } from "../../utils/useAdmin";
+import myTheme from "../../mytheme";
 
 type Props = {
   id: string;
@@ -59,6 +60,8 @@ export function ModalPerfilUsuario({
     }
   }
 
+  console.log("data", data?.disponivel);
+
   return (
     <Modal
       size={"2xl"}
@@ -97,7 +100,9 @@ export function ModalPerfilUsuario({
               <Box>
                 <Text fontWeight={"bold"}>{data?.nome}</Text>
                 <Text>{data?.email}</Text>
-                <Text color={"green"}>
+                <Text
+                  color={data?.disponivel ? "green" : myTheme.colors.vermelho}
+                >
                   {data?.disponivel
                     ? "Disponível para mentorias"
                     : "Não disponível para mentorias"}

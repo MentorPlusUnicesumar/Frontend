@@ -15,43 +15,49 @@ import { AuthContext } from "../../context/authContext";
 import { MenuAdmin } from "../../components/menuAdmin";
 
 export type Aula = {
-  resumo: string,
-  comentario: string,
-  arquivos: string[],
-  diaAula: Date,
-  idEncontro: string
-}
+  resumo: string;
+  comentario: string;
+  arquivos: string[];
+  diaAula: Date;
+  idEncontro: string;
+};
 
 export function TelaMentoria() {
-  const { getMentoriaById } = UseMentorias()
+  const { getMentoriaById } = UseMentorias();
   const { user } = useContext(AuthContext);
   const { id } = useParams();
-  const [openModalAgendamento, setOpenModalAgendamento] = useState(false)
-  const [openModalEdit, setOpenModalEdit] = useState(false)
-  const [aulaContent, setAulaContent] = useState<Aula>()
+  const [openModalAgendamento, setOpenModalAgendamento] = useState(false);
+  const [openModalEdit, setOpenModalEdit] = useState(false);
+  const [aulaContent, setAulaContent] = useState<Aula>();
 
   const { data } = useQuery({
     queryKey: ["mentoriById", openModalEdit, openModalAgendamento],
-    queryFn: async () => getMentoriaById(id!)
+    queryFn: async () => getMentoriaById(id!),
   });
 
   function OpenModalEditAula(props: Aula) {
-    setAulaContent(props)
+    setAulaContent(props);
 
-    setOpenModalEdit(true)
+    setOpenModalEdit(true);
   }
 
   return (
     <Flex w={"full"} h={"full"} flexDir={"column"}>
-      {user?.typeUser === 'Admin' ? <MenuAdmin /> : <MenuUsuario />}
-      
-      <ModalAgendarAula id={id} OpenModalAgendamento={openModalAgendamento} setOpenModalAgendamento={setOpenModalAgendamento} />
+      {user?.typeUser === "Admin" ? <MenuAdmin /> : <MenuUsuario />}
 
-      {
-        openModalEdit ?
-          <ModalEditarAula aula={aulaContent} OpenModalEdit={openModalEdit} setOpenModalEdit={setOpenModalEdit} />
-          : null
-      }
+      <ModalAgendarAula
+        id={id}
+        OpenModalAgendamento={openModalAgendamento}
+        setOpenModalAgendamento={setOpenModalAgendamento}
+      />
+
+      {openModalEdit ? (
+        <ModalEditarAula
+          aula={aulaContent}
+          OpenModalEdit={openModalEdit}
+          setOpenModalEdit={setOpenModalEdit}
+        />
+      ) : null}
 
       <Flex w={"full"} h={"full"} flexDir={"column"} p={"30px"}>
         <Flex
@@ -83,45 +89,47 @@ export function TelaMentoria() {
               <Text fontSize={"md"} fontWeight={"bold"}>
                 Mentorias realizadas:
               </Text>
-              <Text fontSize={"md"}>{`${data?.reuniao.length}/${data?.qtdtotal}`}</Text>
+              <Text
+                fontSize={"md"}
+              >{`${data?.reuniao.length}/${data?.qtdtotal}`}</Text>
             </Box>
 
-            <HStack display={'flex'} justifyContent={'space-between'}>
+            <HStack display={"flex"} justifyContent={"space-between"}>
               <Box display={"flex"} flexDir={"row"} gap={1}>
                 <Text fontSize={"md"} fontWeight={"bold"}>
                   Próximo encontro:
                 </Text>
-                <Text fontSize={"md"}>{data?.proximoEncontro ? formatDateBR(data?.proximoEncontro) : "Não definido"}</Text>
+                <Text fontSize={"md"}>
+                  {data?.proximoEncontro
+                    ? formatDateBR(data?.proximoEncontro)
+                    : "Não definido"}
+                </Text>
               </Box>
-              {
-                user?.typeUser === 'Mentor' ?
-                  <Button
-                    ml={"10px"}
-                    h={"35px"}
-                    w={"170px"}
-                    borderRadius={"10px"}
-                    onClick={() => setOpenModalAgendamento(true)}
-                    boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)"
-                    _hover={{
-                      transform: "scale(1.05)",
-                      boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.5)",
-                      transition: "transform 0.2s ease-in-out",
-                    }}
-                    bg={myTheme.colors.azul_claro}
+              {user?.typeUser === "Mentor" ? (
+                <Button
+                  ml={"10px"}
+                  h={"35px"}
+                  w={"170px"}
+                  borderRadius={"10px"}
+                  onClick={() => setOpenModalAgendamento(true)}
+                  boxShadow="0px 4px 8px rgba(0, 0, 0, 0.4)"
+                  _hover={{
+                    transform: "scale(1.05)",
+                    boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.5)",
+                    transition: "transform 0.2s ease-in-out",
+                  }}
+                  bg={myTheme.colors.azul_claro}
+                >
+                  <Text
+                    color={"white"}
+                    fontSize={"sm"}
+                    fontWeight={"semi-bold"}
                   >
-                    <Text
-                      color={"white"}
-                      fontSize={"sm"}
-                      fontWeight={"semi-bold"}
-                    >
-                      Agendar encontro
-                    </Text>
-                  </Button>
-                  : null
-              }
-
+                    Agendar encontro
+                  </Text>
+                </Button>
+              ) : null}
             </HStack>
-
           </Flex>
         </Flex>
 
@@ -132,13 +140,24 @@ export function TelaMentoria() {
             fontWeight={"bold"}
             color={myTheme.colors.azul}
           >
+            Sobre a mentoria
+          </Text>
+          <Text>{data?.descricao}</Text>
+          <Text
+            mt={"30px"}
+            fontSize={"2xl"}
+            fontWeight={"bold"}
+            color={myTheme.colors.azul}
+          >
             Arquivos
           </Text>
-          <Text>Nenhum arquivo adicionado</Text>
+          <Text color={myTheme.colors.azul} fontSize={"md"} fontWeight={"bold"}>
+            Nenhum arquivo adicionado
+          </Text>
 
           <Text
             fontSize={"2xl"}
-            mt={'30px'}
+            mt={"30px"}
             fontWeight={"bold"}
             color={myTheme.colors.azul}
           >
@@ -148,14 +167,21 @@ export function TelaMentoria() {
           <Tabs variant="enclosed" colorScheme="blue" w={"full"}>
             <TabList>
               {data?.reuniao.map((reu) => (
-                <Tab mt="10px">{formatDateBR(String(reu.diaReuniao), true)}</Tab>
+                <Tab mt="10px">
+                  {formatDateBR(String(reu.diaReuniao), true)}
+                </Tab>
               ))}
             </TabList>
 
             <TabPanels>
               {data?.reuniao.map((reu) => (
                 <TabPanel>
-                  <Box display={'flex'} flexDir={'row'} justifyContent={'space-between'} alignItems={'center'}>
+                  <Box
+                    display={"flex"}
+                    flexDir={"row"}
+                    justifyContent={"space-between"}
+                    alignItems={"center"}
+                  >
                     <Text
                       mt={"10px"}
                       color={myTheme.colors.azul}
@@ -164,24 +190,27 @@ export function TelaMentoria() {
                     >
                       Resumo da aula
                     </Text>
-                    {
-                      user?.typeUser === 'Mentor' ?
-                        <Icon
-                          onClick={() => OpenModalEditAula({
+                    {user?.typeUser === "Mentor" ? (
+                      <Icon
+                        onClick={() =>
+                          OpenModalEditAula({
                             arquivos: reu.materialAnexado,
                             comentario: reu.feedback,
                             resumo: reu.resumo,
                             diaAula: reu.diaReuniao,
-                            idEncontro: reu._id
-                          })}
-                          mr={'20px'} mt={"10px"} w={5} h={5} as={BsFillPencilFill} />
-                        : null
-                    }
+                            idEncontro: reu._id,
+                          })
+                        }
+                        mr={"20px"}
+                        mt={"10px"}
+                        w={5}
+                        h={5}
+                        as={BsFillPencilFill}
+                      />
+                    ) : null}
                   </Box>
 
-                  <Text>
-                    {reu.resumo}
-                  </Text>
+                  <Text>{reu.resumo}</Text>
 
                   <Text
                     mt={"15px"}
@@ -191,9 +220,7 @@ export function TelaMentoria() {
                   >
                     Comentário
                   </Text>
-                  <Text>
-                    {reu.feedback}
-                  </Text>
+                  <Text>{reu.feedback}</Text>
 
                   <Text
                     mt={"15px"}
